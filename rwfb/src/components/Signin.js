@@ -12,7 +12,7 @@ const Signin = () => {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
-    const { login } = UserAuthenication();
+    const { login, resetPassword } = UserAuthenication();
 
     //LoginUser function 
     const handleLogin = async (e) => {
@@ -26,6 +26,19 @@ const Signin = () => {
         }
         
     }; 
+
+    //Reset Password function
+    const forgotPassword = async () => {
+        if (email) {
+            try {
+                await resetPassword(email);
+            } catch {
+                alert("Enter a valid email with a @")
+            }
+        } else {
+            alert("Enter a valid email");
+        }
+    }
 
     return (
         <div className={tailw.bg}>
@@ -49,6 +62,10 @@ const Signin = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
+
+
+            <label className='py-2 font-medium text-black-500 hover:text-red-900'
+            onClick={forgotPassword}>Reset Password</label>
 
             <button className={tailw.button}
             onClick={handleLogin}>Sign in</button>

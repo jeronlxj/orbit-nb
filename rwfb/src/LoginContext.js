@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,
-signOut, onAuthStateChanged } from "firebase/auth";
+signOut, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "./config/firebase";
 
 const UserContext = createContext(null);
@@ -34,9 +34,17 @@ export const LoginContextProvider = ({children}) => {
         };
     }, []);
 
+    // reset password when forgot password or just to reset
+    const resetPassword = (email) => {
+        return sendPasswordResetEmail(auth,email);
+    }
+
+    // make the props passed to all children neater 
+    const loginContextValue = {user, createUser, login, logout, resetPassword};
+
     return (
         // pass down User object and signup,loginmlogout function as props
-        <UserContext.Provider value={{ user, createUser, login, logout }}>
+        <UserContext.Provider value={loginContextValue}>
             { children }
         </UserContext.Provider>
     );
