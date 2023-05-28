@@ -15,7 +15,7 @@ function App() {
         <Route exact path="/" element={<Signin/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/account" element={<Account/>} />
-
+        <Route path="/room"/>
         <Route path="*" element={<h1> you inserted an invalid url</h1>} />
       </Routes>
       </LoginContextProvider>
