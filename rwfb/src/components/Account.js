@@ -36,7 +36,7 @@ const Account = () => {
       }
   }).then(resp => resp.json())
   .then(resp => setDatas(resp))
-  .then(resp => console.log(data))
+  .then(resp => console.log(datas))
   .catch(error => alert(error))
 }, [])
 
