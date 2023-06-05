@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // tailwind css object file
-import tailw from "../config/styles";
+import { tailw } from "../config/styles";
 
 import { UserAuthenication } from '../LoginContext';
 

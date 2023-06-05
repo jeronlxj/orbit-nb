@@ -14,8 +14,3 @@ class VenueSerializer(serializers.ModelSerializer):
         fields = ('id', 'host', 'name', 'location', 
                   'closed', 'total_pax')
 
-# to allow us to update the venues
-class UpdateVenueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Venue
-        fields = ('location', 'closed', 'total_pax')

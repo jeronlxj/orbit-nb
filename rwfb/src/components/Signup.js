@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserAuthenication } from '../LoginContext';
 
 // tailwind css object file
-import tailw from "../config/styles";
+import  {tailw} from "../config/styles";
 
 
 // Authentication Component

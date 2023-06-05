@@ -1,4 +1,4 @@
-const tailw = {
+export const tailw = {
     // capt background image
     bg: [
         'w-full h-screen bg-center bg-cover bg-capt'
@@ -19,12 +19,4 @@ const tailw = {
         'transition duration-700 hover:bg-red-900 hover:scale-110 w-full p-3 my-2 ',
     ].join(''),
 
-    
 };
-export default tailw;
-
-/*
-form: [
-        
-    ].join(''),
-*/

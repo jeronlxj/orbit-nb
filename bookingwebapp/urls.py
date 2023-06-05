@@ -23,6 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',index),
     path('signup',index),
+    path('account',index),
+    path('book_form',index),
     path('api/',include('api.urls')),
 
 ]
+
