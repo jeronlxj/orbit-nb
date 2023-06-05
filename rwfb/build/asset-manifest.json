@@ -1,5 +1,6 @@
 {
   "files": {
+<<<<<<< HEAD
     "main.css": "/static/css/main.23d65621.css",
     "main.js": "/static/js/main.00eed620.js",
     "static/media/capt-night-image.jpg": "/static/media/capt-night-image.726664fe3d9760e12271.jpg",
@@ -10,5 +11,17 @@
   "entrypoints": [
     "static/css/main.23d65621.css",
     "static/js/main.00eed620.js"
+=======
+    "main.css": "/static/css/main.e574ad98.css",
+    "main.js": "/static/js/main.1c4e6410.js",
+    "static/media/capt-night-image.jpg": "/static/media/capt-night-image.726664fe3d9760e12271.jpg",
+    "index.html": "/index.html",
+    "main.e574ad98.css.map": "/static/css/main.e574ad98.css.map",
+    "main.1c4e6410.js.map": "/static/js/main.1c4e6410.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e574ad98.css",
+    "static/js/main.1c4e6410.js"
+>>>>>>> e81e40fe4cd5edc0f59beb960c552b7bc2a7fee5
   ]
 }
