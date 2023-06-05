@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
 import { auth } from "../config/firebase";
-import { UserAuthenication } from '../LoginContext';
+import { UserAuthentication } from '../LoginContext';
 
 export default function Navbar() {
     // handling user navigation
-    const { user, logout } = UserAuthenication();
+    const { user, logout } = UserAuthentication();
     const navigate = useNavigate();
 
     // handle logout

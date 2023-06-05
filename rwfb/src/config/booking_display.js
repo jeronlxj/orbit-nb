@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 
-import { UserAuthenication } from '../LoginContext';
+import { UserAuthentication } from '../LoginContext';
 
 import 'react-calendar/dist/Calendar.css'
 import Calendar from 'react-calendar'
@@ -9,7 +9,7 @@ import './calenderStyle.css';
 
 export function ListDisplay() {
     // handling user navigation
-    const { user} = UserAuthenication();
+    const { user} = UserAuthentication();
 
     // remove the @... from the email 
     function extractNameFromEmail(email) {

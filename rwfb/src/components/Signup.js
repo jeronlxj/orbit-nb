@@ -1,7 +1,7 @@
 // react hooks
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
-import { UserAuthenication } from '../LoginContext';
+import { UserAuthentication } from '../LoginContext';
 
 // tailwind css object file
 import  {tailw} from "../config/styles";
@@ -15,7 +15,7 @@ const Signup = () => {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
-    const { createUser } = UserAuthenication();
+    const { createUser } = UserAuthentication();
 
     // createUser function,
     const signup = async (e) => {

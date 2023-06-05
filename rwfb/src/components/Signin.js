@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 // tailwind css object file
 import { tailw } from "../config/styles";
 
-import { UserAuthenication } from '../LoginContext';
+import { UserAuthentication } from '../LoginContext';
 
 const Signin = () => {
 
@@ -13,7 +13,7 @@ const Signin = () => {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
-    const { login, resetPassword } = UserAuthenication();
+    const { login, resetPassword } = UserAuthentication();
 
     //LoginUser function 
     const handleLogin = async (e) => {

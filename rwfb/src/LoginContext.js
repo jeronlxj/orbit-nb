@@ -7,6 +7,7 @@ const UserContext = createContext(null);
 
 // creating useContext Hook
 export const LoginContextProvider = ({children}) => {
+
     // user object 
     const [user, setUser] = useState({});
 
@@ -51,6 +52,6 @@ export const LoginContextProvider = ({children}) => {
 }
 
 // exporting the context out 
-export const UserAuthenication = () => {
+export const UserAuthentication = () => {
     return useContext(UserContext);
 }
