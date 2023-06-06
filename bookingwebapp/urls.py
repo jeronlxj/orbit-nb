@@ -17,15 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api.views import *
-from .views import index
+from .views import index, test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',index),
     path('signup',index),
-    path('account',index),
+    path('Home',index),
     path('book_form',index),
     path('api/',include('api.urls')),
-
+    path('test',test),
 ]
 

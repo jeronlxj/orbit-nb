@@ -20,7 +20,7 @@ const Signin = () => {
         try {
             e.preventDefault();
             await login(email, password);
-            navigate('/account');
+            navigate('/Home');
         } catch (e) {
             alert(e);
             navigate('/signup');
@@ -70,7 +70,7 @@ const Signin = () => {
 
             <button className={tailw.button}
             onClick={handleLogin}>Sign in</button>
-             
+
         </form>
         </div>
         </div>

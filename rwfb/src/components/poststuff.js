@@ -80,7 +80,7 @@ const Home = () => {
         
 
         
-        fetch('http://127.0.0.1:8000/api/venue', {
+        fetch('api/venue', {
         method: 'POST',
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify(values)

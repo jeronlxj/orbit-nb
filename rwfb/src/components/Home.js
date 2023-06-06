@@ -14,7 +14,7 @@ const Home = () => {
     <div className='max-w-[600px] mx-auto my-16 p-4'>
       <Navbar/>
       <ListDisplay/> 
-      <CalenderDisplay/>    
+      <CalenderDisplay/>     
     </div>
   );
 };
