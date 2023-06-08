@@ -8,6 +8,45 @@ const UserContext = createContext(null);
 // creating useContext Hook
 export const LoginContextProvider = ({children}) => {
 
+    // create dummy objects for testing before database integration
+    // Location & Facility objects
+    const locations = [
+        {
+            Name: "CAPT"
+        },
+        {
+            Name: "YALE"
+        },
+        {
+            Name: "TEMBU"
+        }
+    ];
+
+    const facilities = [
+        { Name:"SR1" , Capacity:20, id:1, locationName: "CAPT"},
+        { Name:"SR2" , Capacity:20, id:2, locationName: "CAPT" },
+
+        { Name:"SR3" , Capacity:20, id:3, locationName: "YALE"},
+        { Name:"SR4" , Capacity:20, id:4, locationName: "YALE" },
+
+        { Name:"MPSH" , Capacity:30, id:5, locationName: "TEMBU"},
+        { Name:"SR5" , Capacity:20,  d:6, locationName: "TEMBU" },
+    ];
+
+    // Booking Object
+    const [Bookings, setBookings] = useState(
+    [
+        {
+            id:1, date:  '2023-06-13', startTime: '10:00:00', endTime: '11:00:00',
+            status: "pending", bookingTitle: "Milestone 2", venueId:6
+        },
+        {
+            id:2, date:  '2023-06-12', startTime: '10:00:00', endTime: '11:00:00',
+            status: "pending", bookingTitle: "Milestone 1", venueId:6
+        }
+    ]);
+
+    
     // user object 
     const [user, setUser] = useState({});
 
@@ -41,7 +80,12 @@ export const LoginContextProvider = ({children}) => {
     }
 
     // make the props passed to all children neater 
-    const loginContextValue = {user, createUser, login, logout, resetPassword};
+    const loginContextValue = {
+        // user & login page functions
+        user, createUser, login, logout, resetPassword,
+        // data 
+        locations, facilities, Bookings, setBookings
+    };
 
     return (
         // pass down User object and signup,loginmlogout function as props

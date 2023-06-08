@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
-import BookForm from "./components/book_form";
-import WrongUrl from "./components/404";
+import BookForm from "./components/Book/book_form";
+import BookDropdown from "./components/Book/book_dropdown";
+import BookCalendar from "./components/Book/book_calendar";
 import { LoginContextProvider } from './LoginContext';
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
         <Route path="/signup" element={<Signup/>} />
         <Route path="/Home" element={<Home/>} />
         <Route path="/book_form" element={<BookForm/>} />
-        <Route path="*" element={<WrongUrl/>} />
+        <Route path="/book_calendar" element={<BookCalendar/>} />
+        <Route path="/book_dropdown" element={<BookDropdown/>} />
+        <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>
       </LoginContextProvider>
     </div>
