@@ -1,0 +1,13 @@
+.rbc-header {
+    background: rgb(220 38 38);
+    color: white;
+}
+
+.rbc-toolbar-label {
+    font-weight: bold;
+}
+
+.rbc-event {
+    background-color: brown !important;
+}
+

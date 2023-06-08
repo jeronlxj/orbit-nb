@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function BookDropdown() {
 
-    const [setLocation, setSelectedLocation] = useState("");
-    const [setFacility, setSelectedFacility] = useState("");
+    // setting of locations & facilities
+    const { setLocation, setSelectedLocation, setFacility, setSelectedFacility } = UserAuthentication();
 
     //button click function 
     const navigate = useNavigate();
@@ -89,10 +89,10 @@ const SelectLocation = (props) => {
               {locations?.map((data) => (
               <li
                   key={data?.Name}
-                  className={`p-2 text-sm hover:bg-sky-600 hover:text-white
+                  className={`p-2 text-sm hover:bg-red-700 hover:text-white
                   ${
                   data?.Name?.toUpperCase() === props.setLocation?.toUpperCase() &&
-                  "bg-sky-600 text-white"
+                  "bg-red-700 text-white"
                   }
                   ${
                   data?.Name?.toUpperCase().startsWith(inputValue)
@@ -142,7 +142,7 @@ const SelectLocation = (props) => {
               ? props.setFacility?.length > 25
                   ? props.setFacility?.substring(0, 25) + "..."
                   : props.setFacility
-              : "Select Location"}
+              : "Select Facility"}
   
               {/* Selecting the Facility's symbol */}
               <BiChevronDown size={20} className={`${open && "rotate-180"}`} />
@@ -172,10 +172,10 @@ const SelectLocation = (props) => {
               .map( (data) => (
               <li
                   key={data?.Name}
-                  className={`p-2 text-sm hover:bg-sky-600 hover:text-white
+                  className={`p-2 text-sm hover:bg-red-700 hover:text-white
                   ${
                   data?.Name?.toUpperCase() === props.setFacility?.toUpperCase() &&
-                  "bg-sky-600 text-white"
+                  "bg-red-700 text-white"
                   }
                   ${
                   data?.Name?.toUpperCase().startsWith(inputValue)
