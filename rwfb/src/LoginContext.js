@@ -8,7 +8,7 @@ const UserContext = createContext(null);
 // creating useContext Hook
 export const LoginContextProvider = ({children}) => {
 
-    // create dummy objects for testing before database integration
+    /* create dummy objects for testing before database integration */
     // Location & Facility objects
     const locations = [
         {
@@ -23,30 +23,46 @@ export const LoginContextProvider = ({children}) => {
     ];
 
     const facilities = [
-        { Name:"SR1" , Capacity:20, id:1, locationName: "CAPT"},
-        { Name:"SR2" , Capacity:20, id:2, locationName: "CAPT" },
+        { Name:"SR1" , Capacity:20, facilityId:1, locationName: "CAPT"},
+        { Name:"SR2" , Capacity:20, facilityId:2, locationName: "CAPT" },
 
-        { Name:"SR3" , Capacity:20, id:3, locationName: "YALE"},
-        { Name:"SR4" , Capacity:20, id:4, locationName: "YALE" },
+        { Name:"SR3" , Capacity:20, facilityId:3, locationName: "YALE"},
+        { Name:"SR4" , Capacity:20, facilityId:4, locationName: "YALE" },
 
-        { Name:"MPSH" , Capacity:30, id:5, locationName: "TEMBU"},
-        { Name:"SR5" , Capacity:20,  d:6, locationName: "TEMBU" },
+        { Name:"MPSH" , Capacity:30, facilityId:5, locationName: "TEMBU"},
+        { Name:"SR5" , Capacity:20,  facilityId:6, locationName: "TEMBU" },
     ];
+
+    // User object
+    const [students,setStudents] = useState(
+        { studentId: 1, Name: "ramanen"} ,
+        { studentId: 2, Name: "ramanenb"},
+        { studentId: 3, Name: "jeron"}
+    )
 
     // Booking Object
     const [Bookings, setBookings] = useState(
     [
         {
             id:1, date:  '2023-06-13', startTime: '10:00:00', endTime: '11:00:00',
-            status: "pending", bookingTitle: "Milestone 2", venueId:6
+            status: "pending", bookingTitle: "Milestone 2", facilityId:6, studentId: 1
         },
         {
             id:2, date:  '2023-06-12', startTime: '10:00:00', endTime: '11:00:00',
-            status: "pending", bookingTitle: "Milestone 1", venueId:6
+            status: "pending", bookingTitle: "Milestone 1", facilityId:6, studentId: 1
+        },
+        {
+            id:3, date:  '2023-06-12', startTime: '10:00:00', endTime: '11:00:00',
+            status: "pending", bookingTitle: "Milestone 3", facilityId:3, studentId: 2
         }
     ]);
 
-    
+    // drop-down booking location & facility setters
+    const [setLocation, setSelectedLocation] = useState("");
+    const [setFacility, setSelectedFacility] = useState("");
+
+
+    /* FIREBASE FUNCTIONS & USER */
     // user object 
     const [user, setUser] = useState({});
 
@@ -84,7 +100,9 @@ export const LoginContextProvider = ({children}) => {
         // user & login page functions
         user, createUser, login, logout, resetPassword,
         // data 
-        locations, facilities, Bookings, setBookings
+        locations, facilities, Bookings, setBookings,
+        // drop-down booking setters
+        setLocation, setSelectedLocation, setFacility, setSelectedFacility,
     };
 
     return (
