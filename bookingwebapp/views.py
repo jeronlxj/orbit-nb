@@ -22,6 +22,7 @@ def index(request):
     return render(request, 'index.html')
 
 def test(request):
-    location = db.collection('bookings').document('UQyzF2SyEjra3dIoBOfk').get().to_dict()
-    return render(request, 'test.html', {"location":location}) 
+    sampledoc = db.collection('bookings').document('UQyzF2SyEjra3dIoBOfk').get().to_dict()
+    loc = sampledoc['Location']
+    return render(request, 'test.html', {"location":loc}) 
 #test.html in rwfb/build

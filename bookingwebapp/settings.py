@@ -142,3 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'rwfb/build/static')
 ]
+
+FIREBASE_ORM_CERTIFICATE = 'C:\Orbital\\bookingwebapp-8bfa9-firebase-adminsdk-vumdw-2d7257692f (1).json'
+FIREBASE_ORM_BUCKET_NAME = 'bookingwebapp-8bfa9.appspot.com'

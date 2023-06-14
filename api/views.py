@@ -1,12 +1,12 @@
 from django.urls import path
 # import the Venues table from model
-from .models import Venue
+from .models import Venue, Article
 
 # allows us to create a class that inherits form a generic API view
 from rest_framework import generics, viewsets
 
 # import the serialiser that we want to use
-from .serializer import VenueSerializer
+from .serializer import VenueSerializer, ArticleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -21,6 +21,7 @@ class VenueDisplay(generics.ListAPIView):
     queryset = Venue.objects.all()
     serializer_class = VenueSerializer
 
-
-
-        
+class ArticleDisplay(generics.ListAPIView):
+    # return all article objects
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
