@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,
 signOut, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "./config/firebase";
@@ -35,32 +35,42 @@ export const LoginContextProvider = ({children}) => {
 
     // User object
     const [students,setStudents] = useState(
-        { studentId: 1, Name: "ramanen"} ,
-        { studentId: 2, Name: "ramanenb"},
-        { studentId: 3, Name: "jeron"}
+        [
+            { studentId: 1, Name: "ramanen", tier:"Admin"} ,
+            { studentId: 2, Name: "ramanenb", tier:"Staff"},
+            { studentId: 3, Name: "jeron", tier:"Student"}
+        ]
     )
 
     // Booking Object
     const [Bookings, setBookings] = useState(
     [
         {
-            id:1, date:  '2023-06-13', startTime: '10:00:00', endTime: '11:00:00',
-            status: "pending", bookingTitle: "Milestone 2", facilityId:6, studentId: 1
+            id:1, date:  '2023-06-17', startTime: '10:00:00', endTime: '11:00:00',
+            status: "approved", bookingTitle: "Milestone 2", facilityId:6, studentId: 1
         },
         {
-            id:2, date:  '2023-06-12', startTime: '10:00:00', endTime: '11:00:00',
-            status: "pending", bookingTitle: "Milestone 1", facilityId:6, studentId: 1
+            id:2, date:  '2023-06-17', startTime: '11:00:00', endTime: '12:00:00',
+            status: "pending", bookingTitle: "Milestone 1-1", facilityId:6, studentId: 1
         },
         {
-            id:3, date:  '2023-06-12', startTime: '10:00:00', endTime: '11:00:00',
-            status: "pending", bookingTitle: "Milestone 3", facilityId:3, studentId: 2
+            id:3, date:  '2023-06-16', startTime: '10:00:00', endTime: '11:00:00',
+            status: "pending", bookingTitle: "Milestone 1-2", facilityId:6, studentId: 1
+        },
+        {
+            id:4, date:  '2023-06-16', startTime: '11:00:00', endTime: '12:00:00',
+            status: "pending", bookingTitle: "Milestone 1-4", facilityId:1, studentId: 1
+        },
+        {
+            id:5, date:  '2023-06-15', startTime: '10:00:00', endTime: '11:00:00',
+            status: "pending", bookingTitle: "Milestone 1-3", facilityId:3, studentId: 1
         }
     ]);
+
 
     // drop-down booking location & facility setters
     const [setLocation, setSelectedLocation] = useState("");
     const [setFacility, setSelectedFacility] = useState("");
-
 
     /* FIREBASE FUNCTIONS & USER */
     // user object 
@@ -103,7 +113,15 @@ export const LoginContextProvider = ({children}) => {
         locations, facilities, Bookings, setBookings,
         // drop-down booking setters
         setLocation, setSelectedLocation, setFacility, setSelectedFacility,
+        // User object - aka staff/student/admin
+        students, setStudents,
+        extractNameFromEmail
     };
+
+    // remove the @... from the email 
+    function extractNameFromEmail(email) {
+        return email.split('@')[0];
+    }
 
     return (
         // pass down User object and signup,loginmlogout function as props
