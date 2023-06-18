@@ -9,6 +9,7 @@ import BookForm from "./components/Book/book_form";
 import UserStatusEditor from './components/Staff';
 import BookDropdown from "./components/Book/book_dropdown";
 import BookCalendar from "./components/Book/book_calendar";
+import Rome from "./components/poststuff";
 import { LoginContextProvider } from './LoginContext';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/book_calendar" element={<BookCalendar/>} />
         <Route path="/book_dropdown" element={<BookDropdown/>} />
         <Route path="/approve" element={<Approve/>} />
+        <Route path="/Rome" element={<Rome/>} />
         <Route path="/staff" element={<UserStatusEditor/>} />
         <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>

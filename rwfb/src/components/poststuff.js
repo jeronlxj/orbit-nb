@@ -12,7 +12,7 @@ import BookingDisplay from "../config/booking_display";
 
 axios.defaults.withCredentials = true;
 
-const Home = () => {
+const Rome = () => {
 
     // handling user navigation
     const { user, logout } = UserAuthentication();
@@ -124,3 +124,5 @@ const Home = () => {
         </>
     )
 }
+
+export default Rome;

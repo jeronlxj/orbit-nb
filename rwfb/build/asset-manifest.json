@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.166b1ec2.css",
-    "main.js": "/static/js/main.d141f5c3.js",
+    "main.js": "/static/js/main.868616ec.js",
     "static/media/capt-night-image.jpg": "/static/media/capt-night-image.726664fe3d9760e12271.jpg",
     "static/media/utown-night-image.jpg": "/static/media/utown-night-image.916487461af54914ea2a.jpg",
     "index.html": "/index.html",
     "main.166b1ec2.css.map": "/static/css/main.166b1ec2.css.map",
-    "main.d141f5c3.js.map": "/static/js/main.d141f5c3.js.map"
+    "main.868616ec.js.map": "/static/js/main.868616ec.js.map"
   },
   "entrypoints": [
     "static/css/main.166b1ec2.css",
-    "static/js/main.d141f5c3.js"
+    "static/js/main.868616ec.js"
   ]
 }
