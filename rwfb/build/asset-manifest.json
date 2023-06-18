@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.a45d30ad.css",
-    "main.js": "/static/js/main.e2f5de2f.js",
+    "main.css": "/static/css/main.02748283.css",
+    "main.js": "/static/js/main.fb19ac76.js",
     "static/media/capt-night-image.jpg": "/static/media/capt-night-image.726664fe3d9760e12271.jpg",
     "index.html": "/index.html",
-    "main.a45d30ad.css.map": "/static/css/main.a45d30ad.css.map",
-    "main.e2f5de2f.js.map": "/static/js/main.e2f5de2f.js.map"
+    "main.02748283.css.map": "/static/css/main.02748283.css.map",
+    "main.fb19ac76.js.map": "/static/js/main.fb19ac76.js.map"
   },
   "entrypoints": [
-    "static/css/main.a45d30ad.css",
-    "static/js/main.e2f5de2f.js"
+    "static/css/main.02748283.css",
+    "static/js/main.fb19ac76.js"
   ]
 }

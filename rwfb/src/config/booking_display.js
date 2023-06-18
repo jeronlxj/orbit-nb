@@ -21,8 +21,10 @@ export function ListDisplay() {
         console.log("failed extraction of name f")
     }
 
+
     // handling display of data from backend
     const [datas, setDatas] = useState([]);
+    const [bdatas, setbDatas] = useState([]);
 
     // filter datas by users - show user booking
     function filterByUser(data) {
@@ -39,6 +41,19 @@ export function ListDisplay() {
     }).then(resp => resp.json())
     .then(resp => setDatas(resp))
     .catch(error => console.log(error))
+    }, [])
+
+    useEffect(() => {
+        fetch('api/bookings', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setbDatas(resp))
+    .then(resp => console.log(bdatas))
+    .catch(error => console.log(error))
+
     }, [])
 
     return(      
@@ -71,17 +86,17 @@ export function ListDisplay() {
 
             <tbody>
                 {
-                    datas.filter(data => filterByUser(data)).map(data => {
+                    bdatas.map(data => {
                     return (
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {data.name}
+                            {data.Name}
                         </th>
                         <td class="px-6 py-4">
-                            {data.location}
+                            {data.Location}
                         </td>
                         <td class="px-6 py-4">
-                            {data.total_pax}
+                            {data.TotalPax}
                         </td>
                         <td class="px-6 py-4 text-right">
                             <a href="/Book" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
