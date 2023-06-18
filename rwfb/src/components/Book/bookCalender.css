@@ -1,3 +1,8 @@
+.react-calender {
+    background-color: white !important;
+    border: 1px solid #a0a096;
+}
+
 .rbc-header {
     background: rgb(220 38 38);
     color: white;
@@ -8,6 +13,7 @@
 }
 
 .rbc-event {
-    background-color: brown !important;
+    background-color: black !important;
 }
+
 

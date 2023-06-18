@@ -25,6 +25,10 @@ urlpatterns = [
     path('signup',index),
     path('Home',index),
     path('book_form',index),
+    path('book_calendar',index),
+    path('book_dropdown',index),
+    path('approve',index),
+    path('staff',index),
     path('api/',include('api.urls')),
     path('test',test),
 ]
