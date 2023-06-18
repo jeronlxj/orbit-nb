@@ -3,10 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from "../config/firebase";
 import { UserAuthentication } from '../LoginContext';
 
-export default function Navbar() {
+export default function Navbar(props) {
+
     // handling user navigation
-    const { logout } = UserAuthentication();
+    const { logout, students, user } = UserAuthentication();
     const navigate = useNavigate();
+
+    // remove the @... from the email -> gives the name
+    const name = props.name;
+
+    // check if you are in the current page or not
+    const currentPage = "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark:text-red-500";
+    const otherPage = "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700";
+
+    function checkCurrentPage(thisButton) {
+        if (String(props.current) === thisButton) {
+            return currentPage;
+        } else {
+            return otherPage;
+        }
+    };
+
+    // check if current user is an Admin, if so set bool to true
+    let checker = "Student";
+
+    try {
+        students.map( student => {
+            // get the current user
+            if(String(student.Name) === name) {
+                // check if current user is an Admin or not
+                if(String(student.tier) === "Admin") {
+                    checker = "Admin";
+                } else if(String(student.tier) === "Staff") {
+                    checker = "Staff";
+                }
+            }
+        })
+    } catch {
+        console.log("oops cannot check admin or not");
+    }
 
     // handle logout
     const handleLogout = async (e) => {
@@ -37,14 +72,25 @@ export default function Navbar() {
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-                <a href="/account" class="block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark:text-red-500" aria-current="page">Home</a>
+                <a href="/Home" class={checkCurrentPage("Home")}>Home</a>
             </li>
             <li>
-                <a href="/book_dropdown" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Book</a>
+                <a href="/book_dropdown" class={checkCurrentPage("book_dropdown")}>Book</a>
             </li>
-            <li>
-                <a href="/profile" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Profile</a>
-            </li>
+
+            {
+                (checker === "Admin" || checker === "Staff") && 
+                <li>
+                    <a href="/approve" class={checkCurrentPage("approve")}>Approve</a>
+                </li>
+            }
+
+            {
+                (checker === "Staff") && 
+                <li>
+                    <a href="/staff" class={checkCurrentPage("staff")}>Staff</a>
+                </li>
+            }
 
             </ul>
         </div>
