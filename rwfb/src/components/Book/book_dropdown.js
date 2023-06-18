@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 export default function BookDropdown() {
 
     // setting of locations & facilities
-    const { setLocation, setSelectedLocation, setFacility, setSelectedFacility } = UserAuthentication();
+    const { setLocation, setSelectedLocation, setFacility, setSelectedFacility,
+        user, extractNameFromEmail} = UserAuthentication();
 
     //button click function 
     const navigate = useNavigate();
@@ -25,12 +26,12 @@ export default function BookDropdown() {
 
     return (
         <>
-        <Navbar/>
-        <div className="bg-red flex h-screen items-center justify-center">
+        <Navbar current={"book_dropdown"}/>
+        <div className="w-full h-screen bg-center bg-cover bg-utown flex h-screen items-center justify-center">
             <SelectLocation setLocation={setLocation} setSelectedLocation={setSelectedLocation}/>
             <SelectFacility setFacility={setFacility} setSelectedFacility={setSelectedFacility} setLocation={setLocation}/>
             <button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-            onClick={buttonClickHandle}>Check Venue Status</button>
+            onClick={buttonClickHandle}>Check Venue Status</button> 
         </div>
         </>
     )
@@ -45,7 +46,7 @@ const SelectLocation = (props) => {
     const { locations } = UserAuthentication();
   
     return (
-      <div className="bg-white flex h-screen items-center justify-center">
+      <div className="mx-1 flex h-screen items-center justify-center">
           <div className="w-72 font-medium h-80">
               
           {/* Selecting the Location */}
@@ -127,7 +128,7 @@ const SelectLocation = (props) => {
     const { facilities } = UserAuthentication();
   
     return (
-      <div className="bg-white flex h-screen items-center justify-center">
+      <div className="px-1 flex h-screen items-center justify-center">
           <div className="w-72 font-medium h-80">
               
           {/* Selecting the Facility */}

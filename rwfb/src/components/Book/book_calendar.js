@@ -32,7 +32,7 @@ const events = [];
 
 export default function BookCalendar() {
     // adding states
-    const { Bookings, setBookings } = UserAuthentication();
+    const { Bookings, setBookings, extractNameFromEmail, user } = UserAuthentication();
 
 
     /* choose the correct facility & its id */
@@ -45,8 +45,7 @@ export default function BookCalendar() {
          facility.Name === String(setFacility)
     }).map(x => Number(x.facilityId));
 
-    // facId[0] as facId is given as an array
-    console.log(facId[0]);
+    // facId[0] as facId is given as an array -
     
     // check if booking is already in events or not, NO REPEATS
     // x is basically the id of the array
@@ -82,7 +81,6 @@ export default function BookCalendar() {
             // check if the booking is for the correct facility and add it in
             if(temp.data.id === facId[0]) {
                 events.push(temp);
-
             }
         }
     });
@@ -101,21 +99,34 @@ export default function BookCalendar() {
         
     }; 
 
+    // go back button click function
+    const backClickHandle = async (e) => {
+        try {
+            e.preventDefault();
+            navigate('/book_dropdown');
+        } catch (e) {
+            alert(e);
+            navigate('/signup');
+        }
+        
+    }; 
+    
     // components - aka change bg colour based on status of booking
     const components = {
         event: (props) => {
-            const eventType = String(props?.event?.data?.status);
+            const eventType = String(props?.event?.data?.type);
+            console.log(eventType);
     
             switch(eventType) {
                 case "approved":
                     return (
-                        <div style={{ background: "lightgreen", color: "white", height:'100%'}}>
+                        <div style={{ border:"1px", background: "green", color: "white", height:'100%'}}>
                             {props.title}
                         </div>
                     )
                 default:
                     return (
-                        <div style={{ background: "brown", color: "white", height:'100%'}}>
+                        <div style={{ border:"1px", background: "brown", color: "white", height:'100%'}}>
                             {props.title}
                         </div>
                 )
@@ -124,19 +135,25 @@ export default function BookCalendar() {
     }
 
     return (
-        <>
+        <div className='w-full h-screen bg-center bg-cover bg-utown'>
         <div>
-            <Navbar/>
+            <Navbar name={extractNameFromEmail(user?.email)} current={"book_dropdown"}/>
         </div>
-        <div class="h-screen flex items-center justify-center">
+        <div class="flex items-center justify-center">
             <Calendar localizer={localizer} events={events} 
-            startAccessor="start" endAccessor="end" style={{height:500 , width:900, margin: 80}} 
+            startAccessor="start" endAccessor="end" style={{height:460 , width:900, margin: 80, background: "white"}} 
             components={components} views={["month", "week", "day"]} />
+        </div>
+        <div class="flex items-center justify-center">
+        <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            onClick={backClickHandle}>
+                Go Back</button>
 
-            <button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+        <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             onClick={buttonClickHandle}>
                 Book Venue</button>
         </div>
-        </>
+        
+        </div>
     )
 }
