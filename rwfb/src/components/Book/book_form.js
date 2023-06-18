@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserAuthentication } from "../../LoginContext";
 import { Fragment, useEffect, useState } from "react";
 import { ErrorFormModal, SuccessFormModal} from "./succform";
+import axios from 'axios'
 
 const BookForm = () => {
 
@@ -35,10 +36,28 @@ const BookForm = () => {
   // go to book_form button click function 
   const navigate = useNavigate();
 
-  const submitForm = async (e) => {
+  const submitForm = (e) => {
+
       try {
 
           e.preventDefault();
+
+          fetch('api/bs', {
+            'method' : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "Closed": false,
+                "Location": "C",
+                "Name": "4",
+                "TotalPax": 30
+            })
+          });
+
+
+          
+
 
           /* FORM VALIDATION */
 
@@ -79,7 +98,10 @@ const BookForm = () => {
           }
 
           // push the new Booking and update the state of Booking
+          
           setBookings([...Bookings,currentBooking]);
+
+          
 
           setShowModal(true);
           
@@ -97,7 +119,6 @@ const BookForm = () => {
   useEffect( () => {
   }, [Bookings]);
   
-
 
   return (
     <Fragment>

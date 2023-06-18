@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import BookingDisplay from "../config/booking_display";
 
 axios.defaults.withCredentials = true;
 
-const Home = () => {
+const Rome = () => {
 
     // handling user navigation
     const { user, logout } = UserAuthentication();
@@ -124,3 +124,4 @@ const Home = () => {
         </>
     )
 }
+export default Rome;

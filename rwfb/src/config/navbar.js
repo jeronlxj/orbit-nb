@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 import { auth } from "../config/firebase";
 import { UserAuthentication } from '../LoginContext';
+
+axios.defaults.withCredentials = true;
 
 export default function Navbar(props) {
 
@@ -23,6 +25,26 @@ export default function Navbar(props) {
             return otherPage;
         }
     };
+
+    function handle() {
+
+        const values = {
+            name: "erqwe",
+            location: "wss",
+            closed: false,
+            total_pax: 0,
+            host: "",
+        }
+
+        let formField = new FormData();
+        formField.append('name',values.name);
+        formField.append('location',values.location);
+        formField.append('closed',values.closed);
+        formField.append('total_pax',values.total_pax);
+        formField.append('host',values.host);
+        
+        axios.post(`api/venue`, formField);
+    }
 
     // check if current user is an Admin, if so set bool to true
     let checker = "Student";
