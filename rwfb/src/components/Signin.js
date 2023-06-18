@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // tailwind css object file
 import { tailw } from "../config/styles";
 
 import { UserAuthentication } from '../LoginContext';
+import ForgotPasswordModal from "./forgot_password";
 
 const Signin = () => {
 
@@ -41,39 +42,52 @@ const Signin = () => {
         }
     }
 
+    // for forgotPassword Modal handling
+    const [showModal, setShowModal] = useState(false);
+
     return (
+        <Fragment>
         <div className={tailw.bg}>
-        <div className={tailw.form}>
-        <form className={tailw.forms}>
-            <p className='text-2xl font-bold py-2'> Are you a new user?
-                <Link to="/signup"> 
-                <span className="text-black-500 hover:text-red-900" > Sign up</span>
-                </Link>
-            </p>
 
-            <div className='flex flex-col py-2'>
-                <label className='py-2 font-medium' for="email">Email Address</label>
-                <input className="border p-2 rounded" type="email" name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </div>
-            <div className='flex flex-col py-2'>
-                <label className='py-2 font-medium' for="password">Password</label>
-                <input className="border p-2 rounded" type="password" name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
+        <div class="h-screen flex items-center justify-center">
+        <div class=" w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <form class="space-y-6">
+                <h5 class="text-xl font-medium text-gray-900 dark:text-white">Sign in to NuNMe.</h5>
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                    <input type="email" name="email" id="email" onChange={(e) => setEmail(e.target.value)}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="nusid@nus.edu.u" required/>
+                </div>
+                <div>
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+                    <input type="password" name="password" id="password"  onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required/>
+                </div>
+                <div class="flex items-center">
+                    <label onClick={() => setShowModal(true)} class="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</label>
+                </div>
 
-
-            <label className='py-2 font-medium text-black-500 hover:text-red-900'
-            onClick={forgotPassword}>Reset Password</label>
-
-            <button className={tailw.button}
-            onClick={handleLogin}>Sign in</button>
-
-        </form>
+                <button onClick={handleLogin} class="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:bg-red-900 font-medium rounded-lg text-m px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-800 dark:focus:bg-red-900">Login</button>
+                
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Not registered? <Link to="/signup"> <span class="text-blue-700 hover:underline dark:text-blue-500">Create account</span> </Link>
+                </div>
+            </form>
         </div>
         </div>
+
+        </div>
+        <ForgotPasswordModal isVisible={showModal} onClose={() => setShowModal(false)} 
+        children={
+            <>
+            <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter your email</label>
+            <input type="email" name="email" id="email" onChange={(e) => setEmail(e.target.value)}  class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="nusid@nus.edu.u" required/>
+            </div>
+            <button onClick={forgotPassword} class="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:bg-red-900 font-medium rounded-lg text-m px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-800 dark:focus:bg-red-900">Send Reset Link</button>
+            </>
+        }
+
+        />
+        </Fragment>
     )
 }
 
