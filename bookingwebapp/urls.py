@@ -24,6 +24,7 @@ urlpatterns = [
     path('',index),
     path('signup',index),
     path('Home',index),
+    path('Rome',index),
     path('book_form',index),
     path('book_calendar',index),
     path('book_dropdown',index),

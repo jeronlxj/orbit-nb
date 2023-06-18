@@ -40,6 +40,19 @@ const BookForm = () => {
 
       try {
 
+        fetch('api/bs', {
+          'method' : 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              "Closed": false,
+              "Location": "C",
+              "Name": "4",
+              "TotalPax": 30
+          })
+        });
+
           e.preventDefault();
 
           fetch('api/bs', {
