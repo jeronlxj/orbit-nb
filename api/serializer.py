@@ -16,9 +16,35 @@ class VenueSerializer(serializers.ModelSerializer):
 
 class BookingsSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=200, read_only=True)
-    Closed = serializers.BooleanField()
-    Location = serializers.CharField(max_length=2000)
-    Name = serializers.CharField(max_length=2000)
+    Location = serializers.CharField(max_length=200)
+    Facility = serializers.CharField(max_length=200)
+    Name = serializers.CharField(max_length=200)
+    UserEmail = serializers.CharField(max_length=200)
+    bookingDate = serializers.CharField(max_length=200)
+    bookingTitle = serializers.CharField(max_length=200)
+    #createdAt = serializers.DateTimeField()
+    endTime = serializers.CharField(max_length=200)
+    startTime = serializers.CharField(max_length=200)
+    status = serializers.CharField(max_length=200)
+
+# serializer for Users
+class UsersSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=200, read_only=True)
+    Name = serializers.CharField(max_length=200)
+    Email = serializers.CharField(max_length=200)
+    Location = serializers.CharField(max_length=200)
+    Tier = serializers.CharField(max_length=200)
+
+# serializer for Location
+class LocationsSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=200, read_only=True)
+    Name = serializers.CharField(max_length=200)
+
+# serializer for Location
+class FacilitiesSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=200, read_only=True)
+    Location = serializers.CharField(max_length=200)
+    Name = serializers.CharField(max_length=200)
     TotalPax = serializers.IntegerField()
 
 # class TodoSerializer(serializers.Serializer):
