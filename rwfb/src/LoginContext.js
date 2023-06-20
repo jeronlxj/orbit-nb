@@ -72,6 +72,9 @@ export const LoginContextProvider = ({children}) => {
     const [setLocation, setSelectedLocation] = useState("");
     const [setFacility, setSelectedFacility] = useState("");
 
+    // booking to be edited setters
+    const [bookingEdit, setBookingEdit] = useState("");
+
     /* FIREBASE FUNCTIONS & USER */
     // user object 
     const [user, setUser] = useState({});
@@ -115,7 +118,8 @@ export const LoginContextProvider = ({children}) => {
         setLocation, setSelectedLocation, setFacility, setSelectedFacility,
         // User object - aka staff/student/admin
         students, setStudents,
-        extractNameFromEmail
+        extractNameFromEmail,
+        bookingEdit,setBookingEdit
     };
 
     // remove the @... from the email 
