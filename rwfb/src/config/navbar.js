@@ -26,26 +26,6 @@ export default function Navbar(props) {
         }
     };
 
-    function handle() {
-
-        const values = {
-            name: "erqwe",
-            location: "wss",
-            closed: false,
-            total_pax: 0,
-            host: "",
-        }
-
-        let formField = new FormData();
-        formField.append('name',values.name);
-        formField.append('location',values.location);
-        formField.append('closed',values.closed);
-        formField.append('total_pax',values.total_pax);
-        formField.append('host',values.host);
-        
-        axios.post(`api/venue`, formField);
-    }
-
     // check if current user is an Admin, if so set bool to true
     let checker = "Student";
 
@@ -95,6 +75,9 @@ export default function Navbar(props) {
             <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
                 <a href="/Home" class={checkCurrentPage("Home")}>Home</a>
+            </li>
+            <li>
+                <a href="/edit_profile" class={checkCurrentPage("edit_profile")}>Profile</a>
             </li>
             <li>
                 <a href="/book_dropdown" class={checkCurrentPage("book_dropdown")}>Book</a>

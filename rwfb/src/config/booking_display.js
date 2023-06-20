@@ -5,50 +5,32 @@ import { UserAuthentication } from '../LoginContext';
 import 'react-calendar/dist/Calendar.css'
 import Calendar from 'react-calendar'
 import './calenderStyle.css';
+import { useNavigate } from "react-router-dom";
 
 export function ListDisplay(props) {
 
     const name = props.name; 
-    
-    // handling user navigation
-    const { Bookings, setBookings } = UserAuthentication();
-
+    const { user, setBookingEdit } = UserAuthentication();
+    const navigate = useNavigate();
 
     // handling display of data from backend
-    const [datas, setDatas] = useState([]);
     const [bdatas, setbDatas] = useState([]);
 
-    // filter datas by users - show user booking
+    // filter datas by users - shows specific user booking
     function filterByUser(data) {
-        return data?.studentId === 1;
+        return data?.UserEmail === user?.email;
     }
 
-    // gets booking data from django and sets state for booking data
-    /*
+    // gets booking data from firebase -> django and sets state for booking data
     useEffect(() => {
-        fetch('api/display', {
-        'method' : 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(resp => resp.json())
-    .then(resp => setDatas(resp))
-    .catch(error => console.log(error))
-    }, [])
-    */
-    
-
-    useEffect(() => {
-        fetch('api/bookings', {
+        fetch('api/bookingsGet', {
         'method' : 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(resp => resp.json())
     .then(resp => setbDatas(resp))
-    .then(resp => console.log(bdatas))
-    .catch(error => console.log(error))
-
+    .catch(error => console.log(error));
     }, [])
 
     return(      
@@ -64,13 +46,19 @@ export function ListDisplay(props) {
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                    date
+                    Facility
                     </th>
                     <th scope="col" class="px-6 py-3">
                     Title
                     </th>
                     <th scope="col" class="px-6 py-3">
-                    facilityId
+                    Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Start
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    End
                     </th>
                     <th scope="col" class="px-6 py-3">
                     status
@@ -83,24 +71,33 @@ export function ListDisplay(props) {
 
             <tbody>
                 {
-                    //.filter(data => filterByUser(data))?
-                    bdatas?.map(data => {
+                    
+                    bdatas?.filter(data => filterByUser(data))
+                    ?.map(data => {
                     return (
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {data?.Name}
+                            {data?.Location} - {data?.Facility}
                         </th>
 
                         <td class="px-6 py-4">
-                            {data?.Location}
+                            {data?.bookingTitle}
                         </td>
 
                         <td class="px-6 py-4">
-                            {data?.TotalPax}
+                            {data?.bookingDate}
                         </td>
 
-                        {/* <td class="px-6 py-4">
+                        <td class="px-6 py-4">
+                            {data?.startTime}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {data?.endTime}
+                        </td>
+
+                        { <td class="px-6 py-4">
                         {data?.status == "pending" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
                             {data?.status}
@@ -109,10 +106,13 @@ export function ListDisplay(props) {
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        </td> */}
+                        </td> }
 
                         <td class="px-6 py-4 text-right">
-                            <a href="/Book" class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300">Edit</a>
+                            <button onClick={() => {
+                                setBookingEdit(data?.id);
+                                navigate('/book_edit');}} 
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300">Edit</button>
                         </td>
                     </tr>
                     )
@@ -129,9 +129,6 @@ export function ListDisplay(props) {
 
 export function CalenderDisplay() {
     const [date, setDate] = useState(new Date())
-
-    // handling user navigation
-    const { user, Bookings } = UserAuthentication();
 
     return (
         <div class="relative my-10 overflow-x-auto shadow-md sm:rounded-lg">
@@ -153,27 +150,39 @@ export function CalenderDisplay() {
 } 
 
 export function SpecificDisplay(props) {
+
+    const navigate = useNavigate();
+    // handling display of data from backend
+    const [bdatas, setbDatas] = useState([]);
+    // gets booking data from firebase -> django and sets state for booking data
+    useEffect(() => {
+        fetch('api/bookingsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setbDatas(resp))
+    .catch(error => console.log(error));
+    }, [])
     
     const date = props.date.toDateString().substring(3);
 
-
-    // filter datas by users - show user booking
+    // filter datas by users - show specific user booking
+    const { user, setBookingEdit } = UserAuthentication();
     function filterByUser(data) {
-        return data?.studentId === 1;
+        return data?.UserEmail === user?.email;
     }
 
     // filter datas by selected Date - show bookings only for the selected date
     function filterByDate(data) {
         // checks the respective day,month & year
         return (
-            props.date.getDate() === new Date(data.date).getDate() &&
-            props.date.getMonth() === new Date(data.date).getMonth() &&
-            props.date.getFullYear() === new Date(data.date).getFullYear() 
+            props.date.getDate() === new Date(data.bookingDate).getDate() &&
+            props.date.getMonth() === new Date(data.bookingDate).getMonth() &&
+            props.date.getFullYear() === new Date(data.bookingDate).getFullYear() 
         );
     }
-
-    // handling user navigation
-    const { Bookings } = UserAuthentication();
 
     return (
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -187,13 +196,19 @@ export function SpecificDisplay(props) {
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                    date
+                    Facility
                     </th>
                     <th scope="col" class="px-6 py-3">
                     Title
                     </th>
                     <th scope="col" class="px-6 py-3">
-                    facilityId
+                    Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Start
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    End
                     </th>
                     <th scope="col" class="px-6 py-3">
                     status
@@ -206,15 +221,15 @@ export function SpecificDisplay(props) {
 
             <tbody>
                 {
-                    Bookings
+                    bdatas
                     ?.filter(data => filterByUser(data))
                     ?.filter(data => filterByDate(data))
                     ?.map(data => {
                     return (
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {data?.date}
+                            {data?.Location} - {data?.Facility}
                         </th>
 
                         <td class="px-6 py-4">
@@ -222,10 +237,10 @@ export function SpecificDisplay(props) {
                         </td>
 
                         <td class="px-6 py-4">
-                            {data?.facilityId}
+                            {data?.bookingDate}
                         </td>
 
-                        <td class="px-6 py-4">
+                        { <td class="px-6 py-4">
                         {data?.status == "pending" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
                             {data?.status}
@@ -234,12 +249,23 @@ export function SpecificDisplay(props) {
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
                             {data?.status}
                         </span>}
+                        </td> }
+
+                        <td class="px-6 py-4">
+                            {data?.startTime}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {data?.endTime}
                         </td>
 
                         <td class="px-6 py-4 text-right">
-                            <a href="/Book" class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300">Edit</a>
+                            <button onClick={() => {
+                                setBookingEdit(data?.id);
+                                navigate('/book_edit');}}
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300">Edit</button>
                         </td>
-                    </tr>
+                        </tr>
                     )
                 })
                 }
