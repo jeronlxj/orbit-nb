@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { UserAuthentication } from "../../LoginContext";
 import { Fragment, useEffect, useState } from "react";
 import { ErrorFormModal, SuccessFormModal} from "./succform";
-import axios from 'axios'
+import axios from 'axios';
 
 const BookForm = () => {
 
   /* choose the correct facility & its id
   will be automatically set for them later, cannot change here */
-  const { setLocation, setFacility, Bookings, facilities, setBookings,
+  const { setLocation, setFacility,
     extractNameFromEmail, user } = UserAuthentication();
 
   const hisName = extractNameFromEmail(user?.email)
@@ -26,42 +26,35 @@ const BookForm = () => {
   const [endTime, setEndTime] = useState("");
   const [bookingDate, setBookingDate] = useState("");
 
-  // context doesnt know the type so we need to specify
-  const facId = facilities.filter( (facility) => {
-    return facility.locationName === String(setLocation) &&
-     facility.Name === String(setFacility)
-  }).map(x => Number(x.facilityId));
-
   /* handle form submission */
   // go to book_form button click function 
   const navigate = useNavigate();
 
+  // gets booking data from firebase -> django and sets state for booking data
+  const [Bookings, setBookings] = useState([]);
+  useEffect(() => {
+      fetch('api/bookingsGet', {
+      'method' : 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }).then(resp => resp.json())
+  .then(resp => setBookings(resp))
+  .catch(error => console.log(error));
+  }, []);
+
   const submitForm = (e) => {
 
       try {
-
-        fetch('api/bs', {
-          'method' : 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              "Closed": false,
-              "Location": "JOSPEH",
-              "Name": "4",
-              "TotalPax": 30
-          })
-        });
-
-          e.preventDefault();      
+          e.preventDefault();
 
           /* FORM VALIDATION */
 
           // function to check if booking time input has already been taken up
           Bookings.map( (booking) => {
 
-          // checks if its the same facility id & Date
-          if(booking.facilityId === facId[0] && booking.date === bookingDate) {
+          // checks if its the same facility, Location & Date
+          if(booking.Facility === setFacility && booking.Location === setLocation && booking.bookingDate === bookingDate) {
             // check to see if the time is taken up or not
             if( 
             Number(booking.startTime.substring(0,2)) >=  Number(startTime.substring(0,2)) && 
@@ -83,21 +76,21 @@ const BookForm = () => {
 
           /* END OF FORM VALIDATION */
 
-          // UPDATE ALL THE BOOKINGS
-          // get the data from the form itself - this is the only way that works
-          const currentBooking = 
-          {
-            id:6, date:bookingDate, startTime:startTime, endTime:endTime, 
-            status: "pending", bookingTitle:e.target.form.bookingTitle.value, facilityId:facId[0],
-            // hardcoded
-            studentId: 1,
-          }
-
-          // push the new Booking and update the state of Booking
-          
-          setBookings([...Bookings,currentBooking]);
-
-          
+          fetch('api/bookingsPOST', {
+            method: 'POST',
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({
+              "Facility": setFacility,
+              "Location": setLocation,
+              "Name": hisName,
+              "UserEmail": user?.email,
+              "bookingDate": bookingDate,
+              "bookingTitle": e.target.form.bookingTitle.value,
+              "startTime": startTime,
+              "endTime": endTime,
+              "status": "pending",        
+            })
+            });
 
           setShowModal(true);
           
@@ -112,8 +105,8 @@ const BookForm = () => {
   }; 
 
   // update Bookings
-  useEffect( () => {
-  }, [Bookings]);
+  // useEffect( () => {
+  // }, [Bookings]);
   
 
   return (
@@ -338,10 +331,11 @@ const BookForm = () => {
         children={
             <>
             <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-              <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
-              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              <span class="sr-only">Error icon</span>
-              </div>
+            
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+              <span class="sr-only">Warning icon</span>
+            </div>
 
               <div class="px-1 ml-1 text-m font-normal">{errorMess}</div>
 
@@ -366,4 +360,24 @@ const BookForm = () => {
   )
 }
 export default BookForm;
+
+    // // UPDATE ALL THE BOOKINGS
+          // // get the data from the form itself - this is the only way that works
+          // const currentBooking = 
+          // {
+          //   id:6, date:bookingDate, startTime:startTime, endTime:endTime, 
+          //   status: "pending", bookingTitle:e.target.form.bookingTitle.value, facilityId:facId[0],
+          //   // hardcoded
+          //   studentId: 1,
+          // }
+
+          // // push the new Booking and update the state of Booking
+          
+          // setBookings([...Bookings,currentBooking]);
+
+           // // context doesnt know the type so we need to specify
+  // const facId = facilities.filter( (facility) => {
+  //   return facility.locationName === String(setLocation) &&
+  //    facility.Name === String(setFacility)
+  // }).map(x => Number(x.facilityId));
 

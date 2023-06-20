@@ -7,7 +7,6 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 // style our big-calender
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../../components/Book/bookCalender.css";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../../config/navbar";
 import { useNavigate } from "react-router-dom";
@@ -28,63 +27,44 @@ const localizer = dateFnsLocalizer({
 });
 
 // array of events
-const events = [];
+const events = []; 
 
 export default function BookCalendar() {
     // adding states
-    const { Bookings, setBookings, extractNameFromEmail, user } = UserAuthentication();
+    const { setLocation, setFacility, user, extractNameFromEmail } = UserAuthentication();
 
-
-    /* choose the correct facility & its id */
-    const { facilities, setLocation, setSelectedLocation,
-         setFacility, setSelectedFacility } = UserAuthentication();
-
-    // context doesnt know the type so we need to specify
-    const facId = facilities.filter( (facility) => {
-        return facility.locationName === String(setLocation) &&
-         facility.Name === String(setFacility)
-    }).map(x => Number(x.facilityId));
-
-    // facId[0] as facId is given as an array -
-    
-    // check if booking is already in events or not, NO REPEATS
-    // x is basically the id of the array
-    // so to access the event use events[x]
-    function containsBooking(temp, events) {
-        var x;
-        for (x in events) {
-            if (events[x].title === temp.title) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    // addings in bookings to events
+    // gets booking data from firebase -> django and sets state for booking data
+    const [bookings, setBookings] = useState([]);
     useEffect(() => {
-    // map all bookings and add those that match that location 
-    Bookings.map((booking) => {
-        
+        fetch('api/bookingsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setBookings(resp))
+    .catch(error => console.log(error));
+    }, []);
+
+    // map all bookings and add those that match that location & facility
+    bookings.map((booking) => {
+    
         const temp = {
             title: booking.bookingTitle,
-            start: moment(booking.date.concat("T", booking.startTime)).toDate(),
-            end: moment(booking.date.concat("T", booking.endTime)).toDate(),
+            start: moment(booking.bookingDate.concat("T", booking.startTime)).toDate(),
+            end: moment(booking.bookingDate.concat("T", booking.endTime)).toDate(),
             data: {
                 type: booking.status,
-                id: booking.facilityId,
+                fac: booking.Facility,
+                loc: booking.Location
             },
         }
-        // check if there are any repeats
-        if (containsBooking(temp, events)) {
-        } else {
-            // check if the booking is for the correct facility and add it in
-            if(temp.data.id === facId[0]) {
+        if(temp.data.fac === setFacility && temp.data.loc === setLocation) {
                 events.push(temp);
-            }
         }
     });
-    });
+
+    console.log(events);
 
     // go to book_form button click function 
     const navigate = useNavigate();
@@ -111,7 +91,7 @@ export default function BookCalendar() {
         
     }; 
     
-    // components - aka change bg colour based on status of booking
+    // components - aka change bg colour of displayed event based on status of booking
     const components = {
         event: (props) => {
             const eventType = String(props?.event?.data?.type);
@@ -157,3 +137,26 @@ export default function BookCalendar() {
         </div>
     )
 }
+
+/* context doesnt know the what facility to take data from so we need to specify
+    const facId = facilities.filter( (facility) => {
+        return facility.locationName === String(setLocation) &&
+         facility.Name === String(setFacility)
+    }).map(x => Number(x.facilityId));
+
+    // facId[0] as facId is given as an array 
+    
+
+    // check if booking is already in events or not, NO REPEATS
+    // x is basically the id of the array
+    // so to access the event use events[x]
+    function containsBooking(temp, events) {
+        var x;
+        for (x in events) {
+            if (events[x].title === temp.title) {
+                return true;
+            }
+        }
+        return false;
+    }
+    */

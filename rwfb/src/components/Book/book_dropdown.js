@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { UserAuthentication } from "../../LoginContext"
@@ -10,6 +10,19 @@ export default function BookDropdown() {
     // setting of locations & facilities
     const { setLocation, setSelectedLocation, setFacility, setSelectedFacility,
         user, extractNameFromEmail} = UserAuthentication();
+
+    // gets Location data from firebase -> django and sets state for booking data
+    const [locations, setLocations] = useState([]);
+    useEffect(() => {
+        fetch('api/locationsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setLocations(resp))
+    .catch(error => console.log(error));
+    }, [])
 
     //button click function 
     const navigate = useNavigate();
@@ -28,7 +41,7 @@ export default function BookDropdown() {
         <>
         <Navbar current={"book_dropdown"}/>
         <div className="w-full h-screen bg-center bg-cover bg-utown flex h-screen items-center justify-center">
-            <SelectLocation setLocation={setLocation} setSelectedLocation={setSelectedLocation}/>
+            <SelectLocation locations={locations} setLocation={setLocation} setSelectedLocation={setSelectedLocation}/>
             <SelectFacility setFacility={setFacility} setSelectedFacility={setSelectedFacility} setLocation={setLocation}/>
             <button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             onClick={buttonClickHandle}>Check Venue Status</button> 
@@ -42,8 +55,6 @@ const SelectLocation = (props) => {
 
     const [inputValue, setInputValue] = useState("");
     const [open, setOpen] = useState(false);
-  
-    const { locations } = UserAuthentication();
   
     return (
       <div className="mx-1 flex h-screen items-center justify-center">
@@ -87,7 +98,7 @@ const SelectLocation = (props) => {
               </div>
   
               {/* Displaying the input */}
-              {locations?.map((data) => (
+              {props.locations?.map((data) => (
               <li
                   key={data?.Name}
                   className={`p-2 text-sm hover:bg-red-700 hover:text-white
@@ -124,8 +135,19 @@ const SelectLocation = (props) => {
 
     const [inputValue, setInputValue] = useState("");
     const [open, setOpen] = useState(false);
-  
-    const { facilities } = UserAuthentication();
+
+    // gets facility data from firebase -> django and sets state for booking data
+    const [facilities, setfacilities] = useState([]);
+    useEffect(() => {
+        fetch('api/facilityGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setfacilities(resp))
+    .catch(error => console.log(error));
+    }, [])
   
     return (
       <div className="px-1 flex h-screen items-center justify-center">
@@ -169,7 +191,7 @@ const SelectLocation = (props) => {
               </div>
   
               {/* Displaying the input */}
-              {facilities?.filter(data => data.locationName === props.setLocation)
+              {facilities?.filter(data => data.Location === props.setLocation)
               .map( (data) => (
               <li
                   key={data?.Name}
