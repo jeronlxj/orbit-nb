@@ -9,7 +9,7 @@ import { tailw } from "../config/styles";
 const Approve = () => {
 
     // handling user navigation
-    const { Bookings, user, setBookings, forceUpdate} = UserAuthentication();
+    const { user,  forceUpdate} = UserAuthentication();
 
     // tempState management for sorting
     const [tempState, setTempState] = useState(Bookings);
@@ -30,64 +30,102 @@ const Approve = () => {
         return data?.status === "pending";
     }
 
+    // gets booking data from firebase -> django and sets state for booking data
+    const [Bookings, setBookings] = useState([]);
+    useEffect(() => {
+        fetch('api/bookingsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setBookings(resp))
+    .catch(error => console.log(error));
+    }, []);
+
     // once the Admin approves of the Booking
     function onReview(bookingId) {
+        const c = Bookings.filter( obj => {
+            if(obj.id === bookingId) {
+                return true;
+            }
+        });
+
         const t = Bookings.map( obj => {
-            if(Number(obj.id) === bookingId) {
+            if(obj.id === bookingId) {
                 return {...obj, status: "approved"};
             }
 
             return obj;
-
         });
         // update
         setBookings([...t]);
-        setTempState([...t]);
+
+        console.log(c[0]);
+
+        // update
+        fetch(`api/bookingsUpdate/${bookingId}`, {
+            'method' : 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              "Facility": c[0].Facility,
+              "Location": c[0].Location,
+              "Name": c[0].Name,
+              "UserEmail": c[0].UserEmail,
+              "bookingDate": c[0].bookingDate,
+              "bookingTitle": c[0].bookingTitle,
+              "startTime": c[0].startTime,
+              "endTime": c[0].endTime,
+              "status": "approved",
+            })
+        });
+
     }
     
-    useEffect( () => {
-    }, [Bookings]);
-    useEffect( () => {
-    }, [tempState]);
+    // useEffect( () => {
+    // }, [Bookings]);
 
-    const [datechecker,setdateChecker] = useState(false);
-    const [facilitychecker, setfacilityChecker] = useState(false);
+    // useEffect( () => {
+    // }, [tempState]);
+
+    //const [datechecker,setdateChecker] = useState(false);
+    //const [facilitychecker, setfacilityChecker] = useState(false);
 
     // if admin wants to sort by date-ascending
     const dateClickHandler = (e) => {
-        if(e.target.checked) {
-            setdateChecker(true);
-            // if facility sorting is not enabled        
-            setBookings([...Bookings].sort( (a,b) => {
-                if(b.date < a.date) {
-                    return 1;
-                } else if(b.date > a.date) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }));
+        // if(e.target.checked) {
+        //     setdateChecker(true);
+        //     // if facility sorting is not enabled        
+        //     setBookings([...Bookings].sort( (a,b) => {
+        //         if(b.date < a.date) {
+        //             return 1;
+        //         } else if(b.date > a.date) {
+        //             return -1;
+        //         } else {
+        //             return 0;
+        //         }
+        //     }));
 
-        } else {
-            setdateChecker(false);
-            setBookings(tempState);
-        }
+        // } else {
+        //     setdateChecker(false);
+        //     setBookings(tempState);
+        // }
     }
 
     // if admin wants to sort by location
     const FacilityClickHandler = (e) => {
-        if(e.target.checked) {
-            setBookings([...Bookings].sort( (a,b) => {
-                if(b.facilityId < a.facilityId) {
-                    return 1;
-                } else if(b.facilityId > a.facilityId) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }));
+        // if(e.target.checked) {
+        //     setBookings([...Bookings].sort( (a,b) => {
+        //         if(b.facilityId < a.facilityId) {
+        //             return 1;
+        //         } else if(b.facilityId > a.facilityId) {
+        //             return -1;
+        //         } else {
+        //             return 0;
+        //         }
+        //     }));
             
-        }
+        // }
     }
 
     return(      
@@ -157,7 +195,7 @@ const Approve = () => {
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {data?.date}
+                            {data?.bookingDate}
                         </th>
 
                         <td class="px-6 py-4">
@@ -165,7 +203,7 @@ const Approve = () => {
                         </td>
 
                         <td class="px-6 py-4">
-                            {data?.facilityId}
+                            {data?.Facility}
                         </td>
 
                         <td class="px-6 py-4">

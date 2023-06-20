@@ -12,7 +12,20 @@ const UserStatusEditor = () => {
     const [stud, setStud] = useState("");
     const [open, setOpen] = useState(false);
   
-    const { user, students } = UserAuthentication();
+    const { user } = UserAuthentication();
+
+    // setting all current students
+    const [students, setStudents] = useState([]);
+    useEffect(() => {
+        fetch('api/usersGET', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setStudents(resp))
+    .catch(error => console.log(error));
+    }, []);
 
     // remove the @... from the email 
     function extractNameFromEmail(email) {
@@ -98,7 +111,7 @@ const UserStatusEditor = () => {
         </div>
         {/* END OF SEARCH BAR */}
 
-        <SpecificDisplay selected={stud}/>        
+        <SpecificDisplay selected={stud} />        
         </div>
 
         </div>
@@ -109,27 +122,58 @@ export default UserStatusEditor;
 
 export function SpecificDisplay(props) {
 
-    const { setStudents, students } = UserAuthentication();
+    // setting all current students
+    const [students, setStudents] = useState([]);
+    useEffect(() => {
+        fetch('api/usersGET', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setStudents(resp))
+    .catch(error => console.log(error));
+    }, []);
 
     // change the tier of students once selected
     const editTier = (studentId) => {
+        // filter out that one selected student
         const t = students.map( obj => {
 
-            if(Number(obj.studentId) === studentId && String(obj.tier) === "Admin") {
-                return {...obj, tier:"Student"};
-            } else if(Number(obj.studentId) === studentId && String(obj.tier) === "Student") {
-                return {...obj, tier:"Admin"};
+            if(obj.id === studentId && obj.Tier === "Admin") {
+                return {...obj, Tier:"Student"};
+            } else if(obj.id === studentId && obj.Tier === "Student") {
+                return {...obj, Tier:"Admin"};
+            }
+
+            return obj;
+        }).filter(obj => obj.id === studentId);
+
+        //update tier of selected student
+        fetch(`api/usersUpdate/${studentId}`, {
+            'method' : 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              "Email" : t[0].Email,
+              "Location" : t[0].Location,
+              "Name" : t[0].Name,
+              "Tier" : t[0].Tier,
+            })
+        });
+
+        // to ensure changes are reflected immediately on the page by changing state
+        const c = students.map( obj => {
+
+            if(obj.id === studentId && obj.Tier === "Admin") {
+                return {...obj, Tier:"Student"};
+            } else if(obj.id === studentId && obj.Tier === "Student") {
+                return {...obj, Tier:"Admin"};
             }
 
             return obj;
         });
-        // update tier of selected student
-        setStudents([...t]);
+        setStudents([...c]);
     }
-
-    useEffect(() => {
-
-    },[students]);
 
     return (
         <div class="mx-6 overflow-x-auto shadow-md sm:rounded-lg h-4/6">
@@ -170,22 +214,22 @@ export function SpecificDisplay(props) {
                         </th>
 
                         <td class="px-6 py-4">
-                            {data?.studentId}
+                            {data?.Location}
                         </td>
 
                         <td class="px-6 py-4">
-                        {data?.tier == "Student" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {data?.Tier == "Student" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
-                            {data?.tier}
+                            {data?.Tier}
                         </span>}
-                        {data?.tier == "Admin" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-lg dark:bg-green-900 dark:text-green-300">
+                        {data?.Tier == "Admin" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-lg dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-lg"></span>
-                            {data?.tier}
+                            {data?.Tier}
                         </span>}
                         </td>
 
                         <td class="px-6 py-4 text-right">
-                            <button onClick={() => editTier(data?.studentId)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300">Edit</button>
+                            <button onClick={() => editTier(data?.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300">Edit</button>
                         </td>
                     </tr>
                     )

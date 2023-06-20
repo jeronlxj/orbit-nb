@@ -22,6 +22,21 @@ const Signup = () => {
         try {
             e.preventDefault(); // alternate way to await
             await createUser(email, password);
+
+            // post the user to the USERS table in firebase once they sign up
+            fetch('api/usersPOST', {
+                'method' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "Email": email,
+                    "Location": "RC4",
+                    "Name": email.split('@')[0],
+                    "Tier": "Student"
+                })
+              });
+
             navigate('/');
         } catch (e) {
             alert(e);
