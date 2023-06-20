@@ -28,6 +28,8 @@ urlpatterns = [
     path('book_form',index),
     path('book_calendar',index),
     path('book_dropdown',index),
+    path('book_edit',index),
+    path('edit_profile',index),
     path('approve',index),
     path('Rome',index),
     path('staff',index),
