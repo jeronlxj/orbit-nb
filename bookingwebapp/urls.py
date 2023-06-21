@@ -33,6 +33,7 @@ urlpatterns = [
     path('approve',index),
     path('Rome',index),
     path('staff',index),
+    path('StaffHome',index),
     path('api/',include('api.urls')),
     path('test',test),
 ]
