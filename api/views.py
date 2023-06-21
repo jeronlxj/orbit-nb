@@ -153,7 +153,7 @@ class LocationViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
     
-# handle Location table
+# handle Facility table
 class FacilityViewSet(viewsets.ViewSet):
     client = FacilityClient()
 
