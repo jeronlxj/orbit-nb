@@ -93,7 +93,7 @@ export default function Navbar(props) {
             {
                 (checker === "Staff") && 
                 <li>
-                    <a href="/staff" class={checkCurrentPage("staff")}>Staff</a>
+                    <a href="/StaffHome" class={checkCurrentPage("StaffHome")}>Staff</a>
                 </li>
             }
 
