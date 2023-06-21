@@ -38,13 +38,13 @@ const EditProfile = () => {
 
             <div class="bg-gray-100 rounded shadow p-6">
                 <div class="pb-4">
-                <label for="name" class="font-semibold text-gray-700 block pb-1">{data?.Name}</label>
-                <input disabled class="bg-gray-200 border-1 rounded-r px-4 py-2 w-full" value="ramanen" />
+                <label for="name" class="font-semibold text-gray-700 block pb-1">Username</label>
+                <input disabled class="bg-gray-200 border-1 rounded-r px-4 py-2 w-full" value={data?.Name} />
                 </div>
 
                 <div class="pb-4">
-                <label for="about" class="font-semibold text-gray-700 block pb-1">{data?.Email}</label>
-                <input disabled class="bg-gray-200 border-1 rounded-r px-4 py-2 w-full" value="ramanen@gmail.com" />
+                <label for="about" class="font-semibold text-gray-700 block pb-1">Email</label>
+                <input disabled class="bg-gray-200 border-1 rounded-r px-4 py-2 w-full" value={data?.Email} />
                 </div>
 
                 <div class="pb-4">
@@ -62,20 +62,44 @@ const EditProfile = () => {
                             <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                              Make, Edit & Delete Bookings
                         </li>
+
                         <li class="flex items-center">
+                            {(data?.Tier === "Admin" || data?.Tier === "Staff") &&
                             <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            } 
+
+                            {(data?.Tier === "Student") &&
+                            <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                            }
                             Approve Bookings
                         </li>
+                        
                         <li class="flex items-center">
+                            {(data?.Tier === "Staff") &&
+                            <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            } 
+                            {(data?.Tier === "Student" || data?.Tier === "Admin") &&
                             <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
-                            Change status of users
+                            }
+                            Change Tier of users
                         </li>
+
+                        <li class="flex items-center">
+                            {(data?.Tier === "Staff") &&
+                            <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            } 
+                            {(data?.Tier === "Student" || data?.Tier === "Admin") &&
+                            <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                            }
+                            Add & Remove Facilities
+                        </li>
+                        
                     </ul>
                 </div>
 
                 <div class="pb-4">
                 <label for="name" class="font-semibold text-gray-700 block pb-1">Location</label>
-                <input disabled class="bg-gray-200 border-1 rounded-r px-4 py-2 w-full" value="CAPT" />
+                <input disabled class="bg-gray-200 border-1 rounded-r px-4 py-2 w-full" value={data?.Location} />
                 </div>
 
                 <div class="flex flex-col items-center">

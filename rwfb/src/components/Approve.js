@@ -11,9 +11,6 @@ const Approve = () => {
     // handling user navigation
     const { user,  forceUpdate} = UserAuthentication();
 
-    // tempState management for sorting
-    const [tempState, setTempState] = useState(Bookings);
-
     // remove the @... from the email 
     function extractNameFromEmail(email) {
         return email.split('@')[0];
@@ -81,51 +78,44 @@ const Approve = () => {
         });
 
     }
-    
-    // useEffect( () => {
-    // }, [Bookings]);
 
-    // useEffect( () => {
-    // }, [tempState]);
-
-    //const [datechecker,setdateChecker] = useState(false);
-    //const [facilitychecker, setfacilityChecker] = useState(false);
+    const [datechecker,setdateChecker] = useState(false);
+    const [facilitychecker, setfacilityChecker] = useState(false);
 
     // if admin wants to sort by date-ascending
     const dateClickHandler = (e) => {
-        // if(e.target.checked) {
-        //     setdateChecker(true);
-        //     // if facility sorting is not enabled        
-        //     setBookings([...Bookings].sort( (a,b) => {
-        //         if(b.date < a.date) {
-        //             return 1;
-        //         } else if(b.date > a.date) {
-        //             return -1;
-        //         } else {
-        //             return 0;
-        //         }
-        //     }));
+        if(e.target.checked) {
+            setdateChecker(true);
+            // if facility sorting is not enabled        
+            setBookings([...Bookings].sort( (a,b) => {
+                if(b.bookingDate < a.bookingDate) {
+                    return 1;
+                } else if(b.bookingDate > a.bookingDate) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }));
 
-        // } else {
-        //     setdateChecker(false);
-        //     setBookings(tempState);
-        // }
+        } else {
+            setdateChecker(false);
+        }
     }
 
     // if admin wants to sort by location
     const FacilityClickHandler = (e) => {
-        // if(e.target.checked) {
-        //     setBookings([...Bookings].sort( (a,b) => {
-        //         if(b.facilityId < a.facilityId) {
-        //             return 1;
-        //         } else if(b.facilityId > a.facilityId) {
-        //             return -1;
-        //         } else {
-        //             return 0;
-        //         }
-        //     }));
+        if(e.target.checked) {
+            setBookings([...Bookings].sort( (a,b) => {
+                if(b.Facility < a.Facility) {
+                    return 1;
+                } else if(b.Facility > a.Facility) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }));
             
-        // }
+        }
     }
 
     return(      

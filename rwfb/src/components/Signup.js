@@ -1,5 +1,5 @@
 // react hooks
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
 import { UserAuthentication } from '../LoginContext';
 
@@ -13,6 +13,7 @@ const Signup = () => {
     // setting states for email & password
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [location, setLocation] = useState("");
 
     const navigate = useNavigate();
     const { createUser } = UserAuthentication();
@@ -31,7 +32,7 @@ const Signup = () => {
                 },
                 body: JSON.stringify({
                     "Email": email,
-                    "Location": "RC4",
+                    "Location": location,
                     "Name": email.split('@')[0],
                     "Tier": "Student"
                 })
@@ -43,6 +44,24 @@ const Signup = () => {
         }
     }
 
+    // set Location function
+    function handleSelect(e) {
+        setLocation(e.target.value);
+        console.log(location);
+    }
+
+    // display location function
+    const [listLocations, setListLocations] = useState([]);
+    useEffect(() => {
+        fetch('api/locationsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setListLocations(resp))
+    .catch(error => console.log(error));
+    }, [])
 
     return (
         <div className={tailw.bg}>
@@ -60,11 +79,23 @@ const Signup = () => {
                         <input type="password" name="password" id="password"  onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required/>
                     </div>
 
+                    <div>
+                        <label for="cars" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Location:</label>
+                        <select onChange={handleSelect} name="cars" id="cars" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        {listLocations?.map(loc => {
+                            return (
+                                <option class="text-sm text-gray-900 hover:bg-red-800" value={loc?.Name}>{loc?.Name}</option>
+                            )
+                        })}
+                        </select>
+                    </div>
+
                     <button onClick={signup} class="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:bg-red-900 font-medium rounded-lg text-m px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-800 dark:focus:bg-red-900">Sign up</button>
                     
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
                         Already have an account? <Link to="/"> <span class="text-blue-700 hover:underline dark:text-blue-500">Login</span> </Link>
                     </div>
+                    
                 </form>
             </div>
             </div>
