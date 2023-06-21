@@ -195,3 +195,4 @@ class FacilityViewSet(viewsets.ViewSet):
         self.client.update(pk, serializer.data)
 
         return Response(serializer.data)
+    

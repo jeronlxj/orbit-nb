@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import VenueView, VenueDisplay, BookingsViewSet,UsersViewSet, LocationViewSet, FacilityViewSet
+from .views import VenueView, VenueDisplay, BookingsViewSet,UsersViewSet, LocationViewSet, FacilityViewSet
 
 urlpatterns = [
     path('venue', VenueView.as_view()),

@@ -191,3 +191,4 @@ class FacilityClient:
         #Filter using conditions on firestore database
         docs = self._collection.where(field, condition, value).stream()
         return [{**doc.to_dict(), "id": doc.id} for doc in docs]
+   
