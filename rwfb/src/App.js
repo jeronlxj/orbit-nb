@@ -6,11 +6,12 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Approve from "./components/Approve";
 import BookForm from "./components/Book/book_form";
-import UserStatusEditor from './components/Staff';
+import UserStatusEditor from './components/Staff/Staff';
 import BookDropdown from "./components/Book/book_dropdown";
 import BookCalendar from "./components/Book/book_calendar";
 import EditProfile from "./components/editProfile";
 import BookEdit from './components/Book/book_edit';
+import StaffHome from "./components/Staff/staffHome";
 import Rome from "./components/poststuff";
 import { LoginContextProvider } from './LoginContext';
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/edit_profile" element={<EditProfile/>} />
         <Route path="/Rome" element={<Rome/>} />
         <Route path="/staff" element={<UserStatusEditor/>} />
+        <Route path="/StaffHome" element={<StaffHome/>} />
         <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>
       </LoginContextProvider>
