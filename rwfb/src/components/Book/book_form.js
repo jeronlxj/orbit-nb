@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserAuthentication } from "../../LoginContext";
 import { Fragment, useEffect, useState } from "react";
 import { ErrorFormModal, SuccessFormModal} from "./succform";
-import axios from 'axios';
+import axios from 'axios'
 
 const BookForm = () => {
 
@@ -50,20 +50,30 @@ const BookForm = () => {
 
           /* FORM VALIDATION */
 
-          // function to check if booking time input has already been taken up
           Bookings.map( (booking) => {
 
           // checks if its the same facility, Location & Date
-          if(booking.Facility === setFacility && booking.Location === setLocation && booking.bookingDate === bookingDate) {
+          if(booking.bookingDate === bookingDate && booking.Facility === setFacility && booking.Location === setLocation) {
             // check to see if the time is taken up or not
+
+            // get the form & each booking's start & end time in terms of minutes from 00:00
+            const formStartTime = Number(startTime.substring(0,2)) * 60 + Number(startTime.substring(3,5));
+            const formEndTime = Number(endTime.substring(0,2)) * 60 + Number(endTime.substring(3,5));
+            const bStartTime = Number(booking.startTime.substring(0,2)) * 60 + Number(booking.startTime.substring(3,5));
+            const bEndTime = Number(booking.endTime.substring(0,2)) * 60 + Number(booking.endTime.substring(3,5));
+          
             if( 
-            Number(booking.startTime.substring(0,2)) >=  Number(startTime.substring(0,2)) && 
-            Number(booking.startTime.substring(3,5)) >= Number(startTime.substring(3,5)) &&  
-            Number(booking.endTime.substring(0,2)) <=  Number(endTime.substring(0,2)) && 
-            Number(booking.endTime.substring(3,5)) <= Number(startTime.substring(3,5)) 
+              // if form start time is in the middle of booking period
+              (bStartTime > formStartTime && bStartTime < formEndTime) ||
+              // if form  start time is equal to either start or end of booking period
+              (bStartTime === formStartTime || bStartTime === formEndTime) ||
+              // if form end time is in the middle of booking period
+              (bEndTime > formStartTime && bStartTime < formEndTime) ||
+              // if form  end time is equal to either start or end of booking period
+              (bEndTime === formStartTime || bEndTime === formEndTime) 
             ) {
               // throw an error if timing has been taken up !
-              throw new Error('Venue has been booked for part of the time already!');
+              throw new Error('Venue has been booked for part of the time!');
             }
           }
 
@@ -103,11 +113,6 @@ const BookForm = () => {
       }
       
   }; 
-
-  // update Bookings
-  // useEffect( () => {
-  // }, [Bookings]);
-  
 
   return (
     <Fragment>
@@ -331,11 +336,10 @@ const BookForm = () => {
         children={
             <>
             <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-            
-            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
-              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-              <span class="sr-only">Warning icon</span>
-            </div>
+              <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <span class="sr-only">Error icon</span>
+              </div>
 
               <div class="px-1 ml-1 text-m font-normal">{errorMess}</div>
 
@@ -361,23 +365,4 @@ const BookForm = () => {
 }
 export default BookForm;
 
-    // // UPDATE ALL THE BOOKINGS
-          // // get the data from the form itself - this is the only way that works
-          // const currentBooking = 
-          // {
-          //   id:6, date:bookingDate, startTime:startTime, endTime:endTime, 
-          //   status: "pending", bookingTitle:e.target.form.bookingTitle.value, facilityId:facId[0],
-          //   // hardcoded
-          //   studentId: 1,
-          // }
-
-          // // push the new Booking and update the state of Booking
-          
-          // setBookings([...Bookings,currentBooking]);
-
-           // // context doesnt know the type so we need to specify
-  // const facId = facilities.filter( (facility) => {
-  //   return facility.locationName === String(setLocation) &&
-  //    facility.Name === String(setFacility)
-  // }).map(x => Number(x.facilityId));
-
+ 
