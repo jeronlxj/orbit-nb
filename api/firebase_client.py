@@ -1,4 +1,4 @@
-import firebase_admin
+import firebase_admin, os
 from firebase_admin import credentials
 from firebase_admin import firestore
 
@@ -12,7 +12,8 @@ class FirebaseClient:
             firebase_admin.get_app()
         except ValueError:
             firebase_admin.initialize_app(
-                credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
@@ -59,7 +60,8 @@ class UserClient:
             firebase_admin.get_app()
         except ValueError:
             firebase_admin.initialize_app(
-                credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
@@ -106,7 +108,8 @@ class LocationClient:
             firebase_admin.get_app()
         except ValueError:
             firebase_admin.initialize_app(
-                credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
@@ -153,7 +156,8 @@ class FacilityClient:
             firebase_admin.get_app()
         except ValueError:
             firebase_admin.initialize_app(
-                credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
+                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
