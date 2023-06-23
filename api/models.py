@@ -1,5 +1,5 @@
 from django.db import models
-from firebase_orm import models as fmodels
+#from firebase_orm import models as fmodels
 
 # Create your models here.
 
