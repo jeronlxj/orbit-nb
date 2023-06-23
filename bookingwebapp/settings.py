@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'rest_framework',
     'corsheaders',
-    'pyrebase',
     'google.cloud',
 ]
 
@@ -143,5 +142,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'rwfb/build/static')
 ]
 
-#FIREBASE_ORM_CERTIFICATE = "C:\Orbital\\firebase_cred_bookingwebapp.json"
-#FIREBASE_ORM_BUCKET_NAME = 'bookingwebapp-8bfa9.appspot.com'
+FIREBASE_ORM_CERTIFICATE = "C:\Orbital\\firebase_cred_bookingwebapp.json"
+FIREBASE_ORM_BUCKET_NAME = 'bookingwebapp-8bfa9.appspot.com'
