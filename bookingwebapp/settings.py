@@ -142,5 +142,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'rwfb/build/static')
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'rwfb/build')
+
 #FIREBASE_ORM_CERTIFICATE = "C:\Orbital\\firebase_cred_bookingwebapp.json"
 #FIREBASE_ORM_BUCKET_NAME = 'bookingwebapp-8bfa9.appspot.com'
