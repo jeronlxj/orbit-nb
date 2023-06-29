@@ -13,7 +13,8 @@ class FirebaseClient:
         except ValueError:
             firebase_admin.initialize_app(
                 #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
-                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
+                credentials.Certificate("/etc/secrets/FIREBASE_ADMIN_CERT")
+                #credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
@@ -61,7 +62,8 @@ class UserClient:
         except ValueError:
             firebase_admin.initialize_app(
                 #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
-                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
+                credentials.Certificate("/etc/secrets/FIREBASE_ADMIN_CERT")
+                #credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
@@ -109,7 +111,8 @@ class LocationClient:
         except ValueError:
             firebase_admin.initialize_app(
                 #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
-                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
+                credentials.Certificate("/etc/secrets/FIREBASE_ADMIN_CERT")
+                #credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
@@ -157,7 +160,8 @@ class FacilityClient:
         except ValueError:
             firebase_admin.initialize_app(
                 #credentials.Certificate(settings.FIREBASE_ADMIN_CERT)
-                credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
+                credentials.Certificate("/etc/secrets/FIREBASE_ADMIN_CERT")
+                #credentials.Certificate(os.environ.get('FIREBASE_ADMIN_CERT'))
             )
 
         self._db = firestore.client()
