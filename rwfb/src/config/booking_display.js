@@ -7,6 +7,9 @@ import Calendar from 'react-calendar'
 import './calenderStyle.css';
 import { useNavigate } from "react-router-dom";
 
+import { db } from "../config/firebase";
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+
 export function ListDisplay(props) {
 
     const name = props.name; 
@@ -32,6 +35,25 @@ export function ListDisplay(props) {
     .then(resp => setbDatas(resp))
     .catch(error => console.log(error));
     }, [])
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const bookingCollectionRef = collection(db, "bookings");
+    useEffect(() => {
+        // async function
+        const getBookings = async () => {
+            // get the collection itself
+            const data = await getDocs(bookingCollectionRef);
+            // take out the data part only & set it
+            setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getBookings();
+    }, [])
+
+    /* END OF HACK WAY */
 
     return(      
 
@@ -98,12 +120,20 @@ export function ListDisplay(props) {
                         </td>
 
                         { <td class="px-6 py-4">
-                        {data?.status == "pending" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                            <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-100 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
+                            <span class="w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>
                             {data?.status}
                         </span>}
                         {data?.status == "approved" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
+                            {data?.status}
+                        </span>}
+                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                            <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                            {data?.status}
+                        </span>}
+                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+                            <span class="w-2 h-2 mr-1 bg-pink-500 rounded-full"></span>
                             {data?.status}
                         </span>}
                         </td> }
@@ -155,6 +185,7 @@ export function SpecificDisplay(props) {
     // handling display of data from backend
     const [bdatas, setbDatas] = useState([]);
     // gets booking data from firebase -> django and sets state for booking data
+
     useEffect(() => {
         fetch('api/bookingsGet', {
         'method' : 'GET',
@@ -165,6 +196,25 @@ export function SpecificDisplay(props) {
     .then(resp => setbDatas(resp))
     .catch(error => console.log(error));
     }, [])
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const bookingCollectionRef = collection(db, "bookings");
+    useEffect(() => {
+        // async function
+        const getBookings = async () => {
+            // get the collection itself
+            const data = await getDocs(bookingCollectionRef);
+            // take out the data part only & set it
+            setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getBookings();
+    }, [])
+
+    /* END OF HACK WAY */
     
     const date = props.date.toDateString().substring(3);
 
@@ -241,12 +291,20 @@ export function SpecificDisplay(props) {
                         </td>
 
                         { <td class="px-6 py-4">
-                        {data?.status == "pending" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                            <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-100 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
+                            <span class="w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>
                             {data?.status}
                         </span>}
                         {data?.status == "approved" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
+                            {data?.status}
+                        </span>}
+                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                            <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                            {data?.status}
+                        </span>}
+                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+                            <span class="w-2 h-2 mr-1 bg-pink-500 rounded-full"></span>
                             {data?.status}
                         </span>}
                         </td> }

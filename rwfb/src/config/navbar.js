@@ -1,18 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { auth } from "../config/firebase";
+import { useEffect, useState } from "react";
 import { UserAuthentication } from '../LoginContext';
+
+import { db } from "./firebase";
+import { collection, getDocs } from 'firebase/firestore';
 
 axios.defaults.withCredentials = true;
 
 export default function Navbar(props) {
 
     // handling user navigation
-    const { logout, students, user } = UserAuthentication();
+    const { logout, user } = UserAuthentication();
     const navigate = useNavigate();
-
-    // remove the @... from the email -> gives the name
-    const name = props.name;
 
     // check if you are in the current page or not
     const currentPage = "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark:text-red-500";
@@ -29,14 +30,47 @@ export default function Navbar(props) {
     // check if current user is an Admin, if so set bool to true
     let checker = "Student";
 
+    // gets user table data from firebase -> django and sets state for booking data
+    const [students, setStudents] = useState([]);
+    useEffect(() => {
+        fetch('api/usersGET', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setStudents(resp))
+    .catch(error => console.log(error));
+    }, []);
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const userCollectionRef = collection(db, "Users");
+    useEffect(() => {
+        // async function
+        const getUsers = async () => {
+            // get the collection itself
+            const data = await getDocs(userCollectionRef);
+            // take out the data part only & set it
+            setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+            console.log(students);
+        }
+
+        // call the async function
+        getUsers();
+    }, [])
+
+    /* END OF HACK WAY */
+
     try {
         students.map( student => {
             // get the current user
-            if(String(student.Name) === name) {
+            if(String(student.Email) === user?.email) {
                 // check if current user is an Admin or not
-                if(String(student.tier) === "Admin") {
+                if(String(student.Tier) === "Admin") {
                     checker = "Admin";
-                } else if(String(student.tier) === "Staff") {
+                } else if(String(student.Tier) === "Staff") {
                     checker = "Staff";
                 }
             }
@@ -77,16 +111,23 @@ export default function Navbar(props) {
                 <a href="/Home" class={checkCurrentPage("Home")}>Home</a>
             </li>
             <li>
-                <a href="/edit_profile" class={checkCurrentPage("edit_profile")}>Profile</a>
+                <a href="/profile" class={checkCurrentPage("profile")}>Profile</a>
             </li>
             <li>
                 <a href="/book_dropdown" class={checkCurrentPage("book_dropdown")}>Book</a>
             </li>
 
             {
-                (checker === "Admin" || checker === "Staff") && 
+                (checker === "Admin") && 
                 <li>
                     <a href="/approve" class={checkCurrentPage("approve")}>Approve</a>
+                </li>
+            }
+
+            {
+                (checker === "Staff") && 
+                <li>
+                    <a href="/staffapprove" class={checkCurrentPage("approve")}>Approve</a>
                 </li>
             }
 
