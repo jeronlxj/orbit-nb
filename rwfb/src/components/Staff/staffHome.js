@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../config/navbar";
 import { useNavigate } from "react-router-dom";
+import { UserAuthentication } from "../../LoginContext";
 
 // svg link
 // https://gist.github.com/leMaur/d2131aa3bddf9c8ccd220df0a5c15bce
@@ -8,9 +9,11 @@ import { useNavigate } from "react-router-dom";
 const StaffHome = () => {
     const navigate = useNavigate();
 
+    const {user} = UserAuthentication();
+
     return (
     <div className='w-full h-[800px] bg-center bg-cover bg-utown'>
-    <Navbar name={"ramanenb"} current={"staff"}/>
+    <Navbar name={user?.email} current={"StaffHome"}/>
         
     <div className="mx-1 flex h-screen items-center justify-center">
         
@@ -29,8 +32,7 @@ const StaffHome = () => {
                 <p class="mt-2 text-sm text-slate-500">Change User status from "Student" to "Admin" and vice versa <br></br> - to edit their approved permissions.</p>
             </div>
 
-            <div
-                class="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-100">
+            <div class="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-100" onClick={() => navigate('/addFacility')}>
                 <span class="p-5 rounded-full bg-orange-500 text-white shadow-lg shadow-orange-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">
@@ -42,7 +44,7 @@ const StaffHome = () => {
             </div>
 
             <div
-                class="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-100">
+                class="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-100" onClick={() => navigate('/editFacility')}>
                 <span class="p-5 rounded-full bg-orange-500 text-white shadow-lg shadow-orange-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.5">

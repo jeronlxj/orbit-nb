@@ -5,6 +5,9 @@ import { UserAuthentication } from '../../LoginContext';
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 
+import { db } from "../../config/firebase";
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+
 axios.defaults.withCredentials = true;
 
 const UserStatusEditor = () => {
@@ -27,20 +30,28 @@ const UserStatusEditor = () => {
     .catch(error => console.log(error));
     }, []);
 
-    // remove the @... from the email 
-    function extractNameFromEmail(email) {
-        return email.split('@')[0];
-    }
-    let name = "temp"
-    try {
-        name = extractNameFromEmail(user?.email);
-    } catch {
-        console.log("failed extraction of name f")
-    }
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const UserCollectionRef = collection(db, "Users");
+    useEffect(() => {
+        // async function
+        const getUser = async () => {
+            // get the collection itself
+            const data = await getDocs(UserCollectionRef);
+            // take out the data part only & set it
+            setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getUser();
+    }, [])
+
+    /* END OF HACK WAY */
 
     return (
         <div className='w-full h-[800px] bg-center bg-cover bg-utown'>
-        <Navbar name={name} current={"StaffHome"}/>
+        <Navbar name={user?.email} current={"StaffHome"}/>
         
         <div className="mx-1 flex h-screen items-center justify-center">
 
@@ -135,6 +146,25 @@ export function SpecificDisplay(props) {
     .catch(error => console.log(error));
     }, []);
 
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const UserCollectionRef = collection(db, "Users");
+    useEffect(() => {
+        // async function
+        const getUser = async () => {
+            // get the collection itself
+            const data = await getDocs(UserCollectionRef);
+            // take out the data part only & set it
+            setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getUser();
+    }, [])
+
+    /* END OF HACK WAY */
+
     // change the tier of students once selected
     const editTier = (studentId) => {
         // filter out that one selected student
@@ -160,6 +190,20 @@ export function SpecificDisplay(props) {
               "Tier" : t[0].Tier,
             })
         });
+
+        /* HACK WAY */
+
+        //update via firebase
+        const userDoc = doc(db, "Users", studentId);
+        const newFields = {
+            Email : t[0].Email,
+            Location : t[0].Location,
+            Name : t[0].Name,
+            Tier : t[0].Tier,
+          };
+        updateDoc(userDoc, newFields);
+
+        /* END OF HACK WAY */        
 
         // to ensure changes are reflected immediately on the page by changing state
         const c = students.map( obj => {
