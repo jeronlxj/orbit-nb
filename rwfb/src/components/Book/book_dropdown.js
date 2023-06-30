@@ -5,11 +5,14 @@ import { UserAuthentication } from "../../LoginContext"
 import Navbar from "../../config/navbar";
 import { useNavigate } from "react-router-dom";
 
+import { db } from "../../config/firebase";
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+
 export default function BookDropdown() {
 
     // setting of locations & facilities
     const { setLocation, setSelectedLocation, setFacility, setSelectedFacility,
-        user, extractNameFromEmail} = UserAuthentication();
+        user} = UserAuthentication();
 
     // gets Location data from firebase -> django and sets state for booking data
     const [locations, setLocations] = useState([]);
@@ -23,6 +26,25 @@ export default function BookDropdown() {
     .then(resp => setLocations(resp))
     .catch(error => console.log(error));
     }, [])
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const locationCollectionRef = collection(db, "Locations");
+    useEffect(() => {
+        // async function
+        const getLocations = async () => {
+            // get the collection itself
+            const data = await getDocs(locationCollectionRef);
+            // take out the data part only & set it
+            setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getLocations();
+    }, [])
+
+    /* END OF HACK WAY */
 
     //button click function 
     const navigate = useNavigate();
@@ -39,7 +61,7 @@ export default function BookDropdown() {
 
     return (
         <>
-        <Navbar current={"book_dropdown"}/>
+        <Navbar name={user?.email} current={"book_dropdown"}/>
         <div className="w-full h-screen bg-center bg-cover bg-utown flex h-screen items-center justify-center">
             <SelectLocation locations={locations} setLocation={setLocation} setSelectedLocation={setSelectedLocation}/>
             <SelectFacility setFacility={setFacility} setSelectedFacility={setSelectedFacility} setLocation={setLocation}/>
@@ -148,6 +170,25 @@ const SelectLocation = (props) => {
     .then(resp => setfacilities(resp))
     .catch(error => console.log(error));
     }, [])
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const facilityCollectionRef = collection(db, "Facilities");
+    useEffect(() => {
+        // async function
+        const getF = async () => {
+            // get the collection itself
+            const data = await getDocs(facilityCollectionRef);
+            // take out the data part only & set it
+            setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getF();
+    }, [])
+
+    /* END OF HACK WAY */
   
     return (
       <div className="px-1 flex h-screen items-center justify-center">

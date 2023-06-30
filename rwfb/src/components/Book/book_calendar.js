@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { UserAuthentication } from "../../LoginContext";
 import moment from "moment";
 
+import { db } from "../../config/firebase";
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+
 const locales = {
     "en-US" : require("date-fns/locale/en-US")
 }
@@ -31,7 +34,7 @@ const events = [];
 
 export default function BookCalendar() {
     // adding states
-    const { setLocation, setFacility, user, extractNameFromEmail } = UserAuthentication();
+    const { setLocation, setFacility, user } = UserAuthentication();
 
     // gets booking data from firebase -> django and sets state for booking data
     const [bookings, setBookings] = useState([]);
@@ -46,6 +49,25 @@ export default function BookCalendar() {
     .catch(error => console.log(error));
     }, []);
 
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const bookingCollectionRef = collection(db, "bookings");
+    useEffect(() => {
+        // async function
+        const getBookings = async () => {
+            // get the collection itself
+            const data = await getDocs(bookingCollectionRef);
+            // take out the data part only & set it
+            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getBookings();
+    }, [])
+
+    /* END OF HACK WAY */
+
     // map all bookings and add those that match that location & facility
     bookings.map((booking) => {
     
@@ -59,7 +81,7 @@ export default function BookCalendar() {
                 loc: booking.Location
             },
         }
-        if(temp.data.fac === setFacility && temp.data.loc === setLocation) {
+        if(temp.data.fac === setFacility && temp.data.loc === setLocation && temp.data.type !== "rejected") {
                 events.push(temp);
         }
     });
@@ -104,9 +126,15 @@ export default function BookCalendar() {
                             {props.title}
                         </div>
                     )
+                case "reviewed":
+                    return (
+                        <div style={{ border:"1px", background: "pink", color: "white", height:'100%'}}>
+                            {props.title}
+                        </div>
+                    )
                 default:
                     return (
-                        <div style={{ border:"1px", background: "brown", color: "white", height:'100%'}}>
+                        <div style={{ border:"1px", background: "blue", color: "white", height:'100%'}}>
                             {props.title}
                         </div>
                 )
@@ -117,7 +145,7 @@ export default function BookCalendar() {
     return (
         <div className='w-full h-screen bg-center bg-cover bg-utown'>
         <div>
-            <Navbar name={extractNameFromEmail(user?.email)} current={"book_dropdown"}/>
+            <Navbar name={user?.email} current={"book_dropdown"}/>
         </div>
         <div class="flex items-center justify-center">
             <Calendar localizer={localizer} events={events} 
@@ -138,25 +166,3 @@ export default function BookCalendar() {
     )
 }
 
-/* context doesnt know the what facility to take data from so we need to specify
-    const facId = facilities.filter( (facility) => {
-        return facility.locationName === String(setLocation) &&
-         facility.Name === String(setFacility)
-    }).map(x => Number(x.facilityId));
-
-    // facId[0] as facId is given as an array 
-    
-
-    // check if booking is already in events or not, NO REPEATS
-    // x is basically the id of the array
-    // so to access the event use events[x]
-    function containsBooking(temp, events) {
-        var x;
-        for (x in events) {
-            if (events[x].title === temp.title) {
-                return true;
-            }
-        }
-        return false;
-    }
-    */

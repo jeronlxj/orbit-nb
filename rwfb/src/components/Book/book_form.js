@@ -5,14 +5,14 @@ import { Fragment, useEffect, useState } from "react";
 import { ErrorFormModal, SuccessFormModal} from "./succform";
 import axios from 'axios'
 
+import { db } from "../../config/firebase";
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+
 const BookForm = () => {
 
   /* choose the correct facility & its id
   will be automatically set for them later, cannot change here */
-  const { setLocation, setFacility,
-    extractNameFromEmail, user } = UserAuthentication();
-
-  const hisName = extractNameFromEmail(user?.email)
+  const { setLocation, setFacility, user } = UserAuthentication();
 
   // for successFormModal Modal handling
   const [showModal, setShowModal] = useState(false);
@@ -43,6 +43,25 @@ const BookForm = () => {
   .catch(error => console.log(error));
   }, []);
 
+  /* HACK WAY */
+
+  // get the collection ref itself
+  const bookingCollectionRef = collection(db, "bookings");
+  useEffect(() => {
+      // async function
+      const getBookings = async () => {
+          // get the collection itself
+          const data = await getDocs(bookingCollectionRef);
+          // take out the data part only & set it
+          setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+      }
+
+      // call the async function
+      getBookings();
+  }, [])
+
+  /* END OF HACK WAY */
+
   const submitForm = (e) => {
 
       try {
@@ -53,7 +72,8 @@ const BookForm = () => {
           Bookings.map( (booking) => {
 
           // checks if its the same facility, Location & Date
-          if(booking.bookingDate === bookingDate && booking.Facility === setFacility && booking.Location === setLocation) {
+          if(booking.bookingDate === bookingDate && booking.Facility === setFacility &&
+             booking.Location === setLocation && booking.status !== "rejected") {
             // check to see if the time is taken up or not
 
             // get the form & each booking's start & end time in terms of minutes from 00:00
@@ -65,12 +85,12 @@ const BookForm = () => {
             if( 
               // if form start time is in the middle of booking period
               (bStartTime > formStartTime && bStartTime < formEndTime) ||
-              // if form  start time is equal to either start or end of booking period
-              (bStartTime === formStartTime || bStartTime === formEndTime) ||
+              // if form  start time is equal to start of booking period
+              (bStartTime === formStartTime ) ||
               // if form end time is in the middle of booking period
               (bEndTime > formStartTime && bStartTime < formEndTime) ||
-              // if form  end time is equal to either start or end of booking period
-              (bEndTime === formStartTime || bEndTime === formEndTime) 
+              // if form  end time is equal to end of booking period
+              (bEndTime === formEndTime ) 
             ) {
               // throw an error if timing has been taken up !
               throw new Error('Venue has been booked for part of the time!');
@@ -92,7 +112,7 @@ const BookForm = () => {
             body: JSON.stringify({
               "Facility": setFacility,
               "Location": setLocation,
-              "Name": hisName,
+              "Name": e.target.form.fName.value,
               "UserEmail": user?.email,
               "bookingDate": bookingDate,
               "bookingTitle": e.target.form.bookingTitle.value,
@@ -101,6 +121,20 @@ const BookForm = () => {
               "status": "pending",        
             })
             });
+
+            // post using firebase
+            const bookCollectionRef = collection(db, "bookings");
+            addDoc(bookCollectionRef, {
+              Facility: setFacility,
+              Location: setLocation,
+              Name: e.target.form.fName.value,
+              UserEmail: user?.email,
+              bookingDate: bookingDate,
+              bookingTitle: e.target.form.bookingTitle.value,
+              startTime: startTime,
+              endTime: endTime,
+              status: "pending",        
+            })
 
           setShowModal(true);
           
@@ -119,7 +153,7 @@ const BookForm = () => {
 
     <div className='w-full h-[800px] bg-center bg-cover bg-utown'>
     <div className='max-w-[600px] mx-auto my-16 p-4'>
-      <Navbar name={hisName} current={"book_dropdown"} />
+      <Navbar name={user?.email} current={"book_dropdown"} />
 
       <div class="flex items-center justify-center p-12">
       <form>        
