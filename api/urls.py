@@ -22,4 +22,5 @@ urlpatterns = [
 
     path('facilityGet', FacilityViewSet.as_view({'get': 'list'})),
     path('facilityPOST', FacilityViewSet.as_view({'post': 'create'})),
+    path('facilityDeleteById/<pk>', FacilityViewSet.as_view({'delete': 'destroy'})),
 ]
