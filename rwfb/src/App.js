@@ -9,11 +9,16 @@ import BookForm from "./components/Book/book_form";
 import UserStatusEditor from './components/Staff/Staff';
 import BookDropdown from "./components/Book/book_dropdown";
 import BookCalendar from "./components/Book/book_calendar";
-import EditProfile from "./components/editProfile";
+import Profile from "./components/profile/Profile";
+import EditPasword from "./components/profile/EditPassword";
+import EditDetails from './components/profile/EditDetails';
 import BookEdit from './components/Book/book_edit';
 import StaffHome from "./components/Staff/staffHome";
+import AddFacility from "./components/Staff/addFacility";
+import EditFacility from './components/Staff/editFacility';
 import Rome from "./components/poststuff";
 import { LoginContextProvider } from './LoginContext';
+import StaffApprove from './components/staffApprove';
 
 function App() {
 
@@ -29,10 +34,15 @@ function App() {
         <Route path="/book_dropdown" element={<BookDropdown/>} />
         <Route path="/book_edit" element={<BookEdit/>} />
         <Route path="/approve" element={<Approve/>} />
-        <Route path="/edit_profile" element={<EditProfile/>} />
+        <Route path="/staffapprove" element={<StaffApprove/>} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/editpassword" element={<EditPasword/>} />
+        <Route path="/editdetails" element={<EditDetails/>} />
         <Route path="/Rome" element={<Rome/>} />
         <Route path="/staff" element={<UserStatusEditor/>} />
         <Route path="/StaffHome" element={<StaffHome/>} />
+        <Route path="/addFacility" element={<AddFacility/>} />
+        <Route path="/editFacility" element={<EditFacility/>} />
         <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>
       </LoginContextProvider>
