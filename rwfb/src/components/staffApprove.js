@@ -8,7 +8,7 @@ import { tailw } from "../config/styles";
 import { db } from "../config/firebase";
 import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
 
-const Approve = () => {
+const StaffApprove = () => {
 
     // handling user navigation
     const { user,  forceUpdate} = UserAuthentication();
@@ -21,52 +21,141 @@ const Approve = () => {
         return data?.status === bookingStatus;
     }
 
-    /* GETTING THE ADMIN"S LOCATION capt admin -> can only access capt bookings */ 
-    const [currentUser,setCurrentUser] = useState([]);
-    let userloc = "";
+    // filter datas by users - show user booking
+    function filterByLocation(data) {
+        return data?.Location === location;
+    }
+
+    /* TO ALLOW FILTERING BY LOCATION */
+
+    const [location, setLocation] = useState("");
+    // get location function
+    const [listLocations, setListLocations] = useState([]);
     useEffect(() => {
-        fetch('api/usersGET', {
+        fetch('api/locationsGet', {
         'method' : 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(resp => resp.json())
-    .then(resp => setCurrentUser(resp))
+    .then(resp => setListLocations(resp))
     .catch(error => console.log(error));
-    }, []);
+    }, [])
 
     /* HACK WAY */
 
     // get the collection ref itself
-    const userCollectionRef = collection(db, "Users");
+    const locationCollectionRef = collection(db, "Locations");
     useEffect(() => {
         // async function
-        const getUsers = async () => {
+        const getLocations = async () => {
             // get the collection itself
-            const data = await getDocs(userCollectionRef);
+            const data = await getDocs(locationCollectionRef);
             // take out the data part only & set it
-            setCurrentUser(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+            setListLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
         }
 
         // call the async function
-        getUsers();
+        getLocations();
     }, [])
 
     /* END OF HACK WAY */
 
-    function filterByUser(data) {
-        return data?.Email === user?.email;
+    // set Location function
+    function handleSelect(e) {
+        setLocation(e.target.value);
     }
 
-    try {
-        currentUser?.filter(data => filterByUser(data))?.map(data => {
-            userloc = data?.Location
-        })
-    } catch(e) {
-        alert(e);
+    // if no location is selected, do not filter else filter the exact location
+    function locationfilterer(data) {
+        if(location === "") {
+            return true;
+        } else {
+            if(data.Location === location) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
-    /* END OF GETTING ADMIN'S LOCATION */
+    /* END OF FILTERING BY LOCATION */
+
+    /* TO ALLOW FILTERING BY Facility */
+
+    const [fac, setFac] = useState("");
+    // get facility function
+    const [facilities, setfacilities] = useState([]);
+    useEffect(() => {
+        fetch('api/facilityGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setfacilities(resp))
+    .catch(error => console.log(error));
+    }, [])
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const facilityCollectionRef = collection(db, "Facilities");
+    useEffect(() => {
+        // async function
+        const getF = async () => {
+            // get the collection itself
+            const data = await getDocs(facilityCollectionRef);
+            // take out the data part only & set it
+            setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getF();
+    }, [])
+
+    /* END OF HACK WAY */
+
+    // set facility function
+    function handlefacSelect(e) {
+        setFac(e.target.value);
+    }
+
+    // if no location is selected, do not filter the bookings else filter the exact facility
+    function facilityfilterer(data) {
+        if(location === "") {
+            return true;
+        } else {
+            if(data.Location === location) {
+                // if same location, check is the booking in the same facility as selected
+                if(fac === "") {
+                    return true;
+                } else if(data.Facility === fac) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+
+    // facility filtering function for the facility dropdown
+    // filters facilities, the above filters bookings
+    function dropFacilityFilterer(data) {
+        if(location === "") {
+            return false;
+        } else {
+            if(data.Location === location) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /* END OF FILTERING BY facility */
 
     // gets booking data from firebase -> django and sets state for booking data
     const [Bookings, setBookings] = useState([]);
@@ -100,7 +189,7 @@ const Approve = () => {
 
     /* END OF HACK WAY */
 
-    function filterer(newStat) {
+    function statfilterer(newStat) {
         setbookingStatus(newStat);
 
         fetch('api/bookingsGet', {
@@ -115,7 +204,6 @@ const Approve = () => {
         /* HACK WAY */
 
         // get the collection ref itself
-        const bookingCollectionRef = collection(db, "bookings");
         const getBookings = async () => {
             // get the collection itself
             const data = await getDocs(bookingCollectionRef);
@@ -179,66 +267,13 @@ const Approve = () => {
             startTime: c[0].startTime,
             endTime: c[0].endTime,
             status: newStat,
-        };
+          };
         updateDoc(bookingDoc, newFields);
 
         /* END OF HACK WAY */
 
+
     }
-
-    /* TO ALLOW FILTERING BY Facility */
-
-    const [fac, setFac] = useState("");
-    // get facility function
-    const [facilities, setfacilities] = useState([]);
-    useEffect(() => {
-        fetch('api/facilityGet', {
-        'method' : 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(resp => resp.json())
-    .then(resp => setfacilities(resp))
-    .catch(error => console.log(error));
-    }, [])
-
-    /* HACK WAY */
-
-    // get the collection ref itself
-    const facilityCollectionRef = collection(db, "Facilities");
-    useEffect(() => {
-        // async function
-        const getFacilities = async () => {
-            // get the collection itself
-            const data = await getDocs(facilityCollectionRef);
-            // take out the data part only & set it
-            setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
-
-        // call the async function
-        getFacilities();
-    }, [])
-
-    /* END OF HACK WAY */
-    
-    // set facility function
-    function handlefacSelect(e) {
-        setFac(e.target.value);
-    }
-    
-    function facilityfilterer(data) {
-        // if no facility is selected, filter by location only(done above)
-        if (fac === "") {
-            return true;
-        } // if faciity is selected, filter by facility as well
-        else if(data.Facility === fac) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /* END OF FILTERING BY facility */
 
     const [datechecker,setdateChecker] = useState(false);
     const [facilitychecker, setfacilityChecker] = useState(false);
@@ -274,7 +309,7 @@ const Approve = () => {
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
             <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                {userloc} Bookings
+                Pending Bookings
                 <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Bookings to Review </p>
 
                 <p class="mt-1 text-sm font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">Filter by Booking Status </p>
@@ -282,23 +317,30 @@ const Approve = () => {
                 <ul class="items-center w-full text-sm font-medium border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
-                            <input type="radio" name="list-radio" onChange={() => filterer("pending")}
+                            <input type="radio" name="list-radio" onChange={() => statfilterer("pending")}
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
                             <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">pending</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
-                            <input type="radio" name="list-radio" onChange={() => filterer("reviewed")}
+                            <input type="radio" name="list-radio" onChange={() => statfilterer("reviewed")}
                             class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 focus:ring-pink-500 dark:focus:ring-pink-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
                             <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">reviewed</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
-                            <input type="radio" name="list-radio" onChange={() => filterer("rejected")}
+                            <input type="radio" name="list-radio" onChange={() => statfilterer("rejected")}
                             class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-red-800 focus:ring-2 dark:bg-red-700 dark:border-red-600"/>
                             <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">rejected</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input type="radio" name="list-radio" onChange={() => statfilterer("approved")}
+                            class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-green-800 focus:ring-2 dark:bg-green-700 dark:border-green-600"/>
+                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">approved</label>
                         </div>
                     </li>
                 </ul>
@@ -309,7 +351,7 @@ const Approve = () => {
             <caption>
                 <ul class="p-2 space-y-1 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
                 <li>
-                    <div class="flex rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                     <label class="relative inline-flex items-center w-full cursor-pointer">
                         <input onClick={dateClickHandler} type="checkbox" value="" class="sr-only peer"/>
                         <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-red-500"></div>
@@ -320,10 +362,24 @@ const Approve = () => {
 
                 <li>
                     <div class="flex rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <label for="cars" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Location:</label>
+                        <select onChange={handleSelect} name="cars" id="cars" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        <option class="text-sm text-gray-900 hover:bg-red-800" >Select Location</option>
+                        {listLocations?.map(loc => {
+                            return (
+                                <option class="text-sm text-gray-900 hover:bg-red-800" value={loc?.Name}>{loc?.Name}</option>
+                            )
+                        })}
+                        </select>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="flex rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <label for="cars" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Facility:</label>
                         <select onChange={handlefacSelect} name="cars" id="cars" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                         <option class="text-sm text-gray-900 hover:bg-red-800" >Select Facility</option>
-                        {facilities?.filter(data => data.Location === userloc)?.map(f => {
+                        {facilities?.filter(data => dropFacilityFilterer(data))?.map(f => {
                             return (
                                 <option class="text-sm text-gray-900 hover:bg-red-800" value={f?.Name}>{f?.Name}</option>
                             )
@@ -359,9 +415,10 @@ const Approve = () => {
 
             <tbody>
                 {
-                    Bookings?.filter(data => data.Location === userloc)
                     // filter by status
-                    ?.filter(data => filterByPending(data))
+                    Bookings?.filter(data => filterByPending(data))
+                    // filter by location
+                    ?.filter(data => locationfilterer(data))
                     // filter by facility
                     ?.filter(data => facilityfilterer(data))
                     ?.map(data => {
@@ -400,14 +457,16 @@ const Approve = () => {
                         </td>
 
                         <td class="px-6 py-4 text-right">
-                            { // if user is a Admin and booking status is rejected or pending -> give option to review 
-                            (bookingStatus === "rejected" || bookingStatus === "pending") &&
+
+                            { // if user is a Staff and booking status is rejected or pending -> give option to approve
+                             (bookingStatus === "rejected" || bookingStatus === "pending" || bookingStatus === "reviewed") &&
                             <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:dark:text-blue-300"
-                            onClick={() => onReview(data?.id,"reviewed")}>
-                                Review
+                            onClick={() => onReview(data?.id,"approved")}>
+                                Approve
                             </button>
                             }
-                            { (bookingStatus === "reviewed") &&
+                            { // if user is a Staff and booking status is rejected or pending -> give option to approve
+                             (bookingStatus === "approved") &&
                             <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:dark:text-blue-300"
                             onClick={() => onReview(data?.id,"rejected")}>
                                 Reject
@@ -417,7 +476,7 @@ const Approve = () => {
                         </td>
 
                         <td class="px-6 py-4 text-right">
-                            { (bookingStatus === "pending") &&
+                            { (bookingStatus === "pending" || bookingStatus === "reviewed") &&
                             <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:dark:text-blue-300"
                             onClick={() => onReview(data?.id,"rejected")}>
                                 Reject
@@ -440,7 +499,5 @@ const Approve = () => {
     )
 }
 
-export default Approve;
-
-
+export default StaffApprove;
 
