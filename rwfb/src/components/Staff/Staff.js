@@ -188,6 +188,7 @@ export function SpecificDisplay(props) {
               "Location" : t[0].Location,
               "Name" : t[0].Name,
               "Tier" : t[0].Tier,
+              "photoURL" : t[0].photoURL,
             })
         });
 
@@ -200,6 +201,7 @@ export function SpecificDisplay(props) {
             Location : t[0].Location,
             Name : t[0].Name,
             Tier : t[0].Tier,
+            photoURL: t[0].photoURL,
           };
         updateDoc(userDoc, newFields);
 
