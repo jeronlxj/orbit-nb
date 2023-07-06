@@ -8,7 +8,7 @@ import { ErrorFormModal } from "./Book/succform";
 import  {tailw} from "../config/styles";
 
 import { db } from "../config/firebase";
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
 
 // Authentication Component
 const Signup = () => {
@@ -25,6 +25,11 @@ const Signup = () => {
 
     const navigate = useNavigate();
     const { createUser } = UserAuthentication();
+
+    // to get the random number
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+      }
 
     // createUser function,
     const signup = async (e) => {
@@ -52,8 +57,11 @@ const Signup = () => {
                     "Email": email,
                     "Location": location,
                     "Name": email.split('@')[0],
-                    "Tier": "Student"
+                    "Tier": "Student",
+                    "photoURL": katto[randomIntFromInterval(0,11)],
                 })
+
+               setDoc(doc(db, "userChats", email.split('@')[0]), {});
 
             navigate('/');
         } catch (e) {
@@ -146,7 +154,8 @@ const Signup = () => {
             <>
             <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
               <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
-              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" 
+              xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
               <span class="sr-only">Error icon</span>
               </div>
 
@@ -162,3 +171,18 @@ const Signup = () => {
 };
 
 export default Signup;
+
+const katto = [
+    "https://th.bing.com/th/id/OIP._UeSLxfriKz_pHo8JVJL5QHaEo?w=253&h=180&c=7&r=0&o=5&pid=1.7",
+    "https://th.bing.com/th/id/OIP.gJJnGwBiPTlmuSF9aSkXuQHaFj?w=248&h=186&c=7&r=0&o=5&pid=1.7",
+    "https://th.bing.com/th/id/OIP.iw9Tia99h9XBTgeScZrDCwHaHa?w=185&h=186&c=7&r=0&o=5&pid=1.7",
+    "https://i.redd.it/h1s3iirlrba11.jpg",
+    "https://cdn.pixabay.com/photo/2016/06/24/15/48/pattern-1477380_640.png",
+    "https://cdn.pixabay.com/photo/2017/11/09/21/41/cat-2934720_640.jpg",
+    "https://cdn.pixabay.com/photo/2020/03/08/11/21/cat-4912211_640.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/25/11/32/cat-3038243_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/07/22/15/21/cat-2528935_640.jpg",
+    "https://cdn.pixabay.com/photo/2019/04/02/16/11/cat-4098058_640.jpg",
+    "https://cdn.pixabay.com/photo/2017/01/19/12/05/cat-1992140_640.jpg",
+    "https://cdn.pixabay.com/photo/2017/08/03/00/55/cat-2574385_640.jpg",
+];
