@@ -37,6 +37,7 @@ urlpatterns = [
     path('Rome',index),
     path('staff',index),
     path('StaffHome',index),
+    path('chatHome', index),
     path('addFacility',index),
     path('editFacility',index),
     path('api/',include('api.urls')),
