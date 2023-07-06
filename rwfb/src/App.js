@@ -18,13 +18,16 @@ import AddFacility from "./components/Staff/addFacility";
 import EditFacility from './components/Staff/editFacility';
 import Rome from "./components/poststuff";
 import { LoginContextProvider } from './LoginContext';
+import { ChatContextProvider } from './components/Chat/ChatContext';
 import StaffApprove from './components/staffApprove';
+import ChatHome from "./components/Chat/ChatHome";
 
 function App() {
 
   return (
     <div className="App">    
       <LoginContextProvider>
+      <ChatContextProvider>
       <Routes>
         <Route exact path="/" element={<Signin/>} />
         <Route path="/signup" element={<Signup/>} />
@@ -43,13 +46,14 @@ function App() {
         <Route path="/StaffHome" element={<StaffHome/>} />
         <Route path="/addFacility" element={<AddFacility/>} />
         <Route path="/editFacility" element={<EditFacility/>} />
+        <Route path="/chatHome" element={<ChatHome/>} />
         <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>
+      </ChatContextProvider>
       </LoginContextProvider>
     </div>
   );
 }
 
 export default App;
-
 
