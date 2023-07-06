@@ -140,6 +140,7 @@ const EditDetails = () => {
                         "Location" : location,
                         "Name" : data.Name,
                         "Tier" : data.Tier,
+                        "photoURL" : data.photoURL,
                         })
                     });
 
@@ -152,6 +153,7 @@ const EditDetails = () => {
                         Location : location,
                         Name : data.Name,
                         Tier : data.Tier,
+                        photoURL: data.photoURL
                         };
                     updateDoc(userDoc, newFields);
 
