@@ -14,20 +14,8 @@ export default function BookDropdown() {
     const { setLocation, setSelectedLocation, setFacility, setSelectedFacility,
         user} = UserAuthentication();
 
-    // gets Location data from firebase -> django and sets state for booking data
-    const [locations, setLocations] = useState([]);
-    useEffect(() => {
-        fetch('api/locationsGet', {
-        'method' : 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(resp => resp.json())
-    .then(resp => setLocations(resp))
-    .catch(error => console.log(error));
-    }, [])
-
     /* HACK WAY */
+    const [locations, setLocations] = useState([]);
 
     // get the collection ref itself
     const locationCollectionRef = collection(db, "Locations");
@@ -45,6 +33,19 @@ export default function BookDropdown() {
     }, [])
 
     /* END OF HACK WAY */
+
+    // gets Location data from firebase -> django and sets state for booking data
+    useEffect(() => {
+        fetch('api/locationsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setLocations(resp))
+    .catch(error => console.log(error));
+    }, [])
+
 
     //button click function 
     const navigate = useNavigate();
