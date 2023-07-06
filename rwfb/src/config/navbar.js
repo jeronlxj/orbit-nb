@@ -116,6 +116,9 @@ export default function Navbar(props) {
             <li>
                 <a href="/book_dropdown" class={checkCurrentPage("book_dropdown")}>Book</a>
             </li>
+            <li>
+                <a href="/chatHome" class={checkCurrentPage("chatHome")}>Chat</a>
+            </li>
 
             {
                 (checker === "Admin") && 
