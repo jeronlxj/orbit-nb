@@ -7,6 +7,7 @@ import { tailw } from "../config/styles";
 
 import { db } from "../config/firebase";
 import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+import emailjs from "emailjs-com";
 
 const StaffApprove = () => {
 
@@ -271,6 +272,34 @@ const StaffApprove = () => {
         updateDoc(bookingDoc, newFields);
 
         /* END OF HACK WAY */
+
+        /* email service */
+
+        var data = {
+            service_id: 'service_hlzn1xg',
+            template_id: 'template_5rtb4zp',
+            user_id: 'nd-f7LGc0b4WtqZpz',
+            template_params: {
+                'location':String(c[0].Location),
+                'Facility':String(c[0].Facility),
+                'bookingDate':String(c[0].bookingDate),
+                'startTime': String(c[0].startTime),
+                'endTime': String(c[0].endTime),
+                'status':String(newStat),
+                'receiver':String(c[0].UserEmail),
+                'sender':String(user?.email),
+                'username': String(c[0].Name),
+                'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...'
+            }
+        };
+
+        fetch(`https://api.emailjs.com/api/v1.0/email/send`, {
+            'method' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(err => console.log(err));
+
+        /* end of email service */
 
 
     }
