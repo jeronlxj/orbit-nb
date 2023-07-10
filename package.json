@@ -1,10 +1,13 @@
 {
   "dependencies": {
     "date-fns": "^2.30.0",
+    "emailjs": "^4.0.2",
     "package.json": "^2.0.1",
     "react-big-calendar": "^1.8.1",
     "react-calendar": "^4.2.1",
     "react-date-picker": "^10.2.0",
+    "sass": "^1.63.6",
+    "uuid": "^9.0.0",
     "whitenoise": "^0.0.1"
   }
 }
