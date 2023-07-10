@@ -21,6 +21,7 @@ import { LoginContextProvider } from './LoginContext';
 import { ChatContextProvider } from './components/Chat/ChatContext';
 import StaffApprove from './components/staffApprove';
 import ChatHome from "./components/Chat/ChatHome";
+import Dashboard from "./components/Dashboard";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
         <Route path="/addFacility" element={<AddFacility/>} />
         <Route path="/editFacility" element={<EditFacility/>} />
         <Route path="/chatHome" element={<ChatHome/>} />
+        <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>
       </ChatContextProvider>

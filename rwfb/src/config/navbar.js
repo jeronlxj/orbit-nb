@@ -111,6 +111,9 @@ export default function Navbar(props) {
                 <a href="/Home" class={checkCurrentPage("Home")}>Home</a>
             </li>
             <li>
+                <a href="/dashboard" class={checkCurrentPage("Dashboard")}>Dashboard</a>
+            </li>
+            <li>
                 <a href="/profile" class={checkCurrentPage("profile")}>Profile</a>
             </li>
             <li>

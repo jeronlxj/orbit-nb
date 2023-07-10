@@ -40,6 +40,7 @@ urlpatterns = [
     path('chatHome', index),
     path('addFacility',index),
     path('editFacility',index),
+    path('dashboard',index),
     path('api/',include('api.urls')),
     path('test',test),
 ]
