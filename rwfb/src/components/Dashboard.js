@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserAuthentication } from '../LoginContext';
 import Navbar from "../config/navbar";
 import { Stacked, Pie, SparkLine } from '../components';
@@ -7,9 +7,58 @@ import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { HiOutlineRefresh } from 'react-icons/hi';
+import { db } from "../config/firebase";
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
 
 const Dashboard = () => {
-const { user } = UserAuthentication();
+    const { user } = UserAuthentication();
+
+    // handling display of data from backend
+    const [bdatas, setbDatas] = useState([]);
+    // gets booking data from firebase -> django and sets state for booking data
+    useEffect(() => {
+        fetch('api/bookingsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setbDatas(resp))
+    .catch(error => console.log(error));
+    }, [])
+
+    /* HACK WAY */
+
+    // get the collection ref itself
+    const bookingCollectionRef = collection(db, "bookings");
+    useEffect(() => {
+        // async function
+        const getBookings = async () => {
+            // get the collection itself
+            const data = await getDocs(bookingCollectionRef);
+            // take out the data part only & set it
+            setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        }
+
+        // call the async function
+        getBookings();
+    }, [])
+
+    /* END OF HACK WAY */
+
+    function filterByMonth(data, month) {
+        // get the month of the booking
+        const dataMonth = new Date(data.bookingDate).getMonth();
+        // if it matches required month return true
+        if(dataMonth === month) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    
+
   return (
     <div className='w-full h-[1200px] bg-center bg-cover bg-utown'>
     <div className='max-w-[800px] mx-auto my-16 p-4'>
@@ -99,9 +148,10 @@ const { user } = UserAuthentication();
                             <p className="text-gray-500 mt-1">Approved</p>
                         </div>
                         <div className="mt-5">
+                            <h1></h1>
                             <SparkLine currentColor="blue" id="line-sparkline" type="Line" height="80px" width="250px" data={[
-    { x: 1, y: 2 },
-    { x: 2, y: 6 },
+    { x: 1, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length },
+    { x: 2, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length - 1 },
     { x: 3, y: 8 },
     { x: 4, y: 5 },
     { x: 5, y: 10 },
