@@ -24,6 +24,7 @@ module.exports = {
       backgroundImage: (theme) => ({
         capt: "url('./capt-night-image.jpg')",
         utown: "url('./utown-night-image.jpg')",
+        erc: "url('./erc-wide.jpg')",
       }),
     },
   },
