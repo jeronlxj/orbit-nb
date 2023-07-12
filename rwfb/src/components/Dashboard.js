@@ -16,7 +16,7 @@ const { user } = UserAuthentication();
       <Navbar name={user?.email} current={"Dashboard"}/>
       <div className="mt-3">
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-200 p-8 pt-9 m-3 bg-erc bg-no-repeat bg-cover bg-center">
+            <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-1920 p-8 pt-9 m-3 bg-erc bg-no-repeat bg-cover bg-center">
                 <div className="flex justify-between items-center">
                     <div>
                         <p className="font-bold text-gray-400">Total Bookings</p>
@@ -36,10 +36,20 @@ const { user } = UserAuthentication();
             </div>
             <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
                 <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">
-                    <button type="button" style={{ color:'rgb(0, 194, 146)', backgroundColor: 'rgb(235, 250, 242)'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><FiBarChart/></button>
+                    <button type="button" style={{ color:'#03C9D7', backgroundColor: '#E5FAFB'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><BsBoxSeam/></button>
                     <p className="mt-3">
                         <span className="text-lg font-semibold">6</span>
                         <span className={`text-sm text-green-600 ml-2`}>+33%</span> 
+                    </p>
+                    <p className="text-sm text-gray-400 mt-1">Locations</p>
+                </div>
+            </div>
+            <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
+                <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">
+                    <button type="button" style={{ color:'rgb(0, 194, 146)', backgroundColor: 'rgb(235, 250, 242)'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><FiBarChart/></button>
+                    <p className="mt-3">
+                        <span className="text-lg font-semibold">14</span>
+                        <span className={`text-sm text-green-600 ml-2`}>+10%</span> 
                     </p>
                     <p className="text-sm text-gray-400 mt-1">Facilities</p>
                 </div>
