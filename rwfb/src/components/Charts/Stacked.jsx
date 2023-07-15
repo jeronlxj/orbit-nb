@@ -3,15 +3,12 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Leg
 
 const Stacked = ({width, height}) => {
   return (
-    <>
-    <h1>yooooo</h1>
     <ChartComponent width={width} height={height} id="charts" chartArea={{border:{width:0}}} tooltip={{enable:true}} LegendSettings={{background:'white'}}>
       <Inject services={[Legend, Category, StackingColumnSeries, Tooltip]} />
       {/* <SeriesCollectionDirective>
 
       </SeriesCollectionDirective> */}
     </ChartComponent>
-    </>
   )
 }
 
