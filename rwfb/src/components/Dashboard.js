@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { UserAuthentication } from '../LoginContext';
 import Navbar from "../config/navbar";
-import { Stacked, Pie, SparkLine } from '../components';
+import { Stacked, Pie, SparkLine, LineChart } from '../components';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
@@ -55,20 +55,7 @@ const Dashboard = () => {
         } else {
             return false;
         }
-    }
-    
-    function getMonthName(monthNumber) {
-        const months = [
-          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ];
-        
-        if (monthNumber >= 0 && monthNumber <= 11) {
-          return months[monthNumber];
-        } else {
-          return 'Invalid month number';
-        }
-      }    
+    }   
 
   return (
     <div className='w-full h-[1200px] bg-center bg-cover bg-utown'>
@@ -161,12 +148,12 @@ const Dashboard = () => {
                         </div>
                         <div className="mt-5">
                             <h1></h1>
-                            <SparkLine currentColor="blue" id="line-sparkline" type="Line" height="80px" width="250px" data={[
-    { x: getMonthName(new Date(Date.now()).getMonth() - 4), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
-    { x: getMonthName(new Date(Date.now()).getMonth() - 3), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
-    { x: getMonthName(new Date(Date.now()).getMonth() - 2), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: getMonthName(new Date(Date.now()).getMonth() - 1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: getMonthName(new Date(Date.now()).getMonth()), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} color="blue"/>
+                            <LineChart data={[
+    { x: new Date(Date.now()).getMonth() - 4, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
+    { x: new Date(Date.now()).getMonth() - 3, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
+    { x: new Date(Date.now()).getMonth() - 2, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: new Date(Date.now()).getMonth() - 1, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: new Date(Date.now()).getMonth(), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
                         </div>
                     </div>
                     <div>

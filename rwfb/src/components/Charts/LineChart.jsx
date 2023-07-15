@@ -1,8 +1,32 @@
 import React from 'react'
+import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, LineSeries, DateTime, Legend, Tooltip} from '@syncfusion/ej2-react-charts'
 
-const LineChart = () => {
+const LineChart = (data) => {
+
+  function getMonthName(monthNumber) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    
+    if (monthNumber >= 0 && monthNumber <= 11) {
+      return months[monthNumber];
+    } else {
+      return 'Invalid month number';
+    }
+  } 
+
+  const axisLabelRender = (args) => {
+    args.text = getMonthName(args.text);
+  }
+
   return (
-    <div>LineChart</div>
+    <ChartComponent axisLabelRender={axisLabelRender}>
+      <Inject services={[LineSeries, DateTime, Legend, Tooltip]}/>
+      <SeriesCollectionDirective>
+        <SeriesDirective {...data}/>
+      </SeriesCollectionDirective>
+    </ChartComponent>
   )
 }
 
