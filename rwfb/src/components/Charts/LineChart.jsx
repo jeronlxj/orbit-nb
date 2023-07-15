@@ -3,25 +3,28 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Lin
 
 const LineChart = (data) => {
 
-  function getMonthName(monthNumber) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
+  // function getMonthName(monthNumber) {
+  //   const months = [
+  //     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  //   ];
     
-    if (monthNumber >= 0 && monthNumber <= 11) {
-      return months[monthNumber];
-    } else {
-      return 'Invalid month number';
-    }
-  } 
+  //   if (monthNumber >= 0 && monthNumber <= 11) {
+  //     return months[monthNumber];
+  //   } else {
+  //     return 'Invalid month number';
+  //   }
+  // } 
 
-  const axisLabelRender = (args) => {
-    args.text = getMonthName(args.text);
-  }
+  // const axisLabelRender = (args) => {
+  //   if(!(isNaN(args))){
+  //     args.text = getMonthName(args.text);
+  //   }
+  // }
+  const primaryxAxis = {valueType: 'DateTime', title: 'Month', labelFormat: 'MMM'};
 
   return (
-    <ChartComponent axisLabelRender={axisLabelRender}>
+    <ChartComponent primaryXAxis={primaryxAxis}>
       <Inject services={[LineSeries, DateTime, Legend, Tooltip]}/>
       <SeriesCollectionDirective>
         <SeriesDirective {...data}/>
