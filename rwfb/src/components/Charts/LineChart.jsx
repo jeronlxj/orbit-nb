@@ -1,7 +1,7 @@
 import React from 'react'
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, LineSeries, DateTime, Legend, Tooltip} from '@syncfusion/ej2-react-charts'
 
-const LineChart = (data) => {
+const LineChart = ({data}) => {
 
   // function getMonthName(monthNumber) {
   //   const months = [
