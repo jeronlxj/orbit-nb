@@ -28,7 +28,7 @@ const LineChart = ({data}) => {
     <ChartComponent id="line-chart" primaryXAxis={primaryxAxis}>
       <Inject services={[LineSeries, DateTime, Legend, Tooltip]}/>
       <SeriesCollectionDirective>
-        <SeriesDirective dataSource={data}/>
+        <SeriesDirective dataSource={data} xName='x' yName='y' type='Line'/>
       </SeriesCollectionDirective>
     </ChartComponent>
   )
