@@ -38,15 +38,11 @@ const Stacked = ({dataPending, dataReviewed, dataApproved}) => {
       <Inject services={[Legend, Category, StackingColumnSeries, Tooltip]} />
       <SeriesCollectionDirective>
         <SeriesDirective dataSource={dataPending} xName='x' yName='y' type='StackingColumn' 
-        name='Pending' background='gray' />
-      </SeriesCollectionDirective>
-      <SeriesCollectionDirective>
+        name='Pending' fill='gray' />
         <SeriesDirective dataSource={dataReviewed} xName='x' yName='y' type='StackingColumn' 
-        name='Pending' background='pink' />
-      </SeriesCollectionDirective>
-      <SeriesCollectionDirective>
+        name='Pending' fill='pink' />
         <SeriesDirective dataSource={dataApproved} xName='x' yName='y' type='StackingColumn' 
-        name='Pending' background='green' />
+        name='Pending' fill='green' />
       </SeriesCollectionDirective>
     </ChartComponent>
   )
