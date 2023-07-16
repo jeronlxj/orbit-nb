@@ -23,16 +23,21 @@ const LineChart = ({data}) => {
   //   }
   // }
   const primaryxAxis = {valueType: 'DateTime', intervalType: 'Months',
-    title: 'Month', labelFormat: 'MMM'};
+    title: 'Month', labelFormat: 'MMM', edgeLabelPlacement: 'Shift'};
+
+  const primaryyAxis = {title: 'Num of Bookings'}
+
   const marker = { visible: true, width: 10, height: 10 };
+
   const tooltip = {
     enable: true, header: 'Num of Bookings',
     format: '<b>${point.x} : ${point.y}</b>'
   };
 
   return (
-    <ChartComponent id="line-chart" primaryXAxis={primaryxAxis} tooltip={tooltip} 
-    title="Bookings for Latest 5 Months">
+    <ChartComponent id="line-chart" 
+    primaryXAxis={primaryxAxis} primaryYAxis={primaryyAxis} tooltip={tooltip} 
+    title="Num of Bookings for Latest 5 Months">
       <Inject services={[LineSeries, DateTime, Legend, Tooltip]}/>
       <SeriesCollectionDirective>
         <SeriesDirective dataSource={data} xName='x' yName='y' type='Line' 

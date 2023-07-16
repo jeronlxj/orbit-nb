@@ -57,10 +57,30 @@ const Dashboard = () => {
         }
     }   
 
+    function filterByStatus(data, status) {
+        return data.status === status;
+    }   
+
     //get 1st day of x mths ago
     function getMthDate(x) {
-        return new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-x,1)
+        return new Date(Date.now()).setMonth((new Date(Date.now()).getMonth()-x) % 12,1)
     }
+
+    //get mth name of x mths ago
+    function getMthName(x) {
+        const months = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+        
+        const monthNumber = (new Date(Date.now()).getMonth() - x) % 12;
+
+        if (monthNumber >= 0 && monthNumber <= 11) {
+        return months[monthNumber];
+        } else {
+        return 'Invalid month number';
+        }
+    } 
 
     function calculateDuration(startTime, endTime) {
         const [startHour, startMinute] = startTime.split(':');
@@ -177,10 +197,23 @@ const Dashboard = () => {
     { x: getMthDate(3), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
     { x: getMthDate(2), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
     { x: getMthDate(1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: getMthDate(0), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
+    { x: getMthDate(0), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+                            ]} />
                     </div>
                     <div>
-                        <Stacked width="320px" height="360px"/>
+                        <Stacked dataPending={[
+    { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+                        ]} dataReviewed={[
+    { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+                        ]} dataApproved={[
+    { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+                        ]}/>
                     </div>
                     
                 </div>
