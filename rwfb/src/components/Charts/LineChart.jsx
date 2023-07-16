@@ -22,7 +22,8 @@ const LineChart = ({data}) => {
   //     args.text = getMonthName(args.text);
   //   }
   // }
-  const primaryxAxis = {valueType: 'DateTime', title: 'Month', labelFormat: 'MMM'};
+  const primaryxAxis = {valueType: 'DateTime', intervalType: 'Months',
+    title: 'Month', labelFormat: 'MMM'};
   const marker = { visible: true, width: 10, height: 10 };
   const tooltip = {
     enable: true, header: 'Num of Bookings',
