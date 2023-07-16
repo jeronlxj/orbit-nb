@@ -25,7 +25,7 @@ const LineChart = ({data}) => {
   const primaryxAxis = {valueType: 'DateTime', title: 'Month', labelFormat: 'MMM'};
 
   return (
-    <ChartComponent primaryXAxis={primaryxAxis}>
+    <ChartComponent id="line-chart" primaryXAxis={primaryxAxis}>
       <Inject services={[LineSeries, DateTime, Legend, Tooltip]}/>
       <SeriesCollectionDirective>
         <SeriesDirective {...data}/>
