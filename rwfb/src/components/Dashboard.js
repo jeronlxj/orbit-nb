@@ -151,11 +151,11 @@ const Dashboard = () => {
                     <div className="mt-5">
                             <h1></h1>
                             <LineChart data={[
-    { x: 1, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
-    { x: 2, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
-    { x: 3, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: 4, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: 5, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
+    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-4,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
+    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-3,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
+    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-2,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-1,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: new Date(Date.now()), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
                     </div>
                     <div>
                         <Stacked width="320px" height="360px"/>
