@@ -34,15 +34,15 @@ const Stacked = ({dataPending, dataReviewed, dataApproved}) => {
     <ChartComponent id="charts" chartArea={{border:{width:0}}}
     background='#fff' LegendSettings={{background:'white'}}
     primaryXAxis={primaryxAxis} primaryYAxis={primaryyAxis} tooltip={tooltip} 
-    title="Num of Diff Type of Bookings for Latest 3 Months">
+    title="Num of Different Types of Bookings for Latest 3 Months">
       <Inject services={[Legend, Category, StackingColumnSeries, Tooltip]} />
       <SeriesCollectionDirective>
         <SeriesDirective dataSource={dataPending} xName='x' yName='y' type='StackingColumn' 
         name='Pending' fill='gray' />
         <SeriesDirective dataSource={dataReviewed} xName='x' yName='y' type='StackingColumn' 
-        name='Pending' fill='pink' />
+        name='Reviewed' fill='pink' />
         <SeriesDirective dataSource={dataApproved} xName='x' yName='y' type='StackingColumn' 
-        name='Pending' fill='green' />
+        name='Approved' fill='green' />
       </SeriesCollectionDirective>
     </ChartComponent>
   )
