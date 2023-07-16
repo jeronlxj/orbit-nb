@@ -108,7 +108,7 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center">
                     <div>
                         <p className="font-bold text-white-400">Total Bookings</p>
-                        <p className="text-2xl">2100,000</p>
+                        <p className="text-2xl">{bdatas.length}</p>
                     </div>
                 </div>
         </div>
@@ -215,7 +215,12 @@ const Dashboard = () => {
     { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    
+                    <div>
+                        <Pie data={[
+    { x: 'Used', y: bdatas.map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)},
+    { x: 'Unused', y: bdatas.map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}
+                        ]}/>
+                    </div>
                 </div>
                 
             </div>
