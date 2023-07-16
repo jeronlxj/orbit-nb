@@ -215,12 +215,12 @@ const Dashboard = () => {
     { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    <div>
+                    {/* <div>
                         <Pie data={[
     { x: 'Used', y: bdatas.map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)},
     { x: 'Unused', y: bdatas.map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}
                         ]}/>
-                    </div>
+                    </div> */}
                 </div>
                 
             </div>
