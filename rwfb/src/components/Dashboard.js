@@ -149,9 +149,9 @@ const Dashboard = () => {
                         <div className="mt-5">
                             <h1></h1>
                             <LineChart data={[
-    { x: 1, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
-    { x: 2, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
-    { x: 3, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    // { x: 1, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
+    // { x: 2, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
+    // { x: 3, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
     { x: 4, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
     { x: 5, y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
                         </div>
