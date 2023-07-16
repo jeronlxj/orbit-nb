@@ -57,6 +57,28 @@ const Dashboard = () => {
         }
     }   
 
+    //get 1st day of x mths ago
+    function getMthDate(x) {
+        return new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-x,1)
+    }
+
+    function calculateDuration(startTime, endTime) {
+        const [startHour, startMinute] = startTime.split(':');
+        const [endHour, endMinute] = endTime.split(':');
+      
+        const startDate = new Date();
+        startDate.setHours(startHour, startMinute, 0);
+      
+        const endDate = new Date();
+        endDate.setHours(endHour, endMinute, 0);
+      
+        const durationInMillis = endDate.getTime() - startDate.getTime();
+      
+        const hours = durationInMillis / (1000 * 60 * 60);
+      
+        return hours;
+    }
+
   return (
     <div className='w-full h-[1200px] bg-center bg-cover bg-utown'>
     <div className='max-w-[800px] mx-auto my-16 p-4'>
@@ -151,11 +173,11 @@ const Dashboard = () => {
                     <div className="mt-5">
                             <h1></h1>
                             <LineChart data={[
-    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-4,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
-    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-3,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
-    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-2,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-1,1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: new Date(Date.now()), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
+    { x: getMthDate(4), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
+    { x: getMthDate(3), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
+    { x: getMthDate(2), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthDate(1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthDate(0), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }]} />
                     </div>
                     <div>
                         <Stacked width="320px" height="360px"/>
