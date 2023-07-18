@@ -105,7 +105,7 @@ const Dashboard = () => {
 
     //get 1st day of x mths ago
     function getMthDate(x) {
-        return new Date(Date.now()).setMonth((new Date(Date.now()).getMonth()-x) % 12,1)
+        return new Date(Date.now()).setMonth((new Date(Date.now()).getMonth()-x) % 12,0)
     }
 
     //get mth name of x mths ago
@@ -260,13 +260,13 @@ const Dashboard = () => {
                     </div>
                     
                 </div>
-                {/* <div className="flex mt-5 justify-center"> */}
+                {/* <div className="flex mt-5 justify-center">
                     <h1></h1>
                     <Pie data={[
 { x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100},
 { x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100)}
                     ]}/>
-                {/* </div> */}
+                </div> */}
             </div>
         </div>
       </div>
