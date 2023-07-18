@@ -189,7 +189,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex gap-10 flex-wrap justify-center">
-            <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780">
+            <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl">
                 <div className="flex justify-between">
                     <p className="font-semibold text-xl">Booking Status</p>
                     <div className="flex items-center gap-4">
@@ -258,15 +258,15 @@ const Dashboard = () => {
     { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    <div className="mt-5">
-                        <h1></h1>
-                        <Pie data={[
-    { x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100},
-    { x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100)}
-                        ]}/>
-                    </div>
+                    
                 </div>
-                
+                <div className="flex mt-5 justify-center">
+                    <h1></h1>
+                    <Pie data={[
+{ x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100},
+{ x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100)}
+                    ]}/>
+                </div>
             </div>
         </div>
       </div>
