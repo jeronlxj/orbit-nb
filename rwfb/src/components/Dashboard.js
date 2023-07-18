@@ -143,7 +143,7 @@ const Dashboard = () => {
 
   return (
     <div className='w-full h-[1200px] bg-center bg-cover bg-utown'>
-    <div className='max-w-[800px] mx-auto my-16 p-4'>
+    <div className='max-w-[1000px] mx-auto my-16 p-4'>
       <Navbar name={user?.email} current={"Dashboard"}/>
       <div className="mt-3">
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-1920 p-8 pt-9 m-3 bg-erc bg-no-repeat bg-cover bg-center">
@@ -189,7 +189,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex gap-10 flex-wrap justify-center">
-            <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl">
+            <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl w-1920">
                 <div className="flex justify-between">
                     <p className="font-semibold text-xl">Booking Status</p>
                     <div className="flex items-center gap-4">
