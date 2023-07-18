@@ -109,14 +109,14 @@ const Dashboard = () => {
     }   
 
     function filterByLocation(data, location) {
-        if (location === "Select location" || location === null ) {
+        if (location === "Select location" || location === null || location === "") {
             return true;
         }
         return data.Location === location;
     }
 
     function filterByFacility(data, facName) {
-        if (facName === "Select facility" || facName === null ) {
+        if (facName === "Select facility" || facName === null || facName === "" ) {
             return true;
         }
         return data.Facility === facName;
@@ -161,7 +161,7 @@ const Dashboard = () => {
     }
 
     function filterTotalDuration(data, location, facName) {
-        if (facName === "Select facility" || facName === null ) {
+        if (facName === "Select facility" || facName === null || facName === "") {
             return filterByLocation(data, location);
         }
         return data.Name === facName && filterByLocation(data, location);
