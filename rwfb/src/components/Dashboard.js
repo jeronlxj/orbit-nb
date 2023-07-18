@@ -13,6 +13,11 @@ import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore'
 const Dashboard = () => {
     const { user } = UserAuthentication();
 
+    // selected location
+    const [location, setLocation] = useState("");
+    // selected facility
+    const [facName, setFacName] = useState("");
+
     // handling display of data from backend
     const [bdatas, setbDatas] = useState([]);
     // gets booking data from firebase -> django and sets state for booking data
@@ -103,9 +108,23 @@ const Dashboard = () => {
         return data.status === status;
     }   
 
+    function filterByLocation(data, location) {
+        if (location === "Select location" || location === null ) {
+            return true;
+        }
+        return data.Location === location;
+    }
+
+    function filterByFacility(data, facName) {
+        if (facName === "Select facility" || facName === null ) {
+            return true;
+        }
+        return data.Facility === facName;
+    }
+
     //get 1st day of x mths ago
     function getMthDate(x) {
-        return new Date(Date.now()).setMonth((new Date(Date.now()).getMonth()-x) % 12,0)
+        return new Date(Date.now()).setMonth((new Date(Date.now()).getMonth()-x) % 12,1)
     }
 
     //get mth name of x mths ago
@@ -139,6 +158,13 @@ const Dashboard = () => {
         const hours = durationInMillis / (1000 * 60 * 60);
       
         return hours;
+    }
+
+    function filterTotalDuration(data, location, facName) {
+        if (facName === "Select facility" || facName === null ) {
+            return filterByLocation(data, location);
+        }
+        return data.Name === facName && filterByLocation(data, location);
     }
 
   return (
@@ -188,6 +214,29 @@ const Dashboard = () => {
             </div>
         </div>
 
+        <div class="w-full mb-2 "> 
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location:</label>
+            <select onChange={(e) => setLocation(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                <option class="text-sm text-gray-900 hover:bg-red-800">Select location</option>
+                { // display all locations
+                ldatas.map( data => {
+                    return (<option class="text-sm text-gray-900 hover:bg-red-800" value={data.Name}>{data.Name}</option>)})
+                }
+            </select>
+        </div>
+
+        <div class="w-full mb-2">
+            <label for="cars" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facility:</label>
+            <select onChange={(e) => setFacName(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                <option class="text-sm text-gray-900 hover:bg-red-800">Select facility</option>
+                { // display all facilities for selected location
+                fdatas.filter(data => data.Location === location)
+                .map( data => {
+                        return(<option class="text-sm text-gray-900 hover:bg-red-800" value={data.Name}>{data.Name}</option>)
+                    })}
+            </select>
+        </div>
+
         <div className="flex gap-10 flex-wrap justify-center">
             <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl w-1920">
                 <div className="flex justify-between">
@@ -235,38 +284,42 @@ const Dashboard = () => {
                     <div className="mt-5">
                             <h1></h1>
                             <LineChart data={[
-    { x: getMthDate(4), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
-    { x: getMthDate(3), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
-    { x: getMthDate(2), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: getMthDate(1), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: getMthDate(0), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+    { x: getMthDate(4), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
+    { x: getMthDate(3), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 3)).length },
+    { x: getMthDate(2), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthDate(1), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthDate(0), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                             ]} />
                     </div>
                     <div className="mt-5">
                         <h1></h1>
                         <Stacked dataPending={[
-    { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+    { x: getMthName(2), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthName(1), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthName(0), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]} dataReviewed={[
-    { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+    { x: getMthName(2), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthName(1), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthName(0), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"reviewed")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]} dataApproved={[
-    { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
-    { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
-    { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
+    { x: getMthName(2), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
+    { x: getMthName(1), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
+    { x: getMthName(0), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    
+                    {/* <div className="flex mt-5 justify-center">
+                        <h1></h1>
+                        <Pie data={[
+    { x: 'Used', y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName))
+    .filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved"))
+    .map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.filter(data => filterTotalDuration(data, location, facName)).length)*100},
+    { x: 'Unused', y: 100-(bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName))
+    .filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved"))
+    .map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.filter(data => filterTotalDuration(data, location, facName)).length)*100)}
+                        ]}/>
+                    </div> */}
                 </div>
-                {/* <div className="flex mt-5 justify-center">
-                    <h1></h1>
-                    <Pie data={[
-{ x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100},
-{ x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100)}
-                    ]}/>
-                </div> */}
+                
             </div>
         </div>
       </div>
