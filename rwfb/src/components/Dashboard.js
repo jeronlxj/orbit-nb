@@ -143,7 +143,7 @@ const Dashboard = () => {
 
   return (
     <div className='w-full h-[1200px] bg-center bg-cover bg-utown'>
-    <div className='max-w-[1000px] mx-auto my-16 p-4'>
+    <div className='max-w-[800px] mx-auto my-16 p-4'>
       <Navbar name={user?.email} current={"Dashboard"}/>
       <div className="mt-3">
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-1920 p-8 pt-9 m-3 bg-erc bg-no-repeat bg-cover bg-center">
@@ -260,13 +260,13 @@ const Dashboard = () => {
                     </div>
                     
                 </div>
-                <div className="flex mt-5 justify-center">
+                {/* <div className="flex mt-5 justify-center"> */}
                     <h1></h1>
                     <Pie data={[
 { x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100},
 { x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100)}
                     ]}/>
-                </div>
+                {/* </div> */}
             </div>
         </div>
       </div>
