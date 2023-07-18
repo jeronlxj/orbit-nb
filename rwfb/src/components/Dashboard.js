@@ -307,7 +307,7 @@ const Dashboard = () => {
     { x: getMthName(0), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    {/* <div className="flex mt-5 justify-center">
+                    <div className="flex mt-5 justify-center">
                         <h1></h1>
                         <Pie data={[
     { x: 'Used', y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName))
@@ -317,7 +317,7 @@ const Dashboard = () => {
     .filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved"))
     .map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.filter(data => filterTotalDuration(data, location, facName)).length)*100)}
                         ]}/>
-                    </div> */}
+                    </div>
                 </div>
                 
             </div>
