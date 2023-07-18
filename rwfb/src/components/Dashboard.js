@@ -27,25 +27,67 @@ const Dashboard = () => {
     .catch(error => console.log(error));
     }, [])
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
+
+    //     // call the async function
+    //     getBookings();
+    // }, [])
+
+    // /* END OF HACK WAY */
+
+    // handling display of data from backend
+    const [udatas, setuDatas] = useState([]);
+    // gets booking data from firebase -> django and sets state for booking data
     useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        fetch('api/usersGET', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
         }
-
-        // call the async function
-        getBookings();
+    }).then(resp => resp.json())
+    .then(resp => setuDatas(resp))
+    .catch(error => console.log(error));
     }, [])
 
-    /* END OF HACK WAY */
+    // handling display of data from backend
+    const [ldatas, setlDatas] = useState([]);
+    // gets booking data from firebase -> django and sets state for booking data
+    useEffect(() => {
+        fetch('api/locationsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setlDatas(resp))
+    .catch(error => console.log(error));
+    }, [])
 
+    // handling display of data from backend
+    const [fdatas, setfDatas] = useState([]);
+    // gets booking data from firebase -> django and sets state for booking data
+    useEffect(() => {
+        fetch('api/facilityGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setfDatas(resp))
+    .catch(error => console.log(error));
+    }, [])
+    
     function filterByMonth(data, month) {
         // get the month of the booking
         const dataMonth = new Date(data.bookingDate).getMonth();
@@ -118,8 +160,8 @@ const Dashboard = () => {
                 <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl h-44">
                     <button type="button" style={{ color:'rgb(228, 106, 118)', backgroundColor: 'rgb(255, 244, 229)'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><MdOutlineSupervisorAccount/></button>
                     <p className="mt-3">
-                        <span className="text-lg font-semibold">2965</span>
-                        <span className={`text-sm text-red-600 ml-2`}>-4%</span> 
+                        <span className="text-lg font-semibold">{udatas.length}</span>
+                        {/* <span className={`text-sm text-red-600 ml-2`}>-4%</span>  */}
                     </p>
                     <p className="text-sm text-gray-400 mt-1">Users</p>
                 </div>
@@ -128,8 +170,8 @@ const Dashboard = () => {
                 <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">
                     <button type="button" style={{ color:'#03C9D7', backgroundColor: '#E5FAFB'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><BsBoxSeam/></button>
                     <p className="mt-3">
-                        <span className="text-lg font-semibold">6</span>
-                        <span className={`text-sm text-green-600 ml-2`}>+33%</span> 
+                        <span className="text-lg font-semibold">{ldatas.length}</span>
+                        {/* <span className={`text-sm text-green-600 ml-2`}>+33%</span>  */}
                     </p>
                     <p className="text-sm text-gray-400 mt-1">Locations</p>
                 </div>
@@ -138,8 +180,8 @@ const Dashboard = () => {
                 <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">
                     <button type="button" style={{ color:'rgb(0, 194, 146)', backgroundColor: 'rgb(235, 250, 242)'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><FiBarChart/></button>
                     <p className="mt-3">
-                        <span className="text-lg font-semibold">14</span>
-                        <span className={`text-sm text-green-600 ml-2`}>+10%</span> 
+                        <span className="text-lg font-semibold">{fdatas.length}</span>
+                        {/* <span className={`text-sm text-green-600 ml-2`}>+10%</span>  */}
                     </p>
                     <p className="text-sm text-gray-400 mt-1">Facilities</p>
                 </div>
@@ -165,8 +207,8 @@ const Dashboard = () => {
                         </p>
                     </div>
                 </div>
-                <div className="mt-10 flex gap-10 flex-wrap justify-center">
-                    <div className="border-r-1 border-color m-4 pr-10">
+                <div className="mt-10 flex flex-row gap-10 flex-wrap justify-center">
+                    {/* <div className="border-r-1 border-color m-4 pr-10">
                         <div>
                             <p>
                                 <span className="text-3xl font-semibold">15</span>
@@ -189,7 +231,7 @@ const Dashboard = () => {
                             <p className="text-gray-500 mt-1">Approved</p>
                         </div>
                         
-                    </div>
+                    </div> */}
                     <div className="mt-5">
                             <h1></h1>
                             <LineChart data={[
@@ -215,12 +257,12 @@ const Dashboard = () => {
     { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    {/* <div>
+                    <div>
                         <Pie data={[
-    { x: 'Used', y: bdatas.map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)},
-    { x: 'Unused', y: bdatas.map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}
+    { x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/16*31*fdatas.length*100},
+    { x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/16*31*fdatas.length*100)}
                         ]}/>
-                    </div> */}
+                    </div>
                 </div>
                 
             </div>
