@@ -5,7 +5,7 @@ import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, Accu
 
 const Pie = ({ data }) => {
   const tooltip = {
-    enable: true, 
+    enable: true, header: 'Vacancy State',
     format: '<b>${point.x} : ${point.y}%</b>'
   };
 

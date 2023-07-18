@@ -242,7 +242,8 @@ const Dashboard = () => {
     { x: getMthDate(0), y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                             ]} />
                     </div>
-                    <div>
+                    <div className="mt-5">
+                        <h1></h1>
                         <Stacked dataPending={[
     { x: getMthName(2), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
     { x: getMthName(1), y: bdatas.filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 1)).length },
@@ -257,10 +258,11 @@ const Dashboard = () => {
     { x: getMthName(0), y: bdatas.filter(data => filterByStatus(data,"approved")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).length }
                         ]}/>
                     </div>
-                    <div>
+                    <div className="mt-5">
+                        <h1></h1>
                         <Pie data={[
-    { x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/16*31*fdatas.length*100},
-    { x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/16*31*fdatas.length*100)}
+    { x: 'Used', y: bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100},
+    { x: 'Unused', y: 100-(bdatas.filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved")).map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.length)*100)}
                         ]}/>
                     </div>
                 </div>
@@ -274,4 +276,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-// new Date(Date.now()).setMonth(new Date(Date.now()).getMonth()-1,1)
