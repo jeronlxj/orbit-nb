@@ -168,7 +168,7 @@ const Dashboard = () => {
     }
 
   return (
-    <div className='w-full h-[1200px] bg-center bg-cover bg-utown'>
+    <div className='w-full h-[2200px] bg-center bg-cover bg-utown'>
     <div className='max-w-[800px] mx-auto my-16 p-4'>
       <Navbar name={user?.email} current={"Dashboard"}/>
       <div className="mt-3">
@@ -256,7 +256,7 @@ const Dashboard = () => {
                         </p>
                     </div>
                 </div>
-                <div className="mt-10 flex flex-row gap-10 flex-wrap justify-center">
+                <div class="grid grid-cols-1 md:lg:xl:grid-cols-2">
                     {/* <div className="border-r-1 border-color m-4 pr-10">
                         <div>
                             <p>
@@ -281,7 +281,7 @@ const Dashboard = () => {
                         </div>
                         
                     </div> */}
-                    <div className="mt-5">
+                    <div className="flex flex-col mt-5">
                             <h1></h1>
                             <LineChart data={[
     { x: getMthDate(4), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 4)).length },
@@ -292,7 +292,7 @@ const Dashboard = () => {
                             ]} />
                     </div>
                     
-                    <div className="mt-5">
+                    <div className="flex flex-col mt-5">
                         <h1></h1>
                         <Stacked dataPending={[
     { x: getMthName(2), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
@@ -309,7 +309,7 @@ const Dashboard = () => {
                         ]}/>
                     </div>
 
-                    <div className="flex mt-5 justify-center">
+                    <div className="flex flex-col mt-5 justify-center">
                         <h1></h1>
                         <Pie data={[
     { x: 'Used', y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName))
@@ -321,7 +321,7 @@ const Dashboard = () => {
                         ]}/>
                     </div>
 
-                    <div className="mt-5">
+                    <div className="flex flex-col mt-5">
                         <h1></h1>
                         <Stacked dataPending={[
     { x: getMthName(2), y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName)).filter(data => filterByStatus(data,"pending")).filter(data => filterByMonth(data, new Date(Date.now()).getMonth() - 2)).length },
