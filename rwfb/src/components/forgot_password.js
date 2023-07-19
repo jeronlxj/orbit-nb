@@ -15,7 +15,7 @@
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm 
         flex justify-center items-center" id="temp" onClick={handleClose}>
 
-            <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">      
+            <div className="w-full max-w-sm p-4 bg-gray-800 border border-gray-700 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">      
                 {children}
             </div>
         </div>
