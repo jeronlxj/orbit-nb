@@ -37,7 +37,7 @@ const LineChart = ({data}) => {
   return (
     <ChartComponent id="line-chart" 
     primaryXAxis={primaryxAxis} primaryYAxis={primaryyAxis} tooltip={tooltip} 
-    title="Num of Bookings for Latest 5 Months">
+    title="Num of Bookings for Latest 5 Months" width="400px" height ="400px">
       <Inject services={[LineSeries, DateTime, Legend, Tooltip]}/>
       <SeriesCollectionDirective>
         <SeriesDirective dataSource={data} xName='x' yName='y' type='Line' 
