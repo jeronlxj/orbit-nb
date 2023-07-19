@@ -12,7 +12,7 @@ const Pie = ({ data }) => {
   return (
     <AccumulationChartComponent id='charts'
     legendSettings={{ background: 'white' }} background='#fff' tooltip={tooltip}
-    title="Vacancy State of Facilities for this Month" width="400px" height ="400px">
+    title="Vacancy State of Facilities for this Month" width="600px" height ="600px">
       <Inject services={[AccumulationLegend, PieSeries, AccumulationDataLabel, AccumulationTooltip]} />
       <AccumulationSeriesCollectionDirective>
         <AccumulationSeriesDirective

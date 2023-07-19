@@ -4,7 +4,7 @@ import Navbar from "../config/navbar";
 import { Stacked, Pie, SparkLine, LineChart } from '../components';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
-import { MdOutlineSupervisorAccount } from 'react-icons/md';
+import { MdOutlineSupervisorAccount, MdLocationPin, MdMeetingRoom } from 'react-icons/md';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { db } from "../config/firebase";
@@ -194,7 +194,7 @@ const Dashboard = () => {
             </div>
             <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
                 <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">
-                    <button type="button" style={{ color:'#03C9D7', backgroundColor: '#E5FAFB'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><BsBoxSeam/></button>
+                    <button type="button" style={{ color:'#03C9D7', backgroundColor: '#E5FAFB'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><MdLocationPin/></button>
                     <p className="mt-3">
                         <span className="text-lg font-semibold">{ldatas.length}</span>
                         {/* <span className={`text-sm text-green-600 ml-2`}>+33%</span>  */}
@@ -204,7 +204,7 @@ const Dashboard = () => {
             </div>
             <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
                 <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">
-                    <button type="button" style={{ color:'rgb(0, 194, 146)', backgroundColor: 'rgb(235, 250, 242)'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><FiBarChart/></button>
+                    <button type="button" style={{ color:'rgb(0, 194, 146)', backgroundColor: 'rgb(235, 250, 242)'}} className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"><MdMeetingRoom/></button>
                     <p className="mt-3">
                         <span className="text-lg font-semibold">{fdatas.length}</span>
                         {/* <span className={`text-sm text-green-600 ml-2`}>+10%</span>  */}
@@ -309,7 +309,7 @@ const Dashboard = () => {
                         ]}/>
                     </div>
 
-                    <div className="flex flex-col mt-5 justify-center">
+                    {/* <div className="flex flex-col mt-5 justify-center">
                         <h1></h1>
                         <Pie data={[
     { x: 'Used', y: bdatas.filter(data => filterByLocation(data,location)).filter(data => filterByFacility(data,facName))
@@ -319,7 +319,7 @@ const Dashboard = () => {
     .filter(data => filterByMonth(data, new Date(Date.now()).getMonth() )).filter(data => filterByStatus(data,"approved"))
     .map(data => calculateDuration(data.startTime,data.endTime)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/(16*31*fdatas.filter(data => filterTotalDuration(data, location, facName)).length)*100)}
                         ]}/>
-                    </div>
+                    </div> */}
                 </div>
                 
             </div>
