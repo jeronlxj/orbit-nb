@@ -43,24 +43,24 @@ const StaffApprove = () => {
     .catch(error => console.log(error));
     }, [])
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const locationCollectionRef = collection(db, "Locations");
-    useEffect(() => {
-        // async function
-        const getLocations = async () => {
-            // get the collection itself
-            const data = await getDocs(locationCollectionRef);
-            // take out the data part only & set it
-            setListLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const locationCollectionRef = collection(db, "Locations");
+    // useEffect(() => {
+    //     // async function
+    //     const getLocations = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(locationCollectionRef);
+    //         // take out the data part only & set it
+    //         setListLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getLocations();
-    }, [])
+    //     // call the async function
+    //     getLocations();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // set Location function
     function handleSelect(e) {
@@ -98,24 +98,24 @@ const StaffApprove = () => {
     .catch(error => console.log(error));
     }, [])
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const facilityCollectionRef = collection(db, "Facilities");
-    useEffect(() => {
-        // async function
-        const getF = async () => {
-            // get the collection itself
-            const data = await getDocs(facilityCollectionRef);
-            // take out the data part only & set it
-            setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const facilityCollectionRef = collection(db, "Facilities");
+    // useEffect(() => {
+    //     // async function
+    //     const getF = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(facilityCollectionRef);
+    //         // take out the data part only & set it
+    //         setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getF();
-    }, [])
+    //     // call the async function
+    //     getF();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // set facility function
     function handlefacSelect(e) {
@@ -171,24 +171,24 @@ const StaffApprove = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     function statfilterer(newStat) {
         setbookingStatus(newStat);
@@ -202,19 +202,19 @@ const StaffApprove = () => {
         .then(resp => setBookings(resp))
         .catch(error => console.log(error));
 
-        /* HACK WAY */
+        // /* HACK WAY */
 
-        // get the collection ref itself
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
-        // call the async function
-        getBookings();
+        // // get the collection ref itself
+        // const getBookings = async () => {
+        //     // get the collection itself
+        //     const data = await getDocs(bookingCollectionRef);
+        //     // take out the data part only & set it
+        //     setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+        // }
+        // // call the async function
+        // getBookings();
 
-        /* END OF HACK WAY */
+        // /* END OF HACK WAY */
 
         setBookings(Bookings.filter(data => filterByPending(newStat)));       
     }
@@ -254,24 +254,24 @@ const StaffApprove = () => {
             })
         });
 
-        /* HACK WAY */
+        // /* HACK WAY */
 
-        //update via firebase
-        const bookingDoc = doc(db, "bookings", bookingId);
-        const newFields = {
-            Facility: c[0].Facility,
-            Location: c[0].Location,
-            Name: c[0].Name,
-            UserEmail: c[0].UserEmail,
-            bookingDate: c[0].bookingDate,
-            bookingTitle: c[0].bookingTitle,
-            startTime: c[0].startTime,
-            endTime: c[0].endTime,
-            status: newStat,
-          };
-        updateDoc(bookingDoc, newFields);
+        // //update via firebase
+        // const bookingDoc = doc(db, "bookings", bookingId);
+        // const newFields = {
+        //     Facility: c[0].Facility,
+        //     Location: c[0].Location,
+        //     Name: c[0].Name,
+        //     UserEmail: c[0].UserEmail,
+        //     bookingDate: c[0].bookingDate,
+        //     bookingTitle: c[0].bookingTitle,
+        //     startTime: c[0].startTime,
+        //     endTime: c[0].endTime,
+        //     status: newStat,
+        //   };
+        // updateDoc(bookingDoc, newFields);
 
-        /* END OF HACK WAY */
+        // /* END OF HACK WAY */
 
         /* email service */
 
@@ -337,39 +337,39 @@ const StaffApprove = () => {
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
-            <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            <caption class="p-5 text-lg font-semibold text-left text-white bg-gray-800 dark:text-white dark:bg-gray-800">
                 Pending Bookings
-                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Bookings to Review </p>
+                <p class="mt-1 text-sm font-normal text-gray-400 dark:text-gray-400">Bookings to Review </p>
 
-                <p class="mt-1 text-sm font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">Filter by Booking Status </p>
+                <p class="mt-1 text-sm font-semibold text-left text-white bg-gray-800 dark:text-white dark:bg-gray-800">Filter by Booking Status </p>
 
                 <ul class="items-center w-full text-sm font-medium border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input type="radio" name="list-radio" onChange={() => statfilterer("pending")}
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">pending</label>
+                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-300 dark:text-gray-300">pending</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input type="radio" name="list-radio" onChange={() => statfilterer("reviewed")}
                             class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 focus:ring-pink-500 dark:focus:ring-pink-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">reviewed</label>
+                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-300 dark:text-gray-300">reviewed</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input type="radio" name="list-radio" onChange={() => statfilterer("rejected")}
                             class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-red-800 focus:ring-2 dark:bg-red-700 dark:border-red-600"/>
-                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">rejected</label>
+                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-300 dark:text-gray-300">rejected</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input type="radio" name="list-radio" onChange={() => statfilterer("approved")}
                             class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-green-800 focus:ring-2 dark:bg-green-700 dark:border-green-600"/>
-                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">approved</label>
+                            <label class="w-full py-3 ml-2 text-sm font-medium text-gray-300 dark:text-gray-300">approved</label>
                         </div>
                     </li>
                 </ul>
@@ -378,20 +378,20 @@ const StaffApprove = () => {
 
              {/* Sort Dropdown part*/}
             <caption>
-                <ul class="p-2 space-y-1 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
+                <ul class="p-2 space-y-1 text-xs text-gray-400 uppercase bg-gray-800 dark:bg-gray-800 dark:text-gray-400">
                 <li>
-                    <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <div class="flex p-2 rounded hover:bg-gray-600 dark:hover:bg-gray-600">
                     <label class="relative inline-flex items-center w-full cursor-pointer">
                         <input onClick={dateClickHandler} type="checkbox" value="" class="sr-only peer"/>
                         <div class="w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-red-500"></div>
-                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Sort by Date</span>
+                        <span class="ml-3 text-sm font-medium text-white dark:text-gray-300">Sort by Date</span>
                     </label>
                     </div>
                 </li>
 
                 <li>
-                    <div class="flex rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <label for="cars" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Location:</label>
+                    <div class="flex rounded hover:bg-gray-600 dark:hover:bg-gray-600">
+                        <label for="cars" class="block mb-2 text-sm font-medium text-white dark:text-white">Your Location:</label>
                         <select onChange={handleSelect} name="cars" id="cars" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                         <option class="text-sm text-gray-900 hover:bg-red-800" >Select Location</option>
                         {listLocations?.map(loc => {
@@ -404,8 +404,8 @@ const StaffApprove = () => {
                 </li>
 
                 <li>
-                    <div class="flex rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <label for="cars" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Facility:</label>
+                    <div class="flex rounded hover:bg-gray-600 dark:hover:bg-gray-600">
+                        <label for="cars" class="block mb-2 text-sm font-medium text-white dark:text-white">Your Facility:</label>
                         <select onChange={handlefacSelect} name="cars" id="cars" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                         <option class="text-sm text-gray-900 hover:bg-red-800" >Select Facility</option>
                         {facilities?.filter(data => dropFacilityFilterer(data))?.map(f => {
@@ -419,7 +419,7 @@ const StaffApprove = () => {
                 </ul>
             </caption>
         
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                     date
@@ -452,9 +452,9 @@ const StaffApprove = () => {
                     ?.filter(data => facilityfilterer(data))
                     ?.map(data => {
                     return (
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700">
 
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap dark:text-white">
                             {data?.bookingDate}
                         </th>
 
@@ -467,19 +467,19 @@ const StaffApprove = () => {
                         </td>
 
                         <td class="px-6 py-4">
-                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-100 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
+                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-800 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
                             <span class="w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "approved" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        {data?.status == "approved" && <span class="inline-flex items-center bg-green-900 text-green-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-900 text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-900 text-pink-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
                             <span class="w-2 h-2 mr-1 bg-pink-500 rounded-full"></span>
                             {data?.status}
                         </span>}
@@ -489,14 +489,14 @@ const StaffApprove = () => {
 
                             { // if user is a Staff and booking status is rejected or pending -> give option to approve
                              (bookingStatus === "rejected" || bookingStatus === "pending" || bookingStatus === "reviewed") &&
-                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:dark:text-blue-300"
+                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300 hover:dark:text-blue-300"
                             onClick={() => onReview(data?.id,"approved")}>
                                 Approve
                             </button>
                             }
                             { // if user is a Staff and booking status is rejected or pending -> give option to approve
                              (bookingStatus === "approved") &&
-                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:dark:text-blue-300"
+                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300 hover:dark:text-blue-300"
                             onClick={() => onReview(data?.id,"rejected")}>
                                 Reject
                             </button>
@@ -506,7 +506,7 @@ const StaffApprove = () => {
 
                         <td class="px-6 py-4 text-right">
                             { (bookingStatus === "pending" || bookingStatus === "reviewed") &&
-                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:dark:text-blue-300"
+                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:text-blue-300 hover:dark:text-blue-300"
                             onClick={() => onReview(data?.id,"rejected")}>
                                 Reject
                             </button>
