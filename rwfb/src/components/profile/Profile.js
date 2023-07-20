@@ -22,24 +22,24 @@ const Profile = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const UserCollectionRef = collection(db, "Users");
-    useEffect(() => {
-        // async function
-        const getUser = async () => {
-            // get the collection itself
-            const data = await getDocs(UserCollectionRef);
-            // take out the data part only & set it
-            setCurrentUser(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const UserCollectionRef = collection(db, "Users");
+    // useEffect(() => {
+    //     // async function
+    //     const getUser = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(UserCollectionRef);
+    //         // take out the data part only & set it
+    //         setCurrentUser(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getUser();
-    }, [])
+    //     // call the async function
+    //     getUser();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     const { user } = UserAuthentication();
 
@@ -74,7 +74,8 @@ const Profile = () => {
 
                 <div class="pb-4">
                 <label for="about" class="font-semibold text-gray-700 block pb-2">Tier</label>
-                    <div class="mx-1.5 relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <div class="mx-1.5 relative w-10 h-10 overflow-hidden bg-gray-600 rounded-full dark:bg-gray-600">
+                        <img src={data?.photoURL}></img>
                         <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
                     </div>
                     <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">{data.Tier}</span>

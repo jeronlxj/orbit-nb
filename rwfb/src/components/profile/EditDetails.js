@@ -38,24 +38,24 @@ const EditDetails = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const locationCollectionRef = collection(db, "Locations");
-    useEffect(() => {
-        // async function
-        const getLocations = async () => {
-            // get the collection itself
-            const data = await getDocs(locationCollectionRef);
-            // take out the data part only & set it
-            setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const locationCollectionRef = collection(db, "Locations");
+    // useEffect(() => {
+    //     // async function
+    //     const getLocations = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(locationCollectionRef);
+    //         // take out the data part only & set it
+    //         setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getLocations();
-    }, [])
+    //     // call the async function
+    //     getLocations();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // gets booking data from firebase -> django and sets state for booking data
     const [bookings, setBookings] = useState([]);
@@ -70,24 +70,24 @@ const EditDetails = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     const [currentUser,setCurrentUser] = useState([]);
     useEffect(() => {
@@ -101,24 +101,24 @@ const EditDetails = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const UserCollectionRef = collection(db, "Users");
-    useEffect(() => {
-        // async function
-        const getUser = async () => {
-            // get the collection itself
-            const data = await getDocs(UserCollectionRef);
-            // take out the data part only & set it
-            setCurrentUser(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const UserCollectionRef = collection(db, "Users");
+    // useEffect(() => {
+    //     // async function
+    //     const getUser = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(UserCollectionRef);
+    //         // take out the data part only & set it
+    //         setCurrentUser(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getUser();
-    }, [])
+    //     // call the async function
+    //     getUser();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     const changeDets = async (e) => {
         e.preventDefault();
@@ -144,20 +144,20 @@ const EditDetails = () => {
                         })
                     });
 
-                    /* HACK WAY */
+                    // /* HACK WAY */
 
-                    //update via firebase
-                    const userDoc = doc(db, "Users", data.id);
-                    const newFields = {
-                        Email : updatedEmail,
-                        Location : location,
-                        Name : data.Name,
-                        Tier : data.Tier,
-                        photoURL: data.photoURL
-                        };
-                    updateDoc(userDoc, newFields);
+                    // //update via firebase
+                    // const userDoc = doc(db, "Users", data.id);
+                    // const newFields = {
+                    //     Email : updatedEmail,
+                    //     Location : location,
+                    //     Name : data.Name,
+                    //     Tier : data.Tier,
+                    //     photoURL: data.photoURL
+                    //     };
+                    // updateDoc(userDoc, newFields);
 
-                    /* END OF HACK WAY */
+                    // /* END OF HACK WAY */
                 }
             })
 
@@ -181,24 +181,24 @@ const EditDetails = () => {
                         })
                     });
 
-                    /* HACK WAY */
+                    // /* HACK WAY */
 
-                    //update via firebase
-                    const bookingDoc = doc(db, "bookings", data.id);
-                    const newFields = {
-                        Facility: data.Facility,
-                        Location: data.Location,
-                        Name: data.Name,
-                        UserEmail: updatedEmail,
-                        bookingDate: data.bookingDate,
-                        bookingTitle: data.bookingTitle,
-                        startTime: data.startTime,
-                        endTime: data.endTime,
-                        status: data.status,
-                        };
-                    updateDoc(bookingDoc, newFields);
+                    // //update via firebase
+                    // const bookingDoc = doc(db, "bookings", data.id);
+                    // const newFields = {
+                    //     Facility: data.Facility,
+                    //     Location: data.Location,
+                    //     Name: data.Name,
+                    //     UserEmail: updatedEmail,
+                    //     bookingDate: data.bookingDate,
+                    //     bookingTitle: data.bookingTitle,
+                    //     startTime: data.startTime,
+                    //     endTime: data.endTime,
+                    //     status: data.status,
+                    //     };
+                    // updateDoc(bookingDoc, newFields);
 
-                    /* END OF HACK WAY */
+                    // /* END OF HACK WAY */
                                         
                 }
 
@@ -273,9 +273,9 @@ const EditDetails = () => {
     <SuccessFormModal isVisible={showModal} onClose={() => setShowModal(false)} 
         children={
             <>
-              <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+              <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-400 bg-gray-800 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
               
-              <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+              <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-200 bg-green-800 rounded-lg dark:bg-green-800 dark:text-green-200">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
               </div>
 
@@ -299,9 +299,9 @@ const EditDetails = () => {
     <ErrorFormModal isVisible={Modal} onClose={() => setModal(false)} 
         children={
             <>
-            <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div class="flex items-center justify-center w-full max-w-[600px] p-4 mb-4 text-gray-400 bg-gray-800 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
             
-            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-200 bg-red-800 rounded-lg dark:bg-red-800 dark:text-red-200">
               <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
               <span class="sr-only">Error icon</span>
             </div>
