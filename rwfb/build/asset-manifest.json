@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.f07a7c24.css",
-    "main.js": "/static/js/main.b96b4995.js",
+    "main.css": "/static/css/main.7824137a.css",
+    "main.js": "/static/js/main.f8916aae.js",
     "static/media/capt-night-image.jpg": "/static/media/capt-night-image.726664fe3d9760e12271.jpg",
     "static/media/utown-night-image.jpg": "/static/media/utown-night-image.916487461af54914ea2a.jpg",
     "static/media/erc-wide.jpg": "/static/media/erc-wide.4c218e9512e569285780.jpg",
     "index.html": "/index.html",
-    "main.f07a7c24.css.map": "/static/css/main.f07a7c24.css.map",
-    "main.b96b4995.js.map": "/static/js/main.b96b4995.js.map"
+    "main.7824137a.css.map": "/static/css/main.7824137a.css.map",
+    "main.f8916aae.js.map": "/static/js/main.f8916aae.js.map"
   },
   "entrypoints": [
-    "static/css/main.f07a7c24.css",
-    "static/js/main.b96b4995.js"
+    "static/css/main.7824137a.css",
+    "static/js/main.f8916aae.js"
   ]
 }
