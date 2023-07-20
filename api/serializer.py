@@ -34,11 +34,13 @@ class UsersSerializer(serializers.Serializer):
     Email = serializers.CharField(max_length=200)
     Location = serializers.CharField(max_length=200)
     Tier = serializers.CharField(max_length=200)
+    photoURL = serializers.CharField(max_length=300)
 
 # serializer for Location
 class LocationsSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=200, read_only=True)
     Name = serializers.CharField(max_length=200)
+    mapURL = serializers.CharField(max_length=300)
 
 # serializer for Users
 class UsersSerializer(serializers.Serializer):
