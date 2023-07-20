@@ -36,36 +36,36 @@ export function ListDisplay(props) {
     .catch(error => console.log(error));
     }, [])
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     return(      
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
-            <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                {name}'s Bookings
-                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list display of your bookings and edit if needed</p>
+            <caption class="p-5 text-lg font-semibold text-left text-white bg-gray-800 dark:text-white dark:bg-gray-800">
+                {user?.email}'s Bookings
+                <p class="mt-1 text-sm font-normal text-gray-400 dark:text-gray-400">Browse a list display of your bookings and edit</p>
             </caption>
 
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                     Facility
@@ -97,9 +97,9 @@ export function ListDisplay(props) {
                     bdatas?.filter(data => filterByUser(data))
                     ?.map(data => {
                     return (
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700">
 
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap dark:text-white">
                             {data?.Location} - {data?.Facility}
                         </th>
 
@@ -120,19 +120,19 @@ export function ListDisplay(props) {
                         </td>
 
                         { <td class="px-6 py-4">
-                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-100 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
+                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-800 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
                             <span class="w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "approved" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        {data?.status == "approved" && <span class="inline-flex items-center bg-green-900 text-green-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-900 text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-900 text-pink-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
                             <span class="w-2 h-2 mr-1 bg-pink-500 rounded-full"></span>
                             {data?.status}
                         </span>}
@@ -199,22 +199,22 @@ export function SpecificDisplay(props) {
 
     /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
     
     const date = props.date.toDateString().substring(3);
 
@@ -238,12 +238,12 @@ export function SpecificDisplay(props) {
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
-            <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            <caption class="p-5 text-lg font-semibold text-left text-white bg-gray-800 dark:text-white dark:bg-gray-800">
                 {date}'s Bookings
-                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list display of the bookings for the selected Date</p>
+                <p class="mt-1 text-sm font-normal text-gray-400 dark:text-gray-400">Browse a list display of the bookings for the selected Date</p>
             </caption>
 
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                     Facility
@@ -276,9 +276,9 @@ export function SpecificDisplay(props) {
                     ?.filter(data => filterByDate(data))
                     ?.map(data => {
                     return (
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr class="bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700">
 
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap dark:text-white">
                             {data?.Location} - {data?.Facility}
                         </th>
 
@@ -291,19 +291,19 @@ export function SpecificDisplay(props) {
                         </td>
 
                         { <td class="px-6 py-4">
-                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-100 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
+                        {data?.status == "pending" && <span class="inline-flex items-center bg-blue-800 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-white">
                             <span class="w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "approved" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        {data?.status == "approved" && <span class="inline-flex items-center bg-green-900 text-green-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {data?.status == "rejected" && <span class="inline-flex items-center bg-red-800 text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
                             {data?.status}
                         </span>}
-                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+                        {data?.status == "reviewed" && <span class="inline-flex items-center bg-pink-800 text-pink-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
                             <span class="w-2 h-2 mr-1 bg-pink-500 rounded-full"></span>
                             {data?.status}
                         </span>}
