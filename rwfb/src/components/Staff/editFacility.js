@@ -31,24 +31,24 @@ const EditFacility = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const locationCollectionRef = collection(db, "Locations");
-    useEffect(() => {
-        // async function
-        const getLocations = async () => {
-            // get the collection itself
-            const data = await getDocs(locationCollectionRef);
-            // take out the data part only & set it
-            setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const locationCollectionRef = collection(db, "Locations");
+    // useEffect(() => {
+    //     // async function
+    //     const getLocations = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(locationCollectionRef);
+    //         // take out the data part only & set it
+    //         setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getLocations();
-    }, [])
+    //     // call the async function
+    //     getLocations();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // gets facility data from firebase -> django and sets state for facility data
     const [facs, setfacs] = useState([]);
@@ -63,24 +63,24 @@ const EditFacility = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const facilityCollectionRef = collection(db, "Facilities");
-    useEffect(() => {
-        // async function
-        const getF = async () => {
-            // get the collection itself
-            const data = await getDocs(facilityCollectionRef);
-            // take out the data part only & set it
-            setfacs(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const facilityCollectionRef = collection(db, "Facilities");
+    // useEffect(() => {
+    //     // async function
+    //     const getF = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(facilityCollectionRef);
+    //         // take out the data part only & set it
+    //         setfacs(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getF();
-    }, [])
+    //     // call the async function
+    //     getF();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // gets booking data from firebase -> django and sets state for booking data
     const [bookings, setBookings] = useState([]);
@@ -95,24 +95,24 @@ const EditFacility = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // SELECTING FUNCTIONALITY MIGHT NOT BE WORKING IF A LOCATION HAS ONLY ONE FACILITY or if default facility is selected
     // TO SEE IF TO HAVE A FUNCTION THAT CHECKS AND AUTO ASSIGNS FOR THIS
@@ -128,10 +128,10 @@ const EditFacility = () => {
                     'method' : 'delete'
                 });
 
-                /* HACK WAY */
-                const deleteFac = doc(db, "Facilities", facility.id);
-                deleteDoc(deleteFac);
-                /* END OF HACK WAY */
+                // /* HACK WAY */
+                // const deleteFac = doc(db, "Facilities", facility.id);
+                // deleteDoc(deleteFac);
+                // /* END OF HACK WAY */
 
             // delete all the bookings for that facility
             bookings.map( (data) => {
@@ -140,10 +140,10 @@ const EditFacility = () => {
                         'method' : 'delete'
                     });
 
-                    /* HACK WAY */
-                    const deleteBook = doc(db, "bookings", data.id);
-                    deleteDoc(deleteBook);
-                    /* END OF HACK WAY */
+                    // /* HACK WAY */
+                    // const deleteBook = doc(db, "bookings", data.id);
+                    // deleteDoc(deleteBook);
+                    // /* END OF HACK WAY */
                 }
             })            
 

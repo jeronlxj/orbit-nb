@@ -30,24 +30,24 @@ const UserStatusEditor = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const UserCollectionRef = collection(db, "Users");
-    useEffect(() => {
-        // async function
-        const getUser = async () => {
-            // get the collection itself
-            const data = await getDocs(UserCollectionRef);
-            // take out the data part only & set it
-            setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const UserCollectionRef = collection(db, "Users");
+    // useEffect(() => {
+    //     // async function
+    //     const getUser = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(UserCollectionRef);
+    //         // take out the data part only & set it
+    //         setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getUser();
-    }, [])
+    //     // call the async function
+    //     getUser();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     return (
         <div className='w-full h-[800px] bg-center bg-cover bg-utown'>
@@ -146,24 +146,24 @@ export function SpecificDisplay(props) {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const UserCollectionRef = collection(db, "Users");
-    useEffect(() => {
-        // async function
-        const getUser = async () => {
-            // get the collection itself
-            const data = await getDocs(UserCollectionRef);
-            // take out the data part only & set it
-            setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const UserCollectionRef = collection(db, "Users");
+    // useEffect(() => {
+    //     // async function
+    //     const getUser = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(UserCollectionRef);
+    //         // take out the data part only & set it
+    //         setStudents(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getUser();
-    }, [])
+    //     // call the async function
+    //     getUser();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // change the tier of students once selected
     const editTier = (studentId) => {
@@ -192,20 +192,20 @@ export function SpecificDisplay(props) {
             })
         });
 
-        /* HACK WAY */
+        // /* HACK WAY */
 
-        //update via firebase
-        const userDoc = doc(db, "Users", studentId);
-        const newFields = {
-            Email : t[0].Email,
-            Location : t[0].Location,
-            Name : t[0].Name,
-            Tier : t[0].Tier,
-            photoURL: t[0].photoURL,
-          };
-        updateDoc(userDoc, newFields);
+        // //update via firebase
+        // const userDoc = doc(db, "Users", studentId);
+        // const newFields = {
+        //     Email : t[0].Email,
+        //     Location : t[0].Location,
+        //     Name : t[0].Name,
+        //     Tier : t[0].Tier,
+        //     photoURL: t[0].photoURL,
+        //   };
+        // updateDoc(userDoc, newFields);
 
-        /* END OF HACK WAY */        
+        // /* END OF HACK WAY */        
 
         // to ensure changes are reflected immediately on the page by changing state
         const c = students.map( obj => {
@@ -225,12 +225,12 @@ export function SpecificDisplay(props) {
         <div class="mx-6 overflow-x-auto shadow-md sm:rounded-lg h-4/6">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
-            <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            <caption class="p-5 text-lg font-semibold text-left text-white bg-gray-800 dark:text-white dark:bg-gray-800">
                 All Student/Admin
-                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list display of the students & Admin</p>
+                <p class="mt-1 text-sm font-normal text-gray-400 dark:text-gray-400">Browse a list display of the students & Admin</p>
             </caption>
 
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                     Name
@@ -253,9 +253,9 @@ export function SpecificDisplay(props) {
                     ?.filter((data) => data?.Name.includes(props.selected) === true)
                     ?.map(data => {
                     return (
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700">
 
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap dark:text-white">
                             {data?.Name}
                         </th>
 
@@ -264,11 +264,11 @@ export function SpecificDisplay(props) {
                         </td>
 
                         <td class="px-6 py-4">
-                        {data?.Tier == "Student" && <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {data?.Tier == "Student" && <span class="inline-flex items-center bg-red-900 text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
                             {data?.Tier}
                         </span>}
-                        {data?.Tier == "Admin" && <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-lg dark:bg-green-900 dark:text-green-300">
+                        {data?.Tier == "Admin" && <span class="inline-flex items-center bg-green-900 text-green-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-lg dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 mr-1 bg-green-500 rounded-lg"></span>
                             {data?.Tier}
                         </span>}
