@@ -14,27 +14,27 @@ export default function BookDropdown() {
     const { setLocation, setSelectedLocation, setFacility, setSelectedFacility,
         user} = UserAuthentication();
 
-    /* HACK WAY */
-    const [locations, setLocations] = useState([]);
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const locationCollectionRef = collection(db, "Locations");
-    useEffect(() => {
-        // async function
-        const getLocations = async () => {
-            // get the collection itself
-            const data = await getDocs(locationCollectionRef);
-            // take out the data part only & set it
-            setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const locationCollectionRef = collection(db, "Locations");
+    // useEffect(() => {
+    //     // async function
+    //     const getLocations = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(locationCollectionRef);
+    //         // take out the data part only & set it
+    //         setLocations(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getLocations();
-    }, [])
+    //     // call the async function
+    //     getLocations();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // gets Location data from firebase -> django and sets state for booking data
+    const [locations, setLocations] = useState([]);
     useEffect(() => {
         fetch('api/locationsGet', {
         'method' : 'GET',
@@ -172,24 +172,24 @@ const SelectLocation = (props) => {
     .catch(error => console.log(error));
     }, [])
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const facilityCollectionRef = collection(db, "Facilities");
-    useEffect(() => {
-        // async function
-        const getF = async () => {
-            // get the collection itself
-            const data = await getDocs(facilityCollectionRef);
-            // take out the data part only & set it
-            setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // const facilityCollectionRef = collection(db, "Facilities");
+    // useEffect(() => {
+    //     // async function
+    //     const getF = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(facilityCollectionRef);
+    //         // take out the data part only & set it
+    //         setfacilities(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getF();
-    }, [])
+    //     // call the async function
+    //     getF();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
   
     return (
       <div className="px-1 flex h-screen items-center justify-center">

@@ -32,23 +32,23 @@ const BookEdit = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            const bookingDoc = doc(db, "bookings", bookingEdit);
-            const tdata = await getDoc(bookingDoc);
-            setBooking({...tdata.data(), id:tdata.id});
-        }
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         const bookingDoc = doc(db, "bookings", bookingEdit);
+    //         const tdata = await getDoc(bookingDoc);
+    //         setBooking({...tdata.data(), id:tdata.id});
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // gets booking data from firebase -> django and sets state for booking data
     const [Bookings, setBookings] = useState([]);
@@ -63,23 +63,23 @@ const BookEdit = () => {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-        }
+    // // get the collection ref itself
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
 
-        // call the async function
-        getBookings();
-    }, [])
+    //     // call the async function
+    //     getBookings();
+    // }, [])
 
-    /* END OF HACK WAY */
+    // /* END OF HACK WAY */
 
     // set states for date,starttime & endtime , title so that they can edit
     const [startTime, setStartTime] = useState("");
@@ -151,24 +151,24 @@ const BookEdit = () => {
         })
         });
 
-        /* HACK WAY */
+        // /* HACK WAY */
 
-        //update via firebase
-        const bookingDoc = doc(db, "bookings", bookingEdit);
-        const newFields = {
-          Facility: booking.Facility,
-          Location: booking.Location,
-          Name: booking.Name,
-          UserEmail: booking.UserEmail,
-          bookingDate: bookingDate,
-          bookingTitle: title,
-          startTime: startTime,
-          endTime: endTime,
-          status: "pending",
-        };
-        updateDoc(bookingDoc, newFields);
+        // //update via firebase
+        // const bookingDoc = doc(db, "bookings", bookingEdit);
+        // const newFields = {
+        //   Facility: booking.Facility,
+        //   Location: booking.Location,
+        //   Name: booking.Name,
+        //   UserEmail: booking.UserEmail,
+        //   bookingDate: bookingDate,
+        //   bookingTitle: title,
+        //   startTime: startTime,
+        //   endTime: endTime,
+        //   status: "pending",
+        // };
+        // updateDoc(bookingDoc, newFields);
 
-        /* END OF HACK WAY */
+        // /* END OF HACK WAY */
 
         setErrorMess("Your booking has been edited");
         setShowModal(true);
@@ -186,10 +186,10 @@ const BookEdit = () => {
         'method' : 'delete'
       });
 
-      /* HACK WAY */
-      const deleteBooking = doc(db, "bookings", bookingEdit);
-      deleteDoc(deleteBooking);
-      /* END OF HACK WAY */
+      // /* HACK WAY */
+      // const deleteBooking = doc(db, "bookings", bookingEdit);
+      // deleteDoc(deleteBooking);
+      // /* END OF HACK WAY */
 
       setErrorMess("Your booking has been deleted");
       setShowModal(true);

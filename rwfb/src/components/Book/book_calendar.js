@@ -49,30 +49,44 @@ export default function BookCalendar() {
     .catch(error => console.log(error));
     }, []);
 
-    /* HACK WAY */
+    // /* HACK WAY */
 
-    // get the collection ref itself
-    const bookingCollectionRef = collection(db, "bookings");
-    useEffect(() => {
-        // async function
-        const getBookings = async () => {
-            // get the collection itself
-            const data = await getDocs(bookingCollectionRef);
-            // take out the data part only & set it
-            setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    // // get the collection ref itself
+    // const bookingCollectionRef = collection(db, "bookings");
+    // useEffect(() => {
+    //     // async function
+    //     const getBookings = async () => {
+    //         // get the collection itself
+    //         const data = await getDocs(bookingCollectionRef);
+    //         // take out the data part only & set it
+    //         setBookings(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
+    //     }
+
+    //     // call the async function
+    //     getBookings();
+    // }, [])
+
+    // /* END OF HACK WAY */
+
+    // check if booking is already in events or not
+    function checkBooking(booking) {
+        for(let i = 0; i < events.length; i++) {
+            // if the booking is in events return false 
+            if(events[i].title === booking.bookingTitle && events[i].data.fac === booking.Facility &&
+                 events[i].data.loc === booking.Location && events[i].start && events[i].starter === booking.startTime) {
+                return false;
+            }
         }
-
-        // call the async function
-        getBookings();
-    }, [])
-
-    /* END OF HACK WAY */
+        // if not add it in events
+        return true;
+    }
 
     // map all bookings and add those that match that location & facility
     bookings.map((booking) => {
     
         const temp = {
             title: booking.bookingTitle,
+            starter: booking.startTime,
             start: moment(booking.bookingDate.concat("T", booking.startTime)).toDate(),
             end: moment(booking.bookingDate.concat("T", booking.endTime)).toDate(),
             data: {
@@ -81,7 +95,7 @@ export default function BookCalendar() {
                 loc: booking.Location
             },
         }
-        if(temp.data.fac === setFacility && temp.data.loc === setLocation && temp.data.type !== "rejected") {
+        if(checkBooking(booking) && temp.data.fac === setFacility && temp.data.loc === setLocation && temp.data.type !== "rejected") {
                 events.push(temp);
         }
     });
@@ -117,7 +131,6 @@ export default function BookCalendar() {
     const components = {
         event: (props) => {
             const eventType = String(props?.event?.data?.type);
-            console.log(eventType);
     
             switch(eventType) {
                 case "approved":
