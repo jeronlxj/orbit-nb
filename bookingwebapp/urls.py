@@ -41,6 +41,7 @@ urlpatterns = [
     path('addFacility',index),
     path('editFacility',index),
     path('dashboard',index),
+    path('bookMap',index),
     path('api/',include('api.urls')),
     path('test',test),
 ]
