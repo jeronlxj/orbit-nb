@@ -1,10 +1,85 @@
 import React from "react";
-
+import { useState,useEffect } from "react";
+import Navbar from "../../config/navbar";
+import { UserAuthentication } from "../../LoginContext";
+import { useNavigate } from "react-router-dom";
 
 export default function BookMap() {
+
+    const {user, setLocation } = UserAuthentication();
+
+    // gets Location data from firebase -> django and sets state for booking data
+    const [locations, setLocations] = useState([]);
+    useEffect(() => {
+        fetch('api/locationsGet', {
+        'method' : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => resp.json())
+    .then(resp => setLocations(resp))
+    .catch(error => console.log(error));
+    }, [])
+
+    function locationFilterer(loc) {
+        if(loc.Name === setLocation) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // go to book_form button click function 
+    const navigate = useNavigate();
+    const buttonClickHandle = async (e) => {
+        try {
+            e.preventDefault();
+            navigate('/book_form');
+        } catch (e) {
+            alert(e);
+            navigate('/signup');
+        }
+        
+    }; 
+
+    // go back button click function
+    const backClickHandle = async (e) => {
+        try {
+            e.preventDefault();
+            navigate('/book_dropdown');
+        } catch (e) {
+            alert(e);
+            navigate('/signup');
+        }
+        
+    }; 
+
     return (
     <>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1994.389461632531!2d103.77196543472415!3d1.307859961710428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1af530565af5%3A0x13ecf30ae07126ed!2sCollege%20of%20Alice%20%26%20Peter%20Tan%20(CAPT)!5e0!3m2!1sen!2ssg!4v1689750207679!5m2!1sen!2ssg" width="600" height="450" style={{border:0}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div className='w-full h-[1000px] bg-center bg-cover bg-utown'>
+        <div>
+            <Navbar name={user?.email} current={"book_dropdown"}/>
+        </div>
+        <div className="flex h-screen items-center justify-center">
+            {locations.filter(loc => locationFilterer(loc)).map(loc => {
+                return (
+                    <>
+                    <iframe src={loc?.mapURL} width="800" height="500" style={{border:"1px solid black"}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </>
+                )
+            })}
+        
+            <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                onClick={backClickHandle}>
+                    Go Back</button>
+
+            <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                onClick={buttonClickHandle}>
+                    Book Venue</button>
+        </div>
+        
+    </div>
     </>
     )
 }
+

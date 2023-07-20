@@ -100,14 +100,24 @@ export default function BookCalendar() {
         }
     });
 
-    console.log(events);
-
     // go to book_form button click function 
     const navigate = useNavigate();
     const buttonClickHandle = async (e) => {
         try {
             e.preventDefault();
             navigate('/book_form');
+        } catch (e) {
+            alert(e);
+            navigate('/signup');
+        }
+        
+    }; 
+
+    // go to book_map button click function 
+    const MapClickHandle = async (e) => {
+        try {
+            e.preventDefault();
+            navigate('/bookMap');
         } catch (e) {
             alert(e);
             navigate('/signup');
@@ -165,17 +175,23 @@ export default function BookCalendar() {
             startAccessor="start" endAccessor="end" style={{height:460 , width:900, margin: 80, background: "white"}} 
             components={components} views={["month", "week", "day"]} />
         </div>
-        <div class="flex items-center justify-center">
-        <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-            onClick={backClickHandle}>
-                Go Back</button>
 
-        <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-            onClick={buttonClickHandle}>
-                Book Venue</button>
+        <div class="flex items-center justify-center">
+            <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                onClick={backClickHandle}>
+                    Go Back</button>
+
+            <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                onClick={buttonClickHandle}>
+                    Book Venue</button>
+
+            <button class="mx-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                onClick={MapClickHandle}>
+                    Check Map</button>
+        </div>
+       
         </div>
         
-        </div>
     )
 }
 
