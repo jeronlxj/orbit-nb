@@ -22,6 +22,7 @@ import { ChatContextProvider } from './components/Chat/ChatContext';
 import StaffApprove from './components/staffApprove';
 import ChatHome from "./components/Chat/ChatHome";
 import Dashboard from "./components/Dashboard";
+import BookMap from "./components/Book/book_map";
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
         <Route path="/editFacility" element={<EditFacility/>} />
         <Route path="/chatHome" element={<ChatHome/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/BookMap" element={<BookMap/>} />
         <Route path="*" element={<h1>You have entered a wrong url</h1>} />
       </Routes>
       </ChatContextProvider>
