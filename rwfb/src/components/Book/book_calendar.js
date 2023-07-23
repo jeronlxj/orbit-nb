@@ -29,10 +29,10 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-// array of events
-const events = []; 
-
 export default function BookCalendar() {
+    // array of events
+    const events = []; 
+    
     // adding states
     const { setLocation, setFacility, user } = UserAuthentication();
 
