@@ -36,25 +36,6 @@ export function ListDisplay(props) {
     .catch(error => console.log(error));
     }, [])
 
-    // /* HACK WAY */
-
-    // // get the collection ref itself
-    // const bookingCollectionRef = collection(db, "bookings");
-    // useEffect(() => {
-    //     // async function
-    //     const getBookings = async () => {
-    //         // get the collection itself
-    //         const data = await getDocs(bookingCollectionRef);
-    //         // take out the data part only & set it
-    //         setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-    //     }
-
-    //     // call the async function
-    //     getBookings();
-    // }, [])
-
-    // /* END OF HACK WAY */
-
     return(      
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -196,25 +177,6 @@ export function SpecificDisplay(props) {
     .then(resp => setbDatas(resp))
     .catch(error => console.log(error));
     }, [])
-
-    /* HACK WAY */
-
-    // // get the collection ref itself
-    // const bookingCollectionRef = collection(db, "bookings");
-    // useEffect(() => {
-    //     // async function
-    //     const getBookings = async () => {
-    //         // get the collection itself
-    //         const data = await getDocs(bookingCollectionRef);
-    //         // take out the data part only & set it
-    //         setbDatas(data.docs.map((doc) => ({...doc.data(), id:doc.id})));
-    //     }
-
-    //     // call the async function
-    //     getBookings();
-    // }, [])
-
-    // /* END OF HACK WAY */
     
     const date = props.date.toDateString().substring(3);
 
